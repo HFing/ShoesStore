@@ -33,6 +33,7 @@
                 android:textAlignment="center"
                 android:layout_marginTop="32dp"
                 android:textSize="31sp"
+
                 />
 
             <TextView
