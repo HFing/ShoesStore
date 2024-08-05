@@ -30,4 +30,15 @@ public class IntroActivity extends AppCompatActivity {
 //            });
 //        }
     }
+
+    public void signup(View view) {
+        startActivity(new Intent(this, SignUp.class));
+    }
+
+
+
+
+    public void login(View view) {
+        startActivity(new Intent(this, LogIn.class));
+    }
 }

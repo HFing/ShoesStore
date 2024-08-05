@@ -47,6 +47,7 @@
                 android:textColor="@color/grey"/>
 
             <androidx.appcompat.widget.AppCompatButton
+                android:onClick="signup"
                 android:id="@+id/startBtn"
                 style="@android:style/Widget.Button"
                 android:layout_margin="32dp"
@@ -58,6 +59,7 @@
                 android:textSize="18sp"/>
 
             <TextView
+                android:onClick="login"
                 android:id="@+id/textView3"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
