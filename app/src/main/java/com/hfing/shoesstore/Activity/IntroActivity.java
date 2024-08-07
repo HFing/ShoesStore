@@ -19,16 +19,6 @@ public class IntroActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_intro);
-//        startBtn.findViewById(R.id.startBtn);
-//        if (startBtn != null){
-//            startBtn.setOnClickListener(new View.OnClickListener() {
-//                @Override
-//                public void onClick(View view) {
-//                    Intent intent = new Intent(IntroActivity.this,);
-//                    startActivities(intent);
-//                }
-//            });
-//        }
     }
 
     public void signup(View view) {
