@@ -1,4 +1,4 @@
-package com.hfing.shoesstore.DataResource;
+package com.hfing.shoesstore.Model;
 
 public class Category {
     private int id;

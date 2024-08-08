@@ -1,4 +1,4 @@
-package com.hfing.shoesstore.DataResource;
+package com.hfing.shoesstore.Model;
 
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
