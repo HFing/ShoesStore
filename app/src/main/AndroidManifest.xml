@@ -12,7 +12,11 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.ShoesStore"
         tools:targetApi="31">
-        <activity android:name=".Activity.UsersActivity"
+        <activity
+            android:name=".Activity.DetailActivity"
+            android:exported="false"/>
+        <activity
+            android:name=".Activity.UsersActivity"
             android:exported="false"/>
         <activity
             android:name=".Activity.ProductActivity"
@@ -21,10 +25,10 @@
             android:name=".Activity.CategoryActivity"
             android:exported="false" />
         <activity
-            android:name=".Activity.IntroActivity"
+            android:name=".Activity.LogIn"
             android:exported="false" />
         <activity
-            android:name=".Activity.LogIn"
+            android:name=".Activity.DashboardActivity"
             android:exported="false" />
         <activity
             android:name=".Activity.SignUp"
@@ -33,7 +37,7 @@
             android:name=".Activity.BaseActivity"
             android:exported="false" />
         <activity
-            android:name=".Activity.DashboardActivity"
+            android:name=".Activity.IntroActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
