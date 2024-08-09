@@ -42,21 +42,17 @@
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:layout_marginHorizontal="32dp"/>
-    <Button
-        android:id="@+id/btnSelectImage"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginHorizontal="32dp"
-        android:text="Select Image" />
     <ImageView
         android:id="@+id/imgProduct"
-        android:layout_width="319dp"
-        android:layout_height="200dp"
-        android:layout_marginTop="16dp"
-        android:contentDescription="Product Image"
-        android:scaleType="centerCrop"
-        android:src="@drawable/ic_launcher_background"
-        />
+        android:layout_width="300dp"
+        android:layout_height="300dp"
+        android:src="@drawable/ic_launcher_background" />
+
+    <Button
+        android:id="@+id/btnSelectImageProduct"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Chọn ảnh" />
 
 
     <LinearLayout

@@ -3,10 +3,13 @@ package com.hfing.shoesstore.Adapter;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.hfing.shoesstore.DAO.CategoryDAO;
@@ -51,10 +54,18 @@ public class ProductAdapter extends BaseAdapter {
         TextView tvDescription = view.findViewById(R.id.tvProductDescription);
         TextView tvPrice = view.findViewById(R.id.tvProductPrice);
         TextView tvCategory = view.findViewById(R.id.tvProductCategory);
+        ImageView imgProduct = view.findViewById(R.id.imgProduct);
 
         tvName.setText(product.getName());
         tvDescription.setText(product.getDescription());
         tvPrice.setText(String.valueOf(product.getPrice()));
+        byte[] imageBytes = product.getImage();
+        if (imageBytes != null) {
+            Bitmap bitmap = BitmapFactory.decodeByteArray(imageBytes, 0, imageBytes.length);
+            imgProduct.setImageBitmap(bitmap);
+        } else {
+            imgProduct.setImageResource(R.drawable.ic_launcher_background); // Ảnh mặc định nếu không có ảnh
+        }
 
         CategoryDAO categoryDAO = new CategoryDAO(context);
         Category category = categoryDAO.getCategoryById(product.getCategory_id());
