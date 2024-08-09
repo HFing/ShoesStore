@@ -19,31 +19,22 @@ public class CategoryDAO {
 
     public ArrayList<Category> getAllCategories() {
         ArrayList<Category> categories = new ArrayList<>();
-        SQLiteDatabase db = dbHelper.getReadableDatabase();
-        try {
-            String query = "SELECT * FROM category";
-            Cursor cursor = db.rawQuery(query, null);
-            cursor.moveToFirst();
-            while (!cursor.isAfterLast()) {
+        SQLiteDatabase db = this.dbHelper.getReadableDatabase();
+        Cursor cursor = db.rawQuery("SELECT * FROM Category", null);
+        if (cursor.moveToFirst()) {
+            do {
                 Category category = new Category();
                 category.setId(cursor.getInt(0));
                 category.setName(cursor.getString(1));
                 categories.add(category);
-                cursor.moveToNext();
-            }
-        } catch (Exception e) {
-            throw new RuntimeException(e);
+            } while (cursor.moveToNext());
         }
+        cursor.close();
+        db.close();
         return categories;
     }
      public long addCategory(Category category) {
        SQLiteDatabase db = dbHelper.getWritableDatabase();
-//        try {
-//            String query = "INSERT INTO category(name) VALUES(?)";
-//            db.execSQL(query, new String[]{category.getName()});
-//        } catch (Exception e) {
-//            throw new RuntimeException(e);
-//        }
          ContentValues values = new ContentValues();
          values.put("name", category.getName());
          return db.insert(dbHelper.TABLE_CATEGORY, null,values);
@@ -59,17 +50,21 @@ public class CategoryDAO {
         return db.delete(dbHelper.TABLE_CATEGORY, dbHelper.COLUMN_CATEGORY_ID + " = " + id, null);
     }
     public Category getCategoryById(int id) {
-        SQLiteDatabase db = dbHelper.getReadableDatabase();
-        Category category = new Category();
-        try {
-            String query = "SELECT * FROM category WHERE id = ?";
-            Cursor cursor = db.rawQuery(query, new String[]{String.valueOf(id)});
-            cursor.moveToFirst();
+        SQLiteDatabase db = this.dbHelper.getReadableDatabase();
+        Cursor cursor = db.rawQuery("SELECT * FROM Category WHERE id = ?", new String[]{String.valueOf(id)});
+        if (cursor != null && cursor.moveToFirst()) {
+            Category category = new Category();
             category.setId(cursor.getInt(0));
             category.setName(cursor.getString(1));
-        } catch (Exception e) {
-            throw new RuntimeException(e);
+            cursor.close();
+            db.close();
+            return category;
+        } else {
+            if (cursor != null) {
+                cursor.close();
+            }
+            db.close();
+            return null; // Trả về null nếu không tìm thấy danh mục
         }
-        return category;
     }
 }

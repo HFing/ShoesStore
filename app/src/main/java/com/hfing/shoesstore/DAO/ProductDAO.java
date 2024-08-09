@@ -1,5 +1,6 @@
 package com.hfing.shoesstore.DAO;
 
+import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
@@ -36,5 +37,15 @@ public class ProductDAO {
             throw new RuntimeException(e);
         }
         return products;
+    }
+
+    public long addProduct (Product product){
+        SQLiteDatabase db = dbHelper.getWritableDatabase();
+        ContentValues values = new ContentValues();
+        values.put("name", product.getName());
+        values.put("description", product.getDescription());
+        values.put("price", product.getPrice());
+        values.put("category_id", product.getCategory_id());
+        return db.insert(dbHelper.TABLE_PRODUCT, null, values);
     }
 }
