@@ -36,5 +36,15 @@ public class DashboardActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+
+        findViewById(R.id.cardview_user).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(DashboardActivity.this, UsersActivity.class);
+                startActivity(intent);
+            }
+        });
+
+
     }
 }

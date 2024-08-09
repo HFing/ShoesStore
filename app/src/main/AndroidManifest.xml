@@ -12,6 +12,8 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.ShoesStore"
         tools:targetApi="31">
+        <activity android:name=".Activity.UsersActivity"
+            android:exported="false"/>
         <activity
             android:name=".Activity.ProductActivity"
             android:exported="false" />
