@@ -148,6 +148,7 @@
         </androidx.cardview.widget.CardView>
 
         <androidx.cardview.widget.CardView
+            android:id="@+id/cardview_order"
             android:layout_margin="12dp"
             android:layout_width="150dp"
             android:layout_height="150dp"
@@ -179,6 +180,7 @@
         </androidx.cardview.widget.CardView>
 
         <androidx.cardview.widget.CardView
+            android:id="@+id/cardview_exit"
             android:layout_margin="12dp"
             android:layout_width="150dp"
             android:layout_height="150dp"

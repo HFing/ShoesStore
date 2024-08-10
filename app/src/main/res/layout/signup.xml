@@ -51,6 +51,7 @@
                     android:layout_marginRight="50dp">
 
                     <EditText
+                        android:id="@+id/edt_username_signup"
                         android:layout_width="match_parent"
                         android:layout_height="50dp"
                         android:layout_marginTop="10dp"
@@ -88,6 +89,45 @@
                     android:layout_marginRight="50dp">
 
                     <EditText
+                        android:id="@+id/edt_name_signup"
+                        android:layout_width="match_parent"
+                        android:layout_height="50dp"
+                        android:layout_marginTop="10dp"
+                        android:background="@drawable/bg_edt"
+                        android:gravity="center_vertical"
+                        android:paddingLeft="20dp"
+                        android:inputType="textEmailAddress"
+                        android:hint="Enter your full name"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="15dp"
+                        android:paddingLeft="5dp"
+                        android:paddingRight="5dp"
+                        android:text="Your Full Name"
+                        android:textColor="#000"
+                        android:textSize="12sp"
+                        android:background="#ffff"
+                        android:textAllCaps="true"/>
+                </RelativeLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:orientation="vertical"
+                android:layout_marginTop="20dp">
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="60dp"
+                    android:layout_marginLeft="50dp"
+                    android:layout_marginRight="50dp">
+
+                    <EditText
+                        android:id="@+id/edt_email_signup"
                         android:layout_width="match_parent"
                         android:layout_height="50dp"
                         android:layout_marginTop="10dp"
@@ -124,6 +164,7 @@
                     android:layout_marginRight="50dp">
 
                     <EditText
+                        android:id="@+id/edt_password_signup"
                         android:layout_width="match_parent"
                         android:layout_height="50dp"
                         android:layout_marginTop="10dp"
@@ -158,9 +199,10 @@
                     android:layout_marginLeft="50dp"
                     android:layout_marginRight="50dp">
                     <Switch
+                        android:id="@+id/switch_policy"
                         android:layout_centerVertical="true"
                         android:layout_width="50dp"
-                        android:layout_height="40dp"/>
+                        android:layout_height="50dp"/>
                     <TextView
                         android:layout_marginLeft="50dp"
                         android:layout_centerVertical="true"
@@ -171,6 +213,7 @@
                         android:textSize="10sp"/>
                 </RelativeLayout>
                 <Button
+                    android:id="@+id/btn_signup"
                     android:textAllCaps="false"
                     android:layout_marginTop="50dp"
                     android:layout_width="200dp"

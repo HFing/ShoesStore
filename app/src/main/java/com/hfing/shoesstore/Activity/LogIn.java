@@ -57,7 +57,7 @@ public class LogIn extends AppCompatActivity {
                     if (roleId == 1) { // Assuming 1 is for admin
                         intent = new Intent(LogIn.this, DashboardActivity.class); // Replace AdminActivity with your admin activity
                     } else {
-                        intent = new Intent(LogIn.this, DetailActivity.class); // Replace UserActivity with your user activity
+                        intent = new Intent(LogIn.this, BaseActivity.class); // Replace UserActivity with your user activity
                     }
                     startActivity(intent);
                     finish();
