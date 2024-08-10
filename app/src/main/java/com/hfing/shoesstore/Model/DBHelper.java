@@ -69,6 +69,7 @@ public class DBHelper extends SQLiteOpenHelper {
     public static final String COLUMN_PRODUCT_DESCRIPTION = "description";
     public static final String COLUMN_PRODUCT_PRICE = "price";
     public static final String COLUMN_PRODUCT_IMAGE = "image";
+    public static final String COLUMN_PRODUCT_CREATE_AT = "create_at";
     public static final String COLUMN_PRODUCT_CATEGORY_ID = "category_id";
 
     private static final String CREATE_TABLE_PRODUCT = ""
@@ -78,6 +79,7 @@ public class DBHelper extends SQLiteOpenHelper {
             + COLUMN_PRODUCT_DESCRIPTION + " TEXT,"
             + COLUMN_PRODUCT_PRICE + " REAL NOT NULL,"
             + COLUMN_PRODUCT_IMAGE + " BLOB,"
+            + COLUMN_PRODUCT_CREATE_AT + " TEXT,"
             + COLUMN_PRODUCT_CATEGORY_ID + " INTEGER,"
             + "FOREIGN KEY(" + COLUMN_PRODUCT_CATEGORY_ID + ") REFERENCES "
             + TABLE_CATEGORY + "(" + COLUMN_CATEGORY_ID + ")"
@@ -270,12 +272,12 @@ public class DBHelper extends SQLiteOpenHelper {
         db.execSQL("INSERT INTO " + TABLE_CATEGORY + "(" + COLUMN_CATEGORY_NAME + ") " +
                 "VALUES ('Casual Shoes');");
         // Insert dữ liệu vào bảng Product
-        db.execSQL("INSERT INTO " + TABLE_PRODUCT + "(" + COLUMN_PRODUCT_NAME+ ", " + COLUMN_PRODUCT_DESCRIPTION + ", " + COLUMN_PRODUCT_PRICE + ", " + COLUMN_PRODUCT_CATEGORY_ID + ") " +
-                "VALUES ('Nike Air Zoom Pegasus', 'Running shoe', 120.0, 1);");
-        db.execSQL("INSERT INTO " + TABLE_PRODUCT + "(" + COLUMN_PRODUCT_NAME+ ", " + COLUMN_PRODUCT_DESCRIPTION + ", " + COLUMN_PRODUCT_PRICE + ", " + COLUMN_PRODUCT_CATEGORY_ID + ") " +
-                "VALUES ('Adidas Ultraboost', 'Running shoe', 180.0, 1);");
-        db.execSQL("INSERT INTO " + TABLE_PRODUCT + "(" + COLUMN_PRODUCT_NAME+ ", " + COLUMN_PRODUCT_DESCRIPTION + ", " + COLUMN_PRODUCT_PRICE + ", " + COLUMN_PRODUCT_CATEGORY_ID + ") " +
-                "VALUES ('Air Jordan 1', 'Basketball shoe', 150.0, 2);");
+        db.execSQL("INSERT INTO " + TABLE_PRODUCT + "(" + COLUMN_PRODUCT_NAME+ ", " + COLUMN_PRODUCT_DESCRIPTION + ", " + COLUMN_PRODUCT_PRICE + ", " + COLUMN_PRODUCT_CREATE_AT + ", " + COLUMN_PRODUCT_CATEGORY_ID + ") " +
+                "VALUES ('Nike Air Zoom Pegasus', 'Running shoe', 120.0, '2024-04-03', 1);");
+        db.execSQL("INSERT INTO " + TABLE_PRODUCT + "(" + COLUMN_PRODUCT_NAME+ ", " + COLUMN_PRODUCT_DESCRIPTION + ", " + COLUMN_PRODUCT_PRICE + ", " + COLUMN_PRODUCT_CREATE_AT + ", " + COLUMN_PRODUCT_CATEGORY_ID + ") " +
+                "VALUES ('Adidas Ultraboost', 'Running shoe', 180.0, '2023-12-31', 1);");
+        db.execSQL("INSERT INTO " + TABLE_PRODUCT + "(" + COLUMN_PRODUCT_NAME+ ", " + COLUMN_PRODUCT_DESCRIPTION + ", " + COLUMN_PRODUCT_PRICE + ", " + COLUMN_PRODUCT_CREATE_AT + ", " + COLUMN_PRODUCT_CATEGORY_ID + ") " +
+                "VALUES ('Air Jordan 1', 'Basketball shoe', 150.0, '2024-07-02', 2);");
         // Insert dữ liệu vào bảng ProductSize
         db.execSQL("INSERT INTO " + TABLE_PRODUCTSIZE + "(" + COLUMN_PRODUCTSIZE_PRODUCT_ID+ ", " + COLUMN_PRODUCTSIZE_SIZE+ ", " + COLUMN_PRODUCTSIZE_QUANTITY + ") " +
                 "VALUES (1, 39, 100);");

@@ -5,6 +5,7 @@ public class Product {
     private String name;
     private String description;
     private double price;
+    private String create_at;
     private byte[] image;
     private int category_id;
 
@@ -38,6 +39,14 @@ public class Product {
 
     public void setPrice(double price) {
         this.price = price;
+    }
+
+    public String getCreate_at() {
+        return create_at;
+    }
+
+    public void setCreate_at(String create_at) {
+        this.create_at = create_at;
     }
 
     public byte[] getImage() {

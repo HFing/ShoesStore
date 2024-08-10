@@ -29,8 +29,9 @@ public class ProductDAO {
                 product.setName(cursor.getString(1));
                 product.setDescription(cursor.getString(2));
                 product.setPrice(cursor.getDouble(3));
-                product.setImage(cursor.getBlob(4));
-                product.setCategory_id(cursor.getInt(5));
+                product.setCreate_at(cursor.getString(4));
+                product.setImage(cursor.getBlob(5));
+                product.setCategory_id(cursor.getInt(6));
                 products.add(product);
                 cursor.moveToNext();
             }
@@ -46,6 +47,7 @@ public class ProductDAO {
         values.put("name", product.getName());
         values.put("description", product.getDescription());
         values.put("price", product.getPrice());
+        values.put("create_at", product.getCreate_at());
         values.put("category_id", product.getCategory_id());
         values.put("image", product.getImage());
         return db.insert(dbHelper.TABLE_PRODUCT, null, values);
@@ -57,6 +59,7 @@ public class ProductDAO {
         values.put("name", product.getName());
         values.put("description", product.getDescription());
         values.put("price", product.getPrice());
+        values.put("create_at", product.getCreate_at());
         values.put("category_id", product.getCategory_id());
         values.put("image", product.getImage());
         return db.update(dbHelper.TABLE_PRODUCT, values, dbHelper.COLUMN_CATEGORY_ID + " = " + product.getId(), null);
