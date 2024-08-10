@@ -1,5 +1,6 @@
 package com.hfing.shoesstore.DAO;
 
+import android.annotation.SuppressLint;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
@@ -81,5 +82,34 @@ public class UsersDAO {
         // Delete a user
         SQLiteDatabase db = dbHelper.getWritableDatabase();
         return db.delete(dbHelper.TABLE_USER, dbHelper.COLUMN_USER_ID+ " = " + id, null);
+    }
+
+
+    public boolean checkUser(String email, String password) {
+        SQLiteDatabase db = this.dbHelper.getReadableDatabase();
+        Cursor cursor = db.query(dbHelper.TABLE_USER, new String[]{dbHelper.COLUMN_USER_ID},
+                dbHelper.COLUMN_USER_EMAIL + "=? AND " + dbHelper.COLUMN_USER_PASSWORD + "=?",
+                new String[]{email, password}, null, null, null);
+        int count = cursor.getCount();
+        cursor.close();
+        db.close();
+        return count > 0;
+    }
+
+    public int getUserRole(String email) {
+        SQLiteDatabase db = this.dbHelper.getReadableDatabase();
+        Cursor cursor = db.query(dbHelper.TABLE_USER, new String[]{dbHelper.COLUMN_USER_ROLE_ID},
+                dbHelper.COLUMN_USER_EMAIL + "=?",
+                new String[]{email}, null, null, null);
+        if (cursor != null && cursor.moveToFirst()) {
+            @SuppressLint("Range") int roleId = cursor.getInt(cursor.getColumnIndex(dbHelper.COLUMN_USER_ROLE_ID));
+            cursor.close();
+            db.close();
+            return roleId;
+        } else {
+            cursor.close();
+            db.close();
+            return -1; // Return -1 if user not found
+        }
     }
 }
