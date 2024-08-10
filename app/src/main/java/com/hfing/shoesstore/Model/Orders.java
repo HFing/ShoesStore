@@ -3,8 +3,10 @@ package com.hfing.shoesstore.Model;
 public class Orders {
     private int id;
     private int user_id;
-    private String order_date;
+    private String productName;
+    private double unitPrice;
 
+    // Getters and setters for all fields
     public int getId() {
         return id;
     }
@@ -21,11 +23,19 @@ public class Orders {
         this.user_id = user_id;
     }
 
-    public String getOrder_date() {
-        return order_date;
+    public String getProductName() {
+        return productName;
     }
 
-    public void setOrder_date(String order_date) {
-        this.order_date = order_date;
+    public void setProductName(String productName) {
+        this.productName = productName;
+    }
+
+    public double getUnitPrice() {
+        return unitPrice;
+    }
+
+    public void setUnitPrice(double unitPrice) {
+        this.unitPrice = unitPrice;
     }
 }

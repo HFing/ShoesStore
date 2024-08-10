@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="16dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Thong Ke Don Hang"
+            android:textAllCaps="true"
+            android:textStyle="bold"
+            android:textSize="24sp"
+            android:layout_marginTop="10dp"
+            android:layout_gravity="center"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Select User"
+            android:paddingBottom="8dp"
+            android:textStyle="bold" />
+
+        <Spinner
+            android:id="@+id/spinnerUser"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:layout_marginBottom="16dp" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Select Date Range"
+            android:paddingBottom="8dp"
+            android:textStyle="bold"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginBottom="16dp">
+
+            <EditText
+                android:id="@+id/edtStartDate"
+                android:layout_width="0dp"
+                android:layout_height="48dp"
+                android:layout_weight="1"
+                android:hint="Start Date"
+                android:inputType="date"
+                android:layout_marginEnd="8dp" />
+
+            <EditText
+                android:id="@+id/edtEndDate"
+                android:layout_width="0dp"
+                android:layout_height="48dp"
+                android:layout_weight="1"
+                android:hint="End Date"
+                android:inputType="date" />
+        </LinearLayout>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Select Category"
+            android:paddingBottom="8dp"
+            android:textStyle="bold"/>
+
+        <Spinner
+            android:id="@+id/spinnerCategory"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:layout_marginBottom="16dp" />
+
+        <Button
+            android:id="@+id/btnFetchOrders"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Fetch Orders"
+            android:layout_marginBottom="16dp" />
+
+        <ListView
+            android:id="@+id/lvOrders"
+            android:layout_width="match_parent"
+            android:layout_height="329dp" />
+    </LinearLayout>
+</ScrollView>
