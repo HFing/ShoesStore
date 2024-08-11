@@ -98,12 +98,7 @@ public class UsersActivity extends AppCompatActivity {
                    Toast.makeText(context, "Add category failed", Toast.LENGTH_SHORT).show();
                }
                reloadListView();
-               edtAddress.setText("");
-                edtEmailUser.setText("");
-                edtNameUser.setText("");
-                edtPasswordUser.setText("");
-                edtPhone.setText("");
-                edtUserName.setText("");
+               clearFields();
            }
 
        });
@@ -120,12 +115,7 @@ public class UsersActivity extends AppCompatActivity {
                    Toast.makeText(context, "Delete user successfully", Toast.LENGTH_SHORT).show();
                    usersAdapter.notifyDataSetChanged();
                }
-               edtAddress.setText("");
-               edtEmailUser.setText("");
-               edtNameUser.setText("");
-               edtPasswordUser.setText("");
-               edtPhone.setText("");
-               edtUserName.setText("");
+               clearFields();
                id = -1;
                reloadListView();
            }
@@ -145,7 +135,9 @@ public class UsersActivity extends AppCompatActivity {
                user.setEmail(edtEmailUser.getText().toString());
                user.setPassword(edtPasswordUser.getText().toString());
                user.setUsername(edtUserName.getText().toString());
-               user.setRole_id(spnRoles.getSelectedItemPosition());
+//               user.setRole_id(spnRoles.getSelectedItemPosition());
+               Role selectedRole= (Role) spnRoles.getSelectedItem();
+               user.setRole_id(selectedRole.getId());
                user.setAddress(edtAddress.getText().toString());
                user.setPhone(edtPhone.getText().toString());
                if (rdbMale.isChecked()) {
@@ -157,12 +149,7 @@ public class UsersActivity extends AppCompatActivity {
                    Toast.makeText(context, "Update user successfully", Toast.LENGTH_SHORT).show();
                    usersAdapter.notifyDataSetChanged();
                }
-               edtAddress.setText("");
-               edtEmailUser.setText("");
-               edtNameUser.setText("");
-               edtPasswordUser.setText("");
-               edtPhone.setText("");
-               edtUserName.setText("");
+               clearFields();
                id = -1;
                reloadListView();
            }
@@ -183,6 +170,24 @@ public class UsersActivity extends AppCompatActivity {
                } else {
                    rdbFemale.setChecked(true);
                }
+
+//               Role userRole= roleDAO.getRoleNameById(users.get(i).getRole_id());
+//               if(userRole != null){
+//                   int spinnerPosition= ((ArrayAdapter<Role>) spnRoles.getAdapter()).getPosition(userRole);
+//                     spnRoles.setSelection(spinnerPosition);
+//
+//               }
+
+               Role userRole = roleDAO.getRoleNameById(users.get(i).getRole_id());
+               if (userRole != null) {
+                   ArrayAdapter<Role> adapter = (ArrayAdapter<Role>) spnRoles.getAdapter();
+                   for (int position = 0; position < adapter.getCount(); position++) {
+                       if (adapter.getItem(position).getId() == userRole.getId()) {
+                           spnRoles.setSelection(position);
+                           break;
+                       }
+                   }
+               }
            }
        });
 
@@ -191,5 +196,14 @@ public class UsersActivity extends AppCompatActivity {
         users.clear();
         users.addAll(usersDAO.getAllUsers());
         usersAdapter.notifyDataSetChanged();
+    }
+
+    private void clearFields() {
+        edtAddress.setText("");
+        edtEmailUser.setText("");
+        edtNameUser.setText("");
+        edtPasswordUser.setText("");
+        edtPhone.setText("");
+        edtUserName.setText("");
     }
 }
