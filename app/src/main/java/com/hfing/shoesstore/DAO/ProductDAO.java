@@ -1,5 +1,6 @@
 package com.hfing.shoesstore.DAO;
 
+import android.annotation.SuppressLint;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
@@ -8,7 +9,10 @@ import android.database.sqlite.SQLiteDatabase;
 import com.hfing.shoesstore.Model.DBHelper;
 import com.hfing.shoesstore.Model.Product;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.Locale;
 
 public class ProductDAO {
     private  final DBHelper dbHelper;
@@ -16,27 +20,34 @@ public class ProductDAO {
     public ProductDAO(Context context) {
         dbHelper = new DBHelper(context);
     }
+    @SuppressLint("Range")
     public ArrayList<Product> getAllProducts() {
         ArrayList<Product> products = new ArrayList<>();
         SQLiteDatabase db = dbHelper.getReadableDatabase();
+        Cursor cursor = null;
         try {
             String query = "SELECT * FROM product";
-            Cursor cursor = db.rawQuery(query, null);
-            cursor.moveToFirst();
-            while (!cursor.isAfterLast()) {
-                Product product = new Product();
-                product.setId(cursor.getInt(0));
-                product.setName(cursor.getString(1));
-                product.setDescription(cursor.getString(2));
-                product.setPrice(cursor.getDouble(3));
-                product.setCreate_at(cursor.getString(4));
-                product.setImage(cursor.getBlob(5));
-                product.setCategory_id(cursor.getInt(6));
-                products.add(product);
-                cursor.moveToNext();
+            cursor = db.rawQuery(query, null);
+            if (cursor.moveToFirst()) {
+                do {
+                    Product product = new Product();
+                    product.setId(cursor.getInt(cursor.getColumnIndex(DBHelper.COLUMN_PRODUCT_ID)));
+                    product.setName(cursor.getString(cursor.getColumnIndex(DBHelper.COLUMN_PRODUCT_NAME)));
+                    product.setDescription(cursor.getString(cursor.getColumnIndex(DBHelper.COLUMN_PRODUCT_DESCRIPTION)));
+                    product.setPrice(cursor.getDouble(cursor.getColumnIndex(DBHelper.COLUMN_PRODUCT_PRICE)));
+                    product.setCreate_at(cursor.getString(cursor.getColumnIndex(DBHelper.COLUMN_PRODUCT_CREATE_AT)));
+                    product.setImage(cursor.getBlob(cursor.getColumnIndex(DBHelper.COLUMN_PRODUCT_IMAGE)));
+                    product.setCategory_id(cursor.getInt(cursor.getColumnIndex(DBHelper.COLUMN_PRODUCT_CATEGORY_ID)));
+                    products.add(product);
+                } while (cursor.moveToNext());
             }
         } catch (Exception e) {
             throw new RuntimeException(e);
+        } finally {
+            if (cursor != null) {
+                cursor.close();
+            }
+            db.close();
         }
         return products;
     }
@@ -49,7 +60,11 @@ public class ProductDAO {
         values.put("price", product.getPrice());
         values.put("create_at", product.getCreate_at());
         values.put("category_id", product.getCategory_id());
+        values.put("create_at", product.getCreate_at());
         values.put("image", product.getImage());
+
+        String currentDateTime = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault()).format(new Date());
+        values.put("create_at", currentDateTime);
         return db.insert(dbHelper.TABLE_PRODUCT, null, values);
     }
 
@@ -61,6 +76,7 @@ public class ProductDAO {
         values.put("price", product.getPrice());
         values.put("create_at", product.getCreate_at());
         values.put("category_id", product.getCategory_id());
+        values.put("create_at", product.getCreate_at());
         values.put("image", product.getImage());
         return db.update(dbHelper.TABLE_PRODUCT, values, dbHelper.COLUMN_CATEGORY_ID + " = " + product.getId(), null);
 

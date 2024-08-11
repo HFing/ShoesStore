@@ -28,7 +28,7 @@
             android:name=".Activity.LogIn"
             android:exported="false" />
         <activity
-            android:name=".Activity.DashboardActivity"
+            android:name=".Activity.IntroActivity"
             android:exported="false" />
         <activity
             android:name=".Activity.SignUp"
@@ -37,10 +37,10 @@
             android:name=".Activity.OrderStatisticsActivity"
             android:exported="false"/>
         <activity
-            android:name=".Activity.IntroActivity"
+            android:name=".Activity.BaseActivity"
             android:exported="false" />
         <activity
-            android:name=".Activity.BaseActivity"
+            android:name=".Activity.DashboardActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
