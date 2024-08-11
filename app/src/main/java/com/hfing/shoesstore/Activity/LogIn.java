@@ -16,6 +16,7 @@ import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
 import com.hfing.shoesstore.DAO.UsersDAO;
+import com.hfing.shoesstore.Model.User;
 import com.hfing.shoesstore.R;
 
 public class LogIn extends AppCompatActivity {
@@ -49,23 +50,25 @@ public class LogIn extends AppCompatActivity {
                 }
 
                 UsersDAO usersDAO = new UsersDAO(LogIn.this);
-                if (usersDAO.checkUser(email, password)) {
-                    Toast.makeText(LogIn.this, "Login successful", Toast.LENGTH_SHORT).show();
+                User user = usersDAO.getUserByEmail(email, password);
 
-                    int roleId = usersDAO.getUserRole(email);
+                if(user!= null){
+                    Toast.makeText(LogIn.this, "Login successful", Toast.LENGTH_SHORT);
+
                     Intent intent;
-                    if (roleId == 1) { // Assuming 1 is for admin
-                        intent = new Intent(LogIn.this, DashboardActivity.class); // Replace AdminActivity with your admin activity
+                    if (user.getRole_id() == 1) {
+                        intent = new Intent(LogIn.this, DashboardActivity.class);
                     } else {
-                        intent = new Intent(LogIn.this, BaseActivity.class); // Replace UserActivity with your user activity
+                        intent = new Intent(LogIn.this, BaseActivity.class);
                     }
+
+                    intent.putExtra("id", user.getId());
+
                     startActivity(intent);
-                    finish();
+                    //finish();
                 } else {
                     Toast.makeText(LogIn.this, "Invalid email or password", Toast.LENGTH_SHORT).show();
                 }
-
-
             }
         });
     }

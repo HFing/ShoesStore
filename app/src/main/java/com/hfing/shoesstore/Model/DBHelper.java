@@ -41,7 +41,7 @@ public class DBHelper extends SQLiteOpenHelper {
             + COLUMN_USER_USERNAME + " TEXT NOT NULL UNIQUE,"
             + COLUMN_USER_PASSWORD + " TEXT NOT NULL,"
             + COLUMN_USER_NAME + " TEXT,"
-            + COLUMN_USER_EMAIL + " TEXT,"
+            + COLUMN_USER_EMAIL + " TEXT NOT NULL UNIQUE,"
             + COLUMN_USER_ADDRESS + " TEXT,"
             + COLUMN_USER_PHONE + " TEXT,"
             + COLUMN_USER_GENDER + " INTEGER CHECK (" + COLUMN_USER_GENDER + " IN (0, 1)),"

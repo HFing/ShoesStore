@@ -39,6 +39,9 @@ public class SignUp extends AppCompatActivity {
         btnSignUp.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                UsersDAO usersDAO = new UsersDAO(SignUp.this);
+                User users = new User();
+
                 String userName = edtUserName.getText().toString();
                 String fullName = edtName.getText().toString();
                 String email = edtEmail.getText().toString();
@@ -54,8 +57,13 @@ public class SignUp extends AppCompatActivity {
                     return;
                 }
 
-                UsersDAO usersDAO = new UsersDAO(SignUp.this);
-                User users = new User();
+                if (usersDAO.checkUsernameExists(userName))
+                    Toast.makeText(SignUp.this, "Username already exists", Toast.LENGTH_SHORT).show();
+
+                if (usersDAO.checkEmailExists(email))
+                    Toast.makeText(SignUp.this, "Email already exists", Toast.LENGTH_SHORT).show();
+
+
                 users.setUsername(userName);
                 users.setName(fullName);
                 users.setEmail(email);

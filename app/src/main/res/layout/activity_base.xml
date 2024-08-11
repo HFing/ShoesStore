@@ -35,11 +35,11 @@
                         android:id="@+id/textView4"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="Welcome Back"
+                        android:text="Welcome,"
                         android:textColor="@color/grey" />
 
                     <TextView
-                        android:id="@+id/textView5"
+                        android:id="@+id/textNameOfUser"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="HFing"
@@ -55,7 +55,7 @@
                     app:srcCompat="@drawable/bell_icon" />
 
                 <ImageView
-                    android:id="@+id/imageView3"
+                    android:id="@+id/searchBtn"
                     android:layout_width="42dp"
                     android:layout_height="42dp"
                     app:srcCompat="@drawable/search_icon" />
@@ -77,7 +77,7 @@
                     app:layout_constraintTop_toTopOf="parent" />
 
                 <androidx.viewpager2.widget.ViewPager2
-                    android:id="@+id/viewpagerSlider"
+                    android:id="@+id/viewpagerProductSlider"
                     android:layout_width="match_parent"
                     android:layout_height="160dp"
                     android:paddingStart="24dp"
@@ -87,6 +87,7 @@
                     app:layout_constraintTop_toTopOf="parent" />
 
                 <com.tbuonomo.viewpagerdotsindicator.DotsIndicator
+                    android:id="@+id/dotsIndicator_ProductSlider_baseView"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="4dp"
@@ -99,7 +100,7 @@
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/viewpagerSlider"
+                    app:layout_constraintTop_toBottomOf="@+id/viewpagerProductSlider"
                     app:selectedDotColor="@color/purple"
                     tools:visibility="visible" />
 
@@ -121,10 +122,10 @@
                     android:textStyle="bold"
                     android:textSize="18sp"
                     android:textColor="@color/black"
-                    android:text="Offical Brand" />
+                    android:text="Category" />
 
                 <TextView
-                    android:id="@+id/textView7"
+                    android:id="@+id/seeAllCategory"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
 
@@ -274,7 +275,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="4dp"
-                    android:text="Explorer"
+                    android:text="Cart"
                     android:textAlignment="center"
                     android:textColor="@color/white"
                     android:textSize="10sp" />
@@ -299,7 +300,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="4dp"
-                    android:text="Explorer"
+                    android:text="Like"
                     android:textAlignment="center"
                     android:textColor="@color/white"
                     android:textSize="10sp" />
@@ -324,7 +325,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="4dp"
-                    android:text="Explorer"
+                    android:text="Order"
                     android:textAlignment="center"
                     android:textColor="@color/white"
                     android:textSize="10sp" />
@@ -349,7 +350,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="4dp"
-                    android:text="Explorer"
+                    android:text="Profile"
                     android:textAlignment="center"
                     android:textColor="@color/white"
                     android:textSize="10sp" />

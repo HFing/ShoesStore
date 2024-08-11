@@ -112,4 +112,92 @@ public class UsersDAO {
             return -1; // Return -1 if user not found
         }
     }
+
+    public User getUserById(int id) {
+        SQLiteDatabase db = this.dbHelper.getReadableDatabase();
+        User user = new User();
+        Cursor cursor = db.query(dbHelper.TABLE_USER,
+                new String[]{
+                        dbHelper.COLUMN_USER_ID,
+                        dbHelper.COLUMN_USER_USERNAME,
+                        dbHelper.COLUMN_USER_NAME,
+                        dbHelper.COLUMN_USER_EMAIL,
+                        dbHelper.COLUMN_USER_ADDRESS,
+                        dbHelper.COLUMN_USER_PHONE,
+                        dbHelper.COLUMN_USER_GENDER,
+                        dbHelper.COLUMN_USER_ROLE_ID
+                },
+                dbHelper.COLUMN_USER_ID + "=?",
+                new String[]{String.valueOf(id)}, null, null, null);
+        if (cursor != null && cursor.moveToFirst())
+        {
+            user.setId(cursor.getInt(cursor.getColumnIndex(dbHelper.COLUMN_USER_ID)));
+            user.setUsername(cursor.getString(cursor.getColumnIndex(dbHelper.COLUMN_USER_USERNAME)));
+            user.setName(cursor.getString(cursor.getColumnIndex(dbHelper.COLUMN_USER_NAME)));
+            user.setEmail(cursor.getString(cursor.getColumnIndex(dbHelper.COLUMN_USER_EMAIL)));
+            user.setAddress(cursor.getString(cursor.getColumnIndex(dbHelper.COLUMN_USER_ADDRESS)));
+            user.setPhone(cursor.getString(cursor.getColumnIndex(dbHelper.COLUMN_USER_PHONE)));
+            user.setGender(cursor.getInt(cursor.getColumnIndex(dbHelper.COLUMN_USER_GENDER)));
+            user.setRole_id(cursor.getInt(cursor.getColumnIndex(dbHelper.COLUMN_USER_ROLE_ID)));
+            cursor.close();
+            db.close();
+            return user;
+        }
+        return null;
+    }
+
+    @SuppressLint("Range")
+    public User getUserByEmail(String email, String password) {
+        SQLiteDatabase db = this.dbHelper.getReadableDatabase();
+        User user = new User();
+        Cursor cursor = db.query(dbHelper.TABLE_USER,
+                new String[]{
+                        dbHelper.COLUMN_USER_ID,
+                        dbHelper.COLUMN_USER_USERNAME,
+                        dbHelper.COLUMN_USER_NAME,
+                        dbHelper.COLUMN_USER_EMAIL,
+                        dbHelper.COLUMN_USER_ADDRESS,
+                        dbHelper.COLUMN_USER_PHONE,
+                        dbHelper.COLUMN_USER_GENDER,
+                        dbHelper.COLUMN_USER_ROLE_ID
+                },
+                dbHelper.COLUMN_USER_EMAIL + "=? AND " + dbHelper.COLUMN_USER_PASSWORD + "=?",
+                new String[]{email, password}, null, null, null);
+        if (cursor != null && cursor.moveToFirst()) {
+            user.setId(cursor.getInt(cursor.getColumnIndex(dbHelper.COLUMN_USER_ID)));
+            user.setUsername(cursor.getString(cursor.getColumnIndex(dbHelper.COLUMN_USER_USERNAME)));
+            user.setName(cursor.getString(cursor.getColumnIndex(dbHelper.COLUMN_USER_NAME)));
+            user.setEmail(cursor.getString(cursor.getColumnIndex(dbHelper.COLUMN_USER_EMAIL)));
+            user.setAddress(cursor.getString(cursor.getColumnIndex(dbHelper.COLUMN_USER_ADDRESS)));
+            user.setPhone(cursor.getString(cursor.getColumnIndex(dbHelper.COLUMN_USER_PHONE)));
+            user.setGender(cursor.getInt(cursor.getColumnIndex(dbHelper.COLUMN_USER_GENDER)));
+            user.setRole_id(cursor.getInt(cursor.getColumnIndex(dbHelper.COLUMN_USER_ROLE_ID)));
+            cursor.close();
+            db.close();
+            return user;
+        }
+        return null;
+    }
+
+    public boolean checkEmailExists(String email) {
+        SQLiteDatabase db = this.dbHelper.getReadableDatabase();
+        Cursor cursor = db.query(dbHelper.TABLE_USER, new String[]{dbHelper.COLUMN_USER_ID},
+                dbHelper.COLUMN_USER_EMAIL + "=?",
+                new String[]{email}, null, null, null);
+        int count = cursor.getCount();
+        cursor.close();
+        db.close();
+        return count > 0 ? true : false;
+    }
+
+    public boolean checkUsernameExists(String username) {
+        SQLiteDatabase db = this.dbHelper.getReadableDatabase();
+        Cursor cursor = db.query(dbHelper.TABLE_USER, new String[]{dbHelper.COLUMN_USER_ID},
+                dbHelper.COLUMN_USER_USERNAME + "=?",
+                new String[]{username}, null, null, null);
+        int count = cursor.getCount();
+        cursor.close();
+        db.close();
+        return count > 0 ? true : false;
+    }
 }
