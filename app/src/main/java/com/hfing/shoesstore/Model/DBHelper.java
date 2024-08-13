@@ -3,9 +3,16 @@ package com.hfing.shoesstore.Model;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
 import android.util.Log;
 
+import com.hfing.shoesstore.R;
+
+import java.io.ByteArrayOutputStream;
+
 public class DBHelper extends SQLiteOpenHelper {
+    Context context;
 
     //Ten Database
     private static final String DATABASE_NAME = "shoesstore.db";
@@ -193,10 +200,26 @@ public class DBHelper extends SQLiteOpenHelper {
             + TABLE_PRODUCT + "(" + COLUMN_PRODUCT_ID + ")"
             + ")";
 
+    //Bảng Favorite
+    public static final String TABLE_FAVORITE = "Favorite";
+    public static final String COLUMN_FAVORITE_ID = "id";
+    public static final String COLUMN_FAVORITE_USER_ID = "user_id";
+    public static final String COLUMN_FAVORITE_PRODUCT_ID = "product_id";
 
+    private static final String CREATE_TABLE_FAVORITE = ""
+            + "CREATE TABLE " + TABLE_FAVORITE + "("
+            + COLUMN_FAVORITE_ID + " INTEGER PRIMARY KEY AUTOINCREMENT,"
+            + COLUMN_FAVORITE_USER_ID + " INTEGER NOT NULL,"
+            + COLUMN_FAVORITE_PRODUCT_ID + " INTEGER NOT NULL,"
+            + "FOREIGN KEY(" + COLUMN_FAVORITE_USER_ID + ") REFERENCES "
+            + TABLE_USER + "(" + COLUMN_USER_ID + "),"
+            + "FOREIGN KEY(" + COLUMN_FAVORITE_PRODUCT_ID + ") REFERENCES "
+            + TABLE_PRODUCT + "(" + COLUMN_PRODUCT_ID + ")"
+            + ")";
 
     public DBHelper(Context context){
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
+        this.context = context;
     }
 
     @Override
@@ -211,6 +234,7 @@ public class DBHelper extends SQLiteOpenHelper {
         db.execSQL(CREATE_TABLE_ORDERS);
         db.execSQL(CREATE_TABLE_ORDERDETAIL);
         db.execSQL(CREATE_TABLE_REVIEW);
+        db.execSQL(CREATE_TABLE_FAVORITE);
         addTempData(db);
     }
 
@@ -229,6 +253,7 @@ public class DBHelper extends SQLiteOpenHelper {
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_ORDERS);
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_ORDERDETAIL);
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_REVIEW);
+        db.execSQL("DROP TABLE IF EXISTS " + TABLE_FAVORITE);
 
         onCreate(db);
     }
@@ -248,46 +273,114 @@ public class DBHelper extends SQLiteOpenHelper {
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_ORDERS);
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_ORDERDETAIL);
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_REVIEW);
+        db.execSQL("DROP TABLE IF EXISTS " + TABLE_FAVORITE);
         onCreate(db);
     }
 
     private void addTempData(SQLiteDatabase db) {
-        // Insert dữ liệu vào bảng Role
-        db.execSQL("INSERT INTO " + TABLE_ROLE + "(" + COLUMN_ROLE_NAME + ") " + "VALUES ('admin');");
-        db.execSQL("INSERT INTO " + TABLE_ROLE + "(" + COLUMN_ROLE_NAME + ") " + "VALUES ('user');");
-        // Insert dữ liệu vào bảng User
-        db.execSQL("INSERT INTO " + TABLE_USER + "(" + COLUMN_USER_USERNAME + ", " + COLUMN_USER_PASSWORD + ", " + COLUMN_USER_NAME + ", " + COLUMN_USER_EMAIL + ", " + COLUMN_USER_ADDRESS + ", " + COLUMN_USER_PHONE + ", " + COLUMN_USER_GENDER + ", " + COLUMN_USER_ROLE_ID + ") " +
-                "VALUES ('admin1', 'admin123', 'John Smith', 'admin1@gmail.com', 'abc', '0982828272', 1, 1);");
-        db.execSQL("INSERT INTO " + TABLE_USER + "(" + COLUMN_USER_USERNAME + ", " + COLUMN_USER_PASSWORD + ", " + COLUMN_USER_NAME + ", " + COLUMN_USER_EMAIL + ", " + COLUMN_USER_ADDRESS + ", " + COLUMN_USER_PHONE + ", " + COLUMN_USER_GENDER + ", " + COLUMN_USER_ROLE_ID + ") " +
-                "VALUES ('admin2', 'admin123', 'Emily Johnson', 'admin2@gmail.com', 'bac', '0982828273', 0, 1);");
-        db.execSQL("INSERT INTO " + TABLE_USER + "(" + COLUMN_USER_USERNAME + ", " + COLUMN_USER_PASSWORD + ", " + COLUMN_USER_NAME + ", " + COLUMN_USER_EMAIL + ", " + COLUMN_USER_ADDRESS + ", " + COLUMN_USER_PHONE + ", " + COLUMN_USER_GENDER + ", " + COLUMN_USER_ROLE_ID + ") " +
-                "VALUES ('user1', 'user123', 'Michael Brown', 'user1@gmail.com', 'abc', '0982828274', 0, 2);");
-        db.execSQL("INSERT INTO " + TABLE_USER + "(" + COLUMN_USER_USERNAME + ", " + COLUMN_USER_PASSWORD + ", " + COLUMN_USER_NAME + ", " + COLUMN_USER_EMAIL + ", " + COLUMN_USER_ADDRESS + ", " + COLUMN_USER_PHONE + ", " + COLUMN_USER_GENDER + ", " + COLUMN_USER_ROLE_ID + ") " +
-                "VALUES ('user2', 'user123', 'Sophia Davis', 'user2@gmail.com', 'abc', '0982828275', 1, 2);");
-        // Insert dữ liệu vào bảng Category
-        db.execSQL("INSERT INTO " + TABLE_CATEGORY + "(" + COLUMN_CATEGORY_NAME + ") " +
-                "VALUES ('Running Shoes');");
-        db.execSQL("INSERT INTO " + TABLE_CATEGORY + "(" + COLUMN_CATEGORY_NAME + ") " +
-                "VALUES ('Basketball Shoes');");
-        db.execSQL("INSERT INTO " + TABLE_CATEGORY + "(" + COLUMN_CATEGORY_NAME + ") " +
-                "VALUES ('Casual Shoes');");
-        // Insert dữ liệu vào bảng Product
-        db.execSQL("INSERT INTO " + TABLE_PRODUCT + "(" + COLUMN_PRODUCT_NAME+ ", " + COLUMN_PRODUCT_DESCRIPTION + ", " + COLUMN_PRODUCT_PRICE + ", " + COLUMN_PRODUCT_CREATE_AT + ", " + COLUMN_PRODUCT_CATEGORY_ID + ") " +
-                "VALUES ('Nike Air Zoom Pegasus', 'Running shoe', 120.0, '2024-04-03', 1);");
-        db.execSQL("INSERT INTO " + TABLE_PRODUCT + "(" + COLUMN_PRODUCT_NAME+ ", " + COLUMN_PRODUCT_DESCRIPTION + ", " + COLUMN_PRODUCT_PRICE + ", " + COLUMN_PRODUCT_CREATE_AT + ", " + COLUMN_PRODUCT_CATEGORY_ID + ") " +
-                "VALUES ('Adidas Ultraboost', 'Running shoe', 180.0, '2023-12-31', 1);");
-        db.execSQL("INSERT INTO " + TABLE_PRODUCT + "(" + COLUMN_PRODUCT_NAME+ ", " + COLUMN_PRODUCT_DESCRIPTION + ", " + COLUMN_PRODUCT_PRICE + ", " + COLUMN_PRODUCT_CREATE_AT + ", " + COLUMN_PRODUCT_CATEGORY_ID + ") " +
-                "VALUES ('Air Jordan 1', 'Basketball shoe', 150.0, '2024-07-02', 2);");
-        // Insert dữ liệu vào bảng ProductSize
-        db.execSQL("INSERT INTO " + TABLE_PRODUCTSIZE + "(" + COLUMN_PRODUCTSIZE_PRODUCT_ID+ ", " + COLUMN_PRODUCTSIZE_SIZE+ ", " + COLUMN_PRODUCTSIZE_QUANTITY + ") " +
-                "VALUES (1, 39, 100);");
-        db.execSQL("INSERT INTO " + TABLE_PRODUCTSIZE + "(" + COLUMN_PRODUCTSIZE_PRODUCT_ID+ ", " + COLUMN_PRODUCTSIZE_SIZE+ ", " + COLUMN_PRODUCTSIZE_QUANTITY + ") " +
-                "VALUES (1, 43, 50);");
-        db.execSQL("INSERT INTO " + TABLE_PRODUCTSIZE + "(" + COLUMN_PRODUCTSIZE_PRODUCT_ID+ ", " + COLUMN_PRODUCTSIZE_SIZE+ ", " + COLUMN_PRODUCTSIZE_QUANTITY + ") " +
-                "VALUES (2, 42, 200);");
-        db.execSQL("INSERT INTO " + TABLE_PRODUCTSIZE + "(" + COLUMN_PRODUCTSIZE_PRODUCT_ID+ ", " + COLUMN_PRODUCTSIZE_SIZE+ ", " + COLUMN_PRODUCTSIZE_QUANTITY + ") " +
-                "VALUES (3, 43, 150);");
-        // Insert dữ liệu vào bảng Cart
+
+        db.execSQL("INSERT INTO Role (name) VALUES ('admin');");
+        db.execSQL("INSERT INTO Role (name) VALUES ('user');");
+
+        db.execSQL("INSERT INTO User (username, password, name, email, address, phone, gender, role_id) VALUES ('admin1', 'admin123', 'John Smith', 'admin1@gmail.com', 'abc', '0982828272', 1, 1);");
+        db.execSQL("INSERT INTO User (username, password, name, email, address, phone, gender, role_id) VALUES ('admin2', 'admin123', 'Emily Johnson', 'admin2@gmail.com', 'bac', '0982828273', 0, 1);" );
+        db.execSQL("INSERT INTO User (username, password, name, email, address, phone, gender, role_id) VALUES ('user1', 'user123', 'Michael Brown', 'user1@gmail.com', 'abc', '0982828274', 0, 2);");
+        db.execSQL("INSERT INTO User (username, password, name, email, address, phone, gender, role_id) VALUES ('user2', 'user123', 'Sophia Davis', 'user2@gmail.com', 'abc', '0982828275', 1, 2);");
+
+        db.execSQL("INSERT INTO Category (name) VALUES ('NIKE');");
+        db.execSQL("INSERT INTO Category (name) VALUES ('ADIDAS');");
+        db.execSQL("INSERT INTO Category (name) VALUES ('BITIS');");
+
+        insertProductWithImage(db, "Nike AIR JORDAN ELEVATELOW", "Running shoe", 4500000.0, "2024-04-03", 1, R.drawable.img_product_air_jordan_elevatelow, "png");
+        insertProductWithImage(db, "Bitis Hunter Core 3D Airmesh", "Running shoe", 3500000.0, "2023-12-31", 3, R.drawable.img_product_bitis_hunter_core_3d_airmesh, "jpg");
+        insertProductWithImage(db, "Bitis Hunter Street", "Basketball shoe", 3800000.0, "2024-07-02", 3, R.drawable.img_product_bitis_hunter_street, "jpg");
+        insertProductWithImage(db, "Bitis Hunter X", "Basketball shoe", 2500000.0, "2024-07-02", 3, R.drawable.img_product_bitis_hunter_x, "jpg");
+        insertProductWithImage(db, "Nike Pegasus", "Basketball shoe", 5000000.0, "2024-07-02", 1, R.drawable.img_product_nike_pegasus, "png");
+        insertProductWithImage(db, "NIKE ZOOM VOMERO", "Basketball shoe", 4150000.0, "2024-07-02", 1, R.drawable.img_product_nike_zoom_vomero, "png");
+        insertProductWithImage(db, "NIKE PEGASUS EASYON OLY", "Basketball shoe", 5250000.0, "2024-03-02", 1, R.drawable.img_product_pegasus_easyon_oly, "png");
+        insertProductWithImage(db, "Nike Pegasus Trail", "Basketball shoe", 5050000.0, "2024-05-02", 1, R.drawable.img_product_pegasus_trail, "png");
+        insertProductWithImage(db, "Adidas Response CL", "Basketball shoe", 3150000.0, "2024-08-02", 2, R.drawable.img_product_response_cl, "jpg");
+        insertProductWithImage(db, "Adidas Rivalry Low Be", "Basketball shoe", 4150000.0, "2024-07-02", 2, R.drawable.img_product_rivalry_low_be, "jpg");
+        insertProductWithImage(db, "Adidas Superstar", "Basketball shoe", 10050000.0, "2024-08-02", 2, R.drawable.img_product_superstar, "jpg");
+
+        db.execSQL("INSERT INTO ProductSize (product_id, size, quantity) VALUES (1, 39, 75);");
+        db.execSQL("INSERT INTO ProductSize (product_id, size, quantity) VALUES (1, 40, 92);");
+        db.execSQL("INSERT INTO ProductSize (product_id, size, quantity) VALUES (1, 41, 66);");
+        db.execSQL("INSERT INTO ProductSize (product_id, size, quantity) VALUES (1, 42, 55);");
+        db.execSQL("INSERT INTO ProductSize (product_id, size, quantity) VALUES (1, 43, 88);");
+        db.execSQL("INSERT INTO ProductSize (product_id, size, quantity) VALUES (1, 44, 71);");
+        db.execSQL("INSERT INTO ProductSize (product_id, size, quantity) VALUES (1, 45, 94);");
+        db.execSQL("INSERT INTO ProductSize (product_id, size, quantity) VALUES (2, 39, 83);");
+        db.execSQL("INSERT INTO ProductSize (product_id, size, quantity) VALUES (2, 40, 65);");
+        db.execSQL("INSERT INTO ProductSize (product_id, size, quantity) VALUES (2, 41, 57);");
+        db.execSQL("INSERT INTO ProductSize (product_id, size, quantity) VALUES (2, 42, 91);");
+        db.execSQL("INSERT INTO ProductSize (product_id, size, quantity) VALUES (2, 43, 76);");
+        db.execSQL("INSERT INTO ProductSize (product_id, size, quantity) VALUES (2, 44, 53);");
+        db.execSQL("INSERT INTO ProductSize (product_id, size, quantity) VALUES (2, 45, 99);");
+        db.execSQL("INSERT INTO ProductSize (product_id, size, quantity) VALUES (3, 39, 54);");
+        db.execSQL("INSERT INTO ProductSize (product_id, size, quantity) VALUES (3, 40, 89);");
+        db.execSQL("INSERT INTO ProductSize (product_id, size, quantity) VALUES (3, 41, 75);");
+        db.execSQL("INSERT INTO ProductSize (product_id, size, quantity) VALUES (3, 42, 93);");
+        db.execSQL("INSERT INTO ProductSize (product_id, size, quantity) VALUES (3, 43, 78);");
+        db.execSQL("INSERT INTO ProductSize (product_id, size, quantity) VALUES (3, 44, 67);");
+        db.execSQL("INSERT INTO ProductSize (product_id, size, quantity) VALUES (3, 45, 85);");
+        db.execSQL("INSERT INTO ProductSize (product_id, size, quantity) VALUES (4, 39, 64);");
+        db.execSQL("INSERT INTO ProductSize (product_id, size, quantity) VALUES (4, 40, 52);");
+        db.execSQL("INSERT INTO ProductSize (product_id, size, quantity) VALUES (4, 41, 97);");
+        db.execSQL("INSERT INTO ProductSize (product_id, size, quantity) VALUES (4, 42, 78);");
+        db.execSQL("INSERT INTO ProductSize (product_id, size, quantity) VALUES (4, 43, 66);");
+        db.execSQL("INSERT INTO ProductSize (product_id, size, quantity) VALUES (4, 44, 82);");
+        db.execSQL("INSERT INTO ProductSize (product_id, size, quantity) VALUES (4, 45, 91);");
+        db.execSQL("INSERT INTO ProductSize (product_id, size, quantity) VALUES (5, 39, 55);");
+        db.execSQL("INSERT INTO ProductSize (product_id, size, quantity) VALUES (5, 40, 86);");
+        db.execSQL("INSERT INTO ProductSize (product_id, size, quantity) VALUES (5, 41, 73);");
+        db.execSQL("INSERT INTO ProductSize (product_id, size, quantity) VALUES (5, 42, 92);");
+        db.execSQL("INSERT INTO ProductSize (product_id, size, quantity) VALUES (5, 43, 64);");
+        db.execSQL("INSERT INTO ProductSize (product_id, size, quantity) VALUES (5, 44, 57);");
+        db.execSQL("INSERT INTO ProductSize (product_id, size, quantity) VALUES (5, 45, 79);");
+        db.execSQL("INSERT INTO ProductSize (product_id, size, quantity) VALUES (6, 39, 58);");
+        db.execSQL("INSERT INTO ProductSize (product_id, size, quantity) VALUES (6, 40, 71);");
+        db.execSQL("INSERT INTO ProductSize (product_id, size, quantity) VALUES (6, 41, 90);");
+        db.execSQL("INSERT INTO ProductSize (product_id, size, quantity) VALUES (6, 42, 85);");
+        db.execSQL("INSERT INTO ProductSize (product_id, size, quantity) VALUES (6, 43, 62);");
+        db.execSQL("INSERT INTO ProductSize (product_id, size, quantity) VALUES (6, 44, 80);");
+        db.execSQL("INSERT INTO ProductSize (product_id, size, quantity) VALUES (6, 45, 93);");
+        db.execSQL("INSERT INTO ProductSize (product_id, size, quantity) VALUES (7, 39, 74);");
+        db.execSQL("INSERT INTO ProductSize (product_id, size, quantity) VALUES (7, 40, 99);");
+        db.execSQL("INSERT INTO ProductSize (product_id, size, quantity) VALUES (7, 41, 81);");
+        db.execSQL("INSERT INTO ProductSize (product_id, size, quantity) VALUES (7, 42, 67);");
+        db.execSQL("INSERT INTO ProductSize (product_id, size, quantity) VALUES (7, 43, 93);");
+        db.execSQL("INSERT INTO ProductSize (product_id, size, quantity) VALUES (7, 44, 55);");
+        db.execSQL("INSERT INTO ProductSize (product_id, size, quantity) VALUES (7, 45, 79);");
+        db.execSQL("INSERT INTO ProductSize (product_id, size, quantity) VALUES (8, 39, 88);");
+        db.execSQL("INSERT INTO ProductSize (product_id, size, quantity) VALUES (8, 40, 65);");
+        db.execSQL("INSERT INTO ProductSize (product_id, size, quantity) VALUES (8, 41, 57);");
+        db.execSQL("INSERT INTO ProductSize (product_id, size, quantity) VALUES (8, 42, 91);");
+        db.execSQL("INSERT INTO ProductSize (product_id, size, quantity) VALUES (8, 43, 76);");
+        db.execSQL("INSERT INTO ProductSize (product_id, size, quantity) VALUES (8, 44, 53);");
+        db.execSQL("INSERT INTO ProductSize (product_id, size, quantity) VALUES (8, 45, 99);");
+        db.execSQL("INSERT INTO ProductSize (product_id, size, quantity) VALUES (9, 39, 54);");
+        db.execSQL("INSERT INTO ProductSize (product_id, size, quantity) VALUES (9, 40, 89);");
+        db.execSQL("INSERT INTO ProductSize (product_id, size, quantity) VALUES (9, 41, 75);");
+        db.execSQL("INSERT INTO ProductSize (product_id, size, quantity) VALUES (9, 42, 93);");
+        db.execSQL("INSERT INTO ProductSize (product_id, size, quantity) VALUES (9, 43, 78);");
+        db.execSQL("INSERT INTO ProductSize (product_id, size, quantity) VALUES (9, 44, 67);");
+        db.execSQL("INSERT INTO ProductSize (product_id, size, quantity) VALUES (9, 45, 85);");
+        db.execSQL("INSERT INTO ProductSize (product_id, size, quantity) VALUES (10, 39, 64);");
+        db.execSQL("INSERT INTO ProductSize (product_id, size, quantity) VALUES (10, 40, 52);");
+        db.execSQL("INSERT INTO ProductSize (product_id, size, quantity) VALUES (10, 41, 97);");
+        db.execSQL("INSERT INTO ProductSize (product_id, size, quantity) VALUES (10, 42, 78);");
+        db.execSQL("INSERT INTO ProductSize (product_id, size, quantity) VALUES (10, 43, 66);");
+        db.execSQL("INSERT INTO ProductSize (product_id, size, quantity) VALUES (10, 44, 82);");
+        db.execSQL("INSERT INTO ProductSize (product_id, size, quantity) VALUES (10, 45, 91);");
+        db.execSQL("INSERT INTO ProductSize (product_id, size, quantity) VALUES (11, 39, 55);");
+        db.execSQL("INSERT INTO ProductSize (product_id, size, quantity) VALUES (11, 40, 86);");
+        db.execSQL("INSERT INTO ProductSize (product_id, size, quantity) VALUES (11, 41, 73);");
+        db.execSQL("INSERT INTO ProductSize (product_id, size, quantity) VALUES (11, 42, 92);");
+        db.execSQL("INSERT INTO ProductSize (product_id, size, quantity) VALUES (11, 43, 64);");
+        db.execSQL("INSERT INTO ProductSize (product_id, size, quantity) VALUES (11, 44, 57);");
+        db.execSQL("INSERT INTO ProductSize (product_id, size, quantity) VALUES (11, 45, 79);");
+
         db.execSQL("INSERT INTO Cart (user_id) VALUES (3);");
         db.execSQL("INSERT INTO Cart (user_id) VALUES (4);");
         // Insert dữ liệu vào bảng CartItem
@@ -301,14 +394,31 @@ public class DBHelper extends SQLiteOpenHelper {
         db.execSQL("INSERT INTO " + TABLE_ORDERS + "(" + COLUMN_ORDERS_USER_ID+ ", " + COLUMN_ORDERS_DATE + ") " +"" +
                 "VALUES (3, '2024-08-02');");
         // Insert dữ liệu vào bảng OrderDetail
-        db.execSQL("INSERT INTO " + TABLE_ORDERDETAIL + "(" + COLUMN_ORDERDETAIL_ORDER_ID + ", " + COLUMN_ORDERDETAIL_PRODUCT_SIZE_ID + ", " + COLUMN_ORDERDETAIL_QUANTITY + ", " + COLUMN_ORDERDETAIL_UNIT_PRICE + ") " + 
+        db.execSQL("INSERT INTO " + TABLE_ORDERDETAIL + "(" + COLUMN_ORDERDETAIL_ORDER_ID + ", " + COLUMN_ORDERDETAIL_PRODUCT_SIZE_ID + ", " + COLUMN_ORDERDETAIL_QUANTITY + ", " + COLUMN_ORDERDETAIL_UNIT_PRICE + ") " +
                 "VALUES (1, 1, 1, 120.0);");
         db.execSQL("INSERT INTO " + TABLE_ORDERDETAIL + "(" + COLUMN_ORDERDETAIL_ORDER_ID + ", " + COLUMN_ORDERDETAIL_PRODUCT_SIZE_ID + ", " + COLUMN_ORDERDETAIL_QUANTITY + ", " + COLUMN_ORDERDETAIL_UNIT_PRICE + ") " +
                 "VALUES (2, 2, 2, 180.0);");
         // Insert dữ liệu vào bảng Review
-        db.execSQL("INSERT INTO " + TABLE_REVIEW + "(" + COLUMN_REVIEW_USER_ID + ", " + COLUMN_REVIEW_PRODUCT_ID + ", " + COLUMN_REVIEW_RATING + ", " + COLUMN_REVIEW_COMMENT + ", " + COLUMN_REVIEW_DATE + ") " + 
+        db.execSQL("INSERT INTO " + TABLE_REVIEW + "(" + COLUMN_REVIEW_USER_ID + ", " + COLUMN_REVIEW_PRODUCT_ID + ", " + COLUMN_REVIEW_RATING + ", " + COLUMN_REVIEW_COMMENT + ", " + COLUMN_REVIEW_DATE + ") " +
                 "VALUES (2, 1, 5, 'Great shoe!', '2024-08-05');");
-        db.execSQL("INSERT INTO " + TABLE_REVIEW + "(" + COLUMN_REVIEW_USER_ID + ", " + COLUMN_REVIEW_PRODUCT_ID + ", " + COLUMN_REVIEW_RATING + ", " + COLUMN_REVIEW_COMMENT + ", " + COLUMN_REVIEW_DATE + ") " + 
+        db.execSQL("INSERT INTO " + TABLE_REVIEW + "(" + COLUMN_REVIEW_USER_ID + ", " + COLUMN_REVIEW_PRODUCT_ID + ", " + COLUMN_REVIEW_RATING + ", " + COLUMN_REVIEW_COMMENT + ", " + COLUMN_REVIEW_DATE + ") " +
                 "VALUES (3, 2, 4, 'Comfortable but pricey.', '2024-08-06');");
+    }
+
+    public byte[] getBytesFromDrawable(int drawableId, String typeImage) {
+        BitmapDrawable drawable = (BitmapDrawable) context.getResources().getDrawable(drawableId);
+        Bitmap bitmap = drawable.getBitmap();
+        ByteArrayOutputStream stream = new ByteArrayOutputStream();
+        if (typeImage.equals("png")) {
+            bitmap.compress(Bitmap.CompressFormat.PNG, 100, stream);
+        } else {
+            bitmap.compress(Bitmap.CompressFormat.JPEG, 100, stream);
+        }
+        return stream.toByteArray();
+    }
+
+    public void insertProductWithImage(SQLiteDatabase db, String name, String description, double price, String create_at, int category_id, int drawableId, String typeImage) {
+        byte[] image = getBytesFromDrawable(drawableId, typeImage);
+        db.execSQL("INSERT INTO Product (name, description, price, create_at, category_id, image) VALUES ('" + name + "', '" + description + "', " + price + ", '" + create_at + "', " + category_id + ", ?);", new Object[]{image});
     }
 }

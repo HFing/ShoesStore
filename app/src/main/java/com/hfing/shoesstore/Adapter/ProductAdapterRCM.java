@@ -6,24 +6,31 @@ import android.graphics.BitmapFactory;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.hfing.shoesstore.DAO.ProductDAO;
 import com.hfing.shoesstore.Model.Product;
 import com.hfing.shoesstore.R;
 
+import java.text.NumberFormat;
 import java.util.List;
 
 public class ProductAdapterRCM extends RecyclerView.Adapter<ProductAdapterRCM.ProductViewHolder> {
     private Context context;
     private List<Product> products;
+    private RecycleViewOnItemClickListener listener;
+    private ProductDAO productDAO;
 
-    public ProductAdapterRCM(Context context, List<Product> products) {
+    public ProductAdapterRCM(Context context, List<Product> products, RecycleViewOnItemClickListener listener, ProductDAO productDAO) {
         this.context = context;
         this.products = products;
+        this.listener = listener;
+        this.productDAO = productDAO;
     }
 
     @NonNull
@@ -37,8 +44,9 @@ public class ProductAdapterRCM extends RecyclerView.Adapter<ProductAdapterRCM.Pr
     public void onBindViewHolder(@NonNull ProductViewHolder holder, int position) {
         Product product = products.get(position);
         holder.titleTxt.setText(product.getName());
-        holder.priceTxt.setText(String.format("VND-%.2f", product.getPrice()));
-        holder.ratingTxt.setText("5"); // Assuming a static rating for now
+        NumberFormat formatter = NumberFormat.getCurrencyInstance(new java.util.Locale("vi", "VN"));
+        holder.priceTxt.setText(formatter.format(product.getPrice()));
+        holder.ratingTxt.setText(String.valueOf(productDAO.getAvengerRating(product.getName()))); // Assuming a static rating for now
 
         byte[] imageBytes = product.getImage();
         if (imageBytes != null) {
@@ -47,6 +55,8 @@ public class ProductAdapterRCM extends RecyclerView.Adapter<ProductAdapterRCM.Pr
         } else {
             holder.pic.setImageResource(R.drawable.ic_launcher_background); // Default image if none
         }
+
+        holder.itemView.setOnClickListener(v -> listener.onItemRecycleViewClick(position));
     }
 
     @Override

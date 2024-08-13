@@ -15,39 +15,35 @@ import com.hfing.shoesstore.Model.Product;
 import com.hfing.shoesstore.R;
 
 import java.util.ArrayList;
+import java.util.List;
 
-public class ProductSliderAdapter extends RecyclerView.Adapter<ProductSliderAdapter.ViewHolder> {
-
-    private ArrayList<Product> products;
+public class SliderAdapter extends RecyclerView.Adapter<SliderAdapter.ViewHolder> {
+    private List<Integer> imageResIds;
     private Context context;
 
-    public ProductSliderAdapter(Context context, ArrayList<Product> products) {
+    public SliderAdapter(Context context, List<Integer> imageResIds) {
         this.context = context;
-        this.products = products;
+        this.imageResIds = imageResIds;
     }
 
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(context).inflate(R.layout.item_slider, parent, false);
-        return new ViewHolder(view) ;
+        return new ViewHolder(view);
     }
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        Product product = products.get(position);
-        if (product.getImage() != null){
-            Bitmap bitmap = BitmapFactory.decodeByteArray(product.getImage(), 0, product.getImage().length);
-            holder.imageView.setImageBitmap(bitmap);
-        }
+        holder.imageView.setImageResource(imageResIds.get(position));
     }
 
     @Override
     public int getItemCount() {
-        return products.size();
+        return imageResIds.size();
     }
 
-    public static class ViewHolder extends RecyclerView.ViewHolder{
+    public static class ViewHolder extends RecyclerView.ViewHolder {
         ImageView imageView;
 
         public ViewHolder(@NonNull View itemView) {

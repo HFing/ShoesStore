@@ -51,20 +51,6 @@
                 android:padding="16dp"
                 android:background="@drawable/grey_bg"/>
 
-            <com.tbuonomo.viewpagerdotsindicator.DotsIndicator
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="4dp"
-                android:visibility="gone"
-                app:dotsColor="@color/lightGrey"
-                app:dotsCornerRadius="8dp"
-                app:dotsSize="6dp"
-                app:dotsSpacing="2dp"
-                app:dotsWidthFactor="2.5"
-                android:layout_gravity="center"
-                app:selectedDotColor="@color/purple"
-                tools:visibility="visible" />
-
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -138,6 +124,26 @@
                 android:text="TextView"
                 android:layout_margin="16dp"
                 />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            layout_margin="8dp"
+            android:orientation="vertical">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Comments"
+                android:textSize="18sp"
+                android:textColor="@color/black"
+                android:textStyle="bold"
+                android:layout_margin="8dp"/>
+            <ListView
+                android:id="@+id/reviewList"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+
+        </LinearLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"

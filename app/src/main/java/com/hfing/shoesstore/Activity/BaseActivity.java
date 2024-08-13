@@ -12,20 +12,15 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.graphics.Insets;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
 import androidx.recyclerview.widget.GridLayoutManager;
-import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager2.widget.ViewPager2;
 
 import com.hfing.shoesstore.Adapter.CategoryBaseViewAdapter;
-import com.hfing.shoesstore.Adapter.ProductAdapter;
 import com.hfing.shoesstore.Adapter.ProductAdapterRCM;
-import com.hfing.shoesstore.Adapter.ProductSliderAdapter;
+import com.hfing.shoesstore.Adapter.SliderAdapter;
+import com.hfing.shoesstore.Adapter.RecycleViewOnItemClickListener;
 import com.hfing.shoesstore.DAO.CategoryDAO;
 import com.hfing.shoesstore.DAO.ProductDAO;
 import com.hfing.shoesstore.DAO.UsersDAO;
@@ -38,7 +33,7 @@ import com.tbuonomo.viewpagerdotsindicator.DotsIndicator;
 import java.util.ArrayList;
 import java.util.List;
 
-public class BaseActivity extends AppCompatActivity {
+public class BaseActivity extends AppCompatActivity implements RecycleViewOnItemClickListener {
 
     private UsersDAO usersDAO = new UsersDAO(BaseActivity.this);
     private User user;
@@ -74,14 +69,23 @@ public class BaseActivity extends AppCompatActivity {
         //Hiển thị tên người dùng
         nameOfUser = findViewById(R.id.textNameOfUser);
         nameOfUser.setText(user.getName());
+
+        ArrayList<Product> products = productDAO.getAllProducts();
+
         //Hiển thị banner danh sách sản phẩm
+
+        // Khởi tạo danh sách các ID của drawable
+        List<Integer> imageResIds = new ArrayList<>();
+        imageResIds.add(R.drawable.banner1);
+        imageResIds.add(R.drawable.banner2);
+        imageResIds.add(R.drawable.banner3);
+
+        // Hiển thị banner danh sách sản phẩm
         viewpagerProductSlider = findViewById(R.id.viewpagerProductSlider);
         dotsIndicator_ProductSlider_baseView = findViewById(R.id.dotsIndicator_ProductSlider_baseView);
 
-        ArrayList<Product> products = productDAO.getAllProducts();
-        ProductSliderAdapter productSliderAdapter = new ProductSliderAdapter(this, products);
-        viewpagerProductSlider.setAdapter(productSliderAdapter);
-        //kết nối DotsIndicator với ViewPager2
+        SliderAdapter sliderAdapter = new SliderAdapter(this, imageResIds);
+        viewpagerProductSlider.setAdapter(sliderAdapter);
         dotsIndicator_ProductSlider_baseView.setViewPager2(viewpagerProductSlider);
         //Hiển thị ProgressBar khi tải dữ liệu
         ProgressBar progressBarBaner = findViewById(R.id.progressBarBaner);
@@ -103,15 +107,11 @@ public class BaseActivity extends AppCompatActivity {
         progressBarCategory.setVisibility(View.GONE);
 
         //Hiển thị trang chủ sản phẩm
-//        viewPopular = findViewById(R.id.viewPopular);
-//        ProductAdapterRCM productAdapter = new ProductAdapterRCM(this, products);
-//        viewPopular.setAdapter(productAdapter);
-//        viewPopular.setLayoutManager(new GridLayoutManager(this, 2));
         viewPopular = findViewById(R.id.viewPopular);
         progressBarPopular = findViewById(R.id.progressBarPopular);
         progressBarPopular.setVisibility(View.VISIBLE);
 
-        ProductAdapterRCM productAdapter = new ProductAdapterRCM(this, products);
+        ProductAdapterRCM productAdapter = new ProductAdapterRCM(this, products, this, productDAO);
         viewPopular.setAdapter(productAdapter);
         viewPopular.setLayoutManager(new GridLayoutManager(this, 2));
 
@@ -158,7 +158,14 @@ public class BaseActivity extends AppCompatActivity {
             }
         });
 
-
     }
-
+    @Override
+    public void onItemRecycleViewClick(int position) {
+        Toast.makeText(this, "Item clicked at position: " + position, Toast.LENGTH_SHORT).show();
+        Product product = productDAO.getAllProducts().get(position);
+        Intent detailIntent = new Intent(this, DetailActivity.class);
+        detailIntent.putExtra("product_id", product.getId());
+        detailIntent.putExtra("user_id", user.getId());
+        startActivity(detailIntent);
+    }
 }
