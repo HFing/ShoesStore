@@ -12,26 +12,33 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
+import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager2.widget.ViewPager2;
 
+import com.hfing.shoesstore.Adapter.CategoryBaseViewAdapter;
 import com.hfing.shoesstore.Adapter.ProductSliderAdapter;
+import com.hfing.shoesstore.DAO.CategoryDAO;
 import com.hfing.shoesstore.DAO.ProductDAO;
 import com.hfing.shoesstore.DAO.UsersDAO;
+import com.hfing.shoesstore.Model.Category;
 import com.hfing.shoesstore.Model.Product;
 import com.hfing.shoesstore.Model.User;
 import com.hfing.shoesstore.R;
 import com.tbuonomo.viewpagerdotsindicator.DotsIndicator;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class BaseActivity extends AppCompatActivity {
 
     private UsersDAO usersDAO = new UsersDAO(BaseActivity.this);
     private User user;
     private ProductDAO productDAO = new ProductDAO(BaseActivity.this);
+    private CategoryDAO categoryDAO = new CategoryDAO(BaseActivity.this);
     TextView nameOfUser;
     ViewPager2 viewpagerProductSlider;
     DotsIndicator dotsIndicator_ProductSlider_baseView;
+    RecyclerView viewCategory_baseview;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,9 +46,9 @@ public class BaseActivity extends AppCompatActivity {
         setContentView(R.layout.activity_base);
 
         //Xác định User đang thực hiện
-//        Intent intent = getIntent();
-//        int id = intent.getIntExtra("id", -1);
-        int id = 3;
+        Intent intent = getIntent();
+        int id = intent.getIntExtra("id", -1);
+        //int id = 3;
 
         user = usersDAO.getUserById(id);
 
@@ -71,6 +78,13 @@ public class BaseActivity extends AppCompatActivity {
                 dotsIndicator_ProductSlider_baseView.setVisibility(View.VISIBLE);
             }
         });
-
+        //Hiển thị danh sách danh mục
+        viewCategory_baseview = findViewById(R.id.viewCategory_baseview);
+        ArrayList<Category> categories = categoryDAO.getAllCategories();
+        CategoryBaseViewAdapter categoryBaseViewAdapter = new CategoryBaseViewAdapter(this, categories);
+        viewCategory_baseview.setAdapter(categoryBaseViewAdapter);
+        viewCategory_baseview.setLayoutManager(new androidx.recyclerview.widget.LinearLayoutManager(this, RecyclerView.HORIZONTAL, false));
+        ProgressBar progressBarCategory = findViewById(R.id.progressBarCategory);
+        progressBarCategory.setVisibility(View.GONE);
     }
 }
