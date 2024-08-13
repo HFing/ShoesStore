@@ -12,10 +12,14 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager2.widget.ViewPager2;
 
 import com.hfing.shoesstore.Adapter.CategoryBaseViewAdapter;
+import com.hfing.shoesstore.Adapter.ProductAdapter;
+import com.hfing.shoesstore.Adapter.ProductAdapterRCM;
 import com.hfing.shoesstore.Adapter.ProductSliderAdapter;
 import com.hfing.shoesstore.DAO.CategoryDAO;
 import com.hfing.shoesstore.DAO.ProductDAO;
@@ -38,7 +42,8 @@ public class BaseActivity extends AppCompatActivity {
     TextView nameOfUser;
     ViewPager2 viewpagerProductSlider;
     DotsIndicator dotsIndicator_ProductSlider_baseView;
-    RecyclerView viewCategory_baseview;
+    RecyclerView viewCategory_baseview, viewPopular;
+    ProgressBar progressBarPopular;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,7 +64,7 @@ public class BaseActivity extends AppCompatActivity {
         //Hiển thị tên người dùng
         nameOfUser = findViewById(R.id.textNameOfUser);
         nameOfUser.setText(user.getName());
-        //Hiển thị danh sách sản phẩm
+        //Hiển thị banner danh sách sản phẩm
         viewpagerProductSlider = findViewById(R.id.viewpagerProductSlider);
         dotsIndicator_ProductSlider_baseView = findViewById(R.id.dotsIndicator_ProductSlider_baseView);
 
@@ -86,5 +91,22 @@ public class BaseActivity extends AppCompatActivity {
         viewCategory_baseview.setLayoutManager(new androidx.recyclerview.widget.LinearLayoutManager(this, RecyclerView.HORIZONTAL, false));
         ProgressBar progressBarCategory = findViewById(R.id.progressBarCategory);
         progressBarCategory.setVisibility(View.GONE);
+
+        //Hiển thị trang chủ sản phẩm
+//        viewPopular = findViewById(R.id.viewPopular);
+//        ProductAdapterRCM productAdapter = new ProductAdapterRCM(this, products);
+//        viewPopular.setAdapter(productAdapter);
+//        viewPopular.setLayoutManager(new GridLayoutManager(this, 2));
+        viewPopular = findViewById(R.id.viewPopular);
+        progressBarPopular = findViewById(R.id.progressBarPopular);
+        progressBarPopular.setVisibility(View.VISIBLE);
+
+        ProductAdapterRCM productAdapter = new ProductAdapterRCM(this, products);
+        viewPopular.setAdapter(productAdapter);
+        viewPopular.setLayoutManager(new GridLayoutManager(this, 2));
+
+        // Hide progress bar after setting up the adapter
+        progressBarPopular.setVisibility(View.GONE);
+
     }
 }
