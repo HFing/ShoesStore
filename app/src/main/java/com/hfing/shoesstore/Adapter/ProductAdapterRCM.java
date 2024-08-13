@@ -66,4 +66,8 @@ public class ProductAdapterRCM extends RecyclerView.Adapter<ProductAdapterRCM.Pr
             pic = itemView.findViewById(R.id.pic);
         }
     }
+    public void updateProducts(List<Product> newProducts) {
+        this.products = newProducts;
+        notifyDataSetChanged();
+    }
 }

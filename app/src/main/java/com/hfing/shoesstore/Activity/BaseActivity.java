@@ -1,8 +1,13 @@
 package com.hfing.shoesstore.Activity;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.View;
+import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -44,12 +49,17 @@ public class BaseActivity extends AppCompatActivity {
     DotsIndicator dotsIndicator_ProductSlider_baseView;
     RecyclerView viewCategory_baseview, viewPopular;
     ProgressBar progressBarPopular;
+    EditText searchEditText;
+    ImageView searchBtn;
 
+    @SuppressLint("MissingInflatedId")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_base);
 
+        TextView noResultsTextView = findViewById(R.id.noResultsTextView);
+        TextView headTextView = findViewById(R.id.textView8);
         //Xác định User đang thực hiện
         Intent intent = getIntent();
         int id = intent.getIntExtra("id", -1);
@@ -108,5 +118,47 @@ public class BaseActivity extends AppCompatActivity {
         // Hide progress bar after setting up the adapter
         progressBarPopular.setVisibility(View.GONE);
 
+
+        searchEditText = findViewById(R.id.searchEditText);
+        searchBtn = findViewById(R.id.searchBtn);
+
+        searchEditText.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+                // Không cần xử lý
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                // Gọi phương thức filterProducts khi văn bản thay đổi
+                List<Product> filteredProducts = new ArrayList<>();
+                for (Product product : products) {
+                    if (product.getName().toLowerCase().contains(s.toString().toLowerCase())) {
+                        filteredProducts.add(product);
+                    }
+                }
+                // Cập nhật adapter với danh sách sản phẩm đã lọc
+                productAdapter.updateProducts(filteredProducts);
+
+                if (s.toString().isEmpty()) {
+                    headTextView.setText("Recommendation");
+                    noResultsTextView.setVisibility(View.GONE);
+                } else if (filteredProducts.isEmpty()) {
+                    headTextView.setText("Tìm kiếm sản phẩm");
+                    noResultsTextView.setVisibility(View.VISIBLE);
+                } else {
+                    headTextView.setText("Tìm kiếm sản phẩm");
+                    noResultsTextView.setVisibility(View.GONE);
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                // Không cần xử lý
+            }
+        });
+
+
     }
+
 }
