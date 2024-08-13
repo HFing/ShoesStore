@@ -30,6 +30,7 @@ import com.hfing.shoesstore.R;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 
 public class ProductActivity extends AppCompatActivity {
@@ -94,7 +95,9 @@ public class ProductActivity extends AppCompatActivity {
         lvProduct.setOnItemClickListener((adapterView, view, i, l) -> {
             Product product = products.get(i);
             edtNameProduct.setText(product.getName());
-            edtPriceProduct.setText(String.valueOf(product.getPrice()));
+            DecimalFormat decimalFormat = new DecimalFormat("#");
+            decimalFormat.setMaximumFractionDigits(0);
+            edtPriceProduct.setText(decimalFormat.format(product.getPrice()));
             edtDescriptionProduct.setText(product.getDescription());
             id = product.getId();
 
@@ -150,7 +153,7 @@ public class ProductActivity extends AppCompatActivity {
         reloadListView();
     }
 
-    private void updateProduct(){
+    private void updateProduct() {
         if (id == -1) {
             Toast.makeText(ProductActivity.this, "Vui lòng chọn sản phẩm cần cập nhật", Toast.LENGTH_SHORT).show();
             return;
@@ -161,17 +164,25 @@ public class ProductActivity extends AppCompatActivity {
         product.setPrice(Double.parseDouble(edtPriceProduct.getText().toString()));
         product.setDescription(edtDescriptionProduct.getText().toString());
         product.setCategory_id(((Category) spnCategoryProduct.getSelectedItem()).getId());
-        product.setImage(selectedImageBitmap != null ? getImageBytes(selectedImageBitmap) : null);
+
+        // Check if a new image is selected, otherwise use the existing image
+        if (selectedImageBitmap != null) {
+            product.setImage(getImageBytes(selectedImageBitmap));
+        } else {
+            Product existingProduct = productDAO.getProductById(id);
+            product.setImage(existingProduct.getImage());
+        }
 
         if (productDAO.updateProduct(product) > 0) {
             Toast.makeText(ProductActivity.this, "Cập nhật sản phẩm thành công", Toast.LENGTH_SHORT).show();
             reloadListView();
+            selectedImageBitmap = null; // Reset selected image
         } else {
             Toast.makeText(ProductActivity.this, "Cập nhật sản phẩm thất bại", Toast.LENGTH_SHORT).show();
         }
     }
 
-    private void deleteProduct(){
+    private void deleteProduct() {
         if (id == -1) {
             Toast.makeText(ProductActivity.this, "Vui lòng chọn sản phẩm cần xóa", Toast.LENGTH_SHORT).show();
             return;
@@ -179,6 +190,7 @@ public class ProductActivity extends AppCompatActivity {
         if (productDAO.deleteProduct(id) > 0) {
             Toast.makeText(ProductActivity.this, "Xóa sản phẩm thành công", Toast.LENGTH_SHORT).show();
             reloadListView();
+            selectedImageBitmap = null; // Reset selected image
         } else {
             Toast.makeText(ProductActivity.this, "Xóa sản phẩm thất bại", Toast.LENGTH_SHORT).show();
         }
@@ -193,6 +205,7 @@ public class ProductActivity extends AppCompatActivity {
         edtDescriptionProduct.setText("");
         spnCategoryProduct.setSelection(0);
         imgProduct.setImageResource(R.drawable.ic_launcher_background);
+        selectedImageBitmap = null;
     }
     private void openImageChooser() {
         Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);

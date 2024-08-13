@@ -17,7 +17,9 @@ import com.hfing.shoesstore.Model.Category;
 import com.hfing.shoesstore.Model.Product;
 import com.hfing.shoesstore.R;
 
+import java.text.NumberFormat;
 import java.util.List;
+import java.util.Locale;
 
 public class ProductAdapter extends BaseAdapter {
     List<Product> products;
@@ -58,7 +60,8 @@ public class ProductAdapter extends BaseAdapter {
 
         tvName.setText(product.getName());
         tvDescription.setText(product.getDescription());
-        tvPrice.setText(String.valueOf(product.getPrice()));
+        NumberFormat formatter = NumberFormat.getCurrencyInstance(new Locale("vi", "VN"));
+        tvPrice.setText(formatter.format(product.getPrice()));
         byte[] imageBytes = product.getImage();
         if (imageBytes != null) {
             Bitmap bitmap = BitmapFactory.decodeByteArray(imageBytes, 0, imageBytes.length);

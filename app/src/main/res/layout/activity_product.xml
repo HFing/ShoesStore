@@ -54,6 +54,7 @@
                 android:layout_height="wrap_content"
                 android:hint="Nhap Gia San Pham"
                 android:textSize="22dp"
+                android:inputType="number|numberDecimal|numberSigned"
                 android:padding="12dp"
                 android:background="@color/white"/>
             <Spinner
