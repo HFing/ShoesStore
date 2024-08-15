@@ -35,10 +35,10 @@ import java.util.List;
 
 public class BaseActivity extends AppCompatActivity implements RecycleViewOnItemClickListener {
 
-    private UsersDAO usersDAO = new UsersDAO(BaseActivity.this);
+    private final UsersDAO  usersDAO = new UsersDAO(BaseActivity.this);
     private User user;
-    private ProductDAO productDAO = new ProductDAO(BaseActivity.this);
-    private CategoryDAO categoryDAO = new CategoryDAO(BaseActivity.this);
+    private final ProductDAO productDAO = new ProductDAO(BaseActivity.this);
+    private final CategoryDAO categoryDAO = new CategoryDAO(BaseActivity.this);
     ArrayList<Product> productListAfterFilter = new ArrayList<>();
     TextView nameOfUser;
     ViewPager2 viewpagerProductSlider;
@@ -158,6 +158,16 @@ public class BaseActivity extends AppCompatActivity implements RecycleViewOnItem
             @Override
             public void afterTextChanged(Editable s) {
                 // Không cần xử lý
+            }
+        });
+
+        ImageView orderIMV = findViewById(R.id.imageView44);
+        orderIMV.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(BaseActivity.this, OrderListActivity.class);
+                intent.putExtra("id", user.getId());
+                startActivity(intent);
             }
         });
 
