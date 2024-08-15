@@ -434,17 +434,17 @@ public class DBHelper extends SQLiteOpenHelper {
                 db.execSQL("INSERT INTO OrderDetail (order_id, product_id, product_size_id, quantity, unit_price) VALUES (11, 9, 17, 2, 3150000.0);");
                 db.execSQL("INSERT INTO OrderDetail (order_id, product_id, product_size_id, quantity, unit_price) VALUES (12, 10, 21, 2, 4150000.0);");
 
-                db.execSQL("INSERT INTO Review (user_id, product_id, rating, comment, review_date) VALUES (3, 3, 4, 'Good quality.', '2024-08-07');");
-                db.execSQL("INSERT INTO Review (user_id, product_id, rating, comment, review_date) VALUES (3, 4, 5, 'Very comfortable.', '2024-08-08');");
-                db.execSQL("INSERT INTO Review (user_id, product_id, rating, comment, review_date) VALUES (3, 5, 3, 'Not bad.', '2024-08-09');");
-                db.execSQL("INSERT INTO Review (user_id, product_id, rating, comment, review_date) VALUES (3, 6, 4, 'Satisfying purchase.', '2024-08-10');");
-                db.execSQL("INSERT INTO Review (user_id, product_id, rating, comment, review_date) VALUES (3, 7, 5, 'Excellent!', '2024-08-11');");
+                db.execSQL("INSERT INTO Review (user_id, product_id, rating, comment, date) VALUES (3, 3, 4, 'Good quality.', '2024-08-07');");
+                db.execSQL("INSERT INTO Review (user_id, product_id, rating, comment, date) VALUES (3, 4, 5, 'Very comfortable.', '2024-08-08');");
+                db.execSQL("INSERT INTO Review (user_id, product_id, rating, comment, date) VALUES (3, 5, 3, 'Not bad.', '2024-08-09');");
+                db.execSQL("INSERT INTO Review (user_id, product_id, rating, comment, date) VALUES (3, 6, 4, 'Satisfying purchase.', '2024-08-10');");
+                db.execSQL("INSERT INTO Review (user_id, product_id, rating, comment, date) VALUES (3, 7, 5, 'Excellent!', '2024-08-11');");
 
-                db.execSQL("INSERT INTO Review (user_id, product_id, rating, comment, review_date) VALUES (4, 8, 4, 'Worth the price.', '2024-08-07');");
-                db.execSQL("INSERT INTO Review (user_id, product_id, rating, comment, review_date) VALUES (4, 9, 3, 'Average product.', '2024-08-08');");
-                db.execSQL("INSERT INTO Review (user_id, product_id, rating, comment, review_date) VALUES (4, 10, 5, 'Highly recommended.', '2024-08-09');");
-                db.execSQL("INSERT INTO Review (user_id, product_id, rating, comment, review_date) VALUES (4, 11, 4, 'Great purchase.', '2024-08-10');");
-                db.execSQL("INSERT INTO Review (user_id, product_id, rating, comment, review_date) VALUES (4, 1, 5, 'Amazing quality.', '2024-08-11');");
+                db.execSQL("INSERT INTO Review (user_id, product_id, rating, comment, date) VALUES (4, 8, 4, 'Worth the price.', '2024-08-07');");
+                db.execSQL("INSERT INTO Review (user_id, product_id, rating, comment, date) VALUES (4, 9, 3, 'Average product.', '2024-08-08');");
+                db.execSQL("INSERT INTO Review (user_id, product_id, rating, comment, date) VALUES (4, 10, 5, 'Highly recommended.', '2024-08-09');");
+                db.execSQL("INSERT INTO Review (user_id, product_id, rating, comment, date) VALUES (4, 11, 4, 'Great purchase.', '2024-08-10');");
+                db.execSQL("INSERT INTO Review (user_id, product_id, rating, comment, date) VALUES (4, 1, 5, 'Amazing quality.', '2024-08-11');");
         }
 
         public byte[] getBytesFromDrawable(int drawableId, String typeImage) {
