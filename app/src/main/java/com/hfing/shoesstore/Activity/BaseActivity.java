@@ -19,7 +19,7 @@ import androidx.viewpager2.widget.ViewPager2;
 
 import com.hfing.shoesstore.Adapter.CategoryBaseViewAdapter;
 import com.hfing.shoesstore.Adapter.ProductAdapterRCM;
-import com.hfing.shoesstore.Adapter.SliderAdapter;
+import com.hfing.shoesstore.Adapter.BannerSliderAdapter;
 import com.hfing.shoesstore.Adapter.RecycleViewOnItemClickListener;
 import com.hfing.shoesstore.DAO.CategoryDAO;
 import com.hfing.shoesstore.DAO.ProductDAO;
@@ -39,6 +39,7 @@ public class BaseActivity extends AppCompatActivity implements RecycleViewOnItem
     private User user;
     private ProductDAO productDAO = new ProductDAO(BaseActivity.this);
     private CategoryDAO categoryDAO = new CategoryDAO(BaseActivity.this);
+    ArrayList<Product> productListAfterFilter = new ArrayList<>();
     TextView nameOfUser;
     ViewPager2 viewpagerProductSlider;
     DotsIndicator dotsIndicator_ProductSlider_baseView;
@@ -84,8 +85,8 @@ public class BaseActivity extends AppCompatActivity implements RecycleViewOnItem
         viewpagerProductSlider = findViewById(R.id.viewpagerProductSlider);
         dotsIndicator_ProductSlider_baseView = findViewById(R.id.dotsIndicator_ProductSlider_baseView);
 
-        SliderAdapter sliderAdapter = new SliderAdapter(this, imageResIds);
-        viewpagerProductSlider.setAdapter(sliderAdapter);
+        BannerSliderAdapter bannerSliderAdapter = new BannerSliderAdapter(this, imageResIds);
+        viewpagerProductSlider.setAdapter(bannerSliderAdapter);
         dotsIndicator_ProductSlider_baseView.setViewPager2(viewpagerProductSlider);
         //Hiển thị ProgressBar khi tải dữ liệu
         ProgressBar progressBarBaner = findViewById(R.id.progressBarBaner);
@@ -137,6 +138,8 @@ public class BaseActivity extends AppCompatActivity implements RecycleViewOnItem
                         filteredProducts.add(product);
                     }
                 }
+                productListAfterFilter.clear();
+                productListAfterFilter.addAll(filteredProducts);
                 // Cập nhật adapter với danh sách sản phẩm đã lọc
                 productAdapter.updateProducts(filteredProducts);
 
@@ -161,8 +164,13 @@ public class BaseActivity extends AppCompatActivity implements RecycleViewOnItem
     }
     @Override
     public void onItemRecycleViewClick(int position) {
+        Product product;
+        if (productListAfterFilter.isEmpty()) {
+            product = productDAO.getAllProducts().get(position);
+        } else {
+            product = productListAfterFilter.get(position);
+        }
         Toast.makeText(this, "Item clicked at position: " + position, Toast.LENGTH_SHORT).show();
-        Product product = productDAO.getAllProducts().get(position);
         Intent detailIntent = new Intent(this, DetailActivity.class);
         detailIntent.putExtra("product_id", product.getId());
         detailIntent.putExtra("user_id", user.getId());

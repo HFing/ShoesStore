@@ -1,8 +1,6 @@
 package com.hfing.shoesstore.Adapter;
 
 import android.content.Context;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,17 +9,15 @@ import android.widget.ImageView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.hfing.shoesstore.Model.Product;
 import com.hfing.shoesstore.R;
 
-import java.util.ArrayList;
 import java.util.List;
 
-public class SliderAdapter extends RecyclerView.Adapter<SliderAdapter.ViewHolder> {
+public class BannerSliderAdapter extends RecyclerView.Adapter<BannerSliderAdapter.ViewHolder> {
     private List<Integer> imageResIds;
     private Context context;
 
-    public SliderAdapter(Context context, List<Integer> imageResIds) {
+    public BannerSliderAdapter(Context context, List<Integer> imageResIds) {
         this.context = context;
         this.imageResIds = imageResIds;
     }
