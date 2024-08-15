@@ -3,6 +3,7 @@ package com.hfing.shoesstore.Model;
 public class CartItem {
     private int id;
     private int cart_id;
+    private int product_id;
     private int product_size_id;
     private int quantity;
 
@@ -20,6 +21,14 @@ public class CartItem {
 
     public void setCart_id(int cart_id) {
         this.cart_id = cart_id;
+    }
+
+    public int getProduct_id() {
+        return product_id;
+    }
+
+    public void setProduct_id(int product_id) {
+        this.product_id = product_id;
     }
 
     public int getProduct_size_id() {

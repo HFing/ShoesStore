@@ -3,6 +3,7 @@ package com.hfing.shoesstore.Model;
 public class OrderDetail {
     private int id;
     private int order_id;
+    private int product_id;
     private int product_size_id;
     private int quantity;
     private double unit_price;
@@ -21,6 +22,14 @@ public class OrderDetail {
 
     public void setOrder_id(int order_id) {
         this.order_id = order_id;
+    }
+
+    public int getProduct_id() {
+        return product_id;
+    }
+
+    public void setProduct_id(int product_id) {
+        this.product_id = product_id;
     }
 
     public int getProduct_size_id() {
