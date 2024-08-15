@@ -12,20 +12,33 @@
         android:text="Order ID" />
 
     <TextView
-        android:id="@+id/tvUserId"
+        android:id="@+id/tvProductId"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="User ID" />
+        android:text="Product ID" />
 
     <TextView
-        android:id="@+id/tvProductName"
+        android:id="@+id/tvProductSizeId"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Product Name" />
+        android:text="Product Size ID" />
 
     <TextView
-        android:id="@+id/tvProductPrice"
+        android:id="@+id/tvQuantity"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Product Price" />
+        android:text="Quantity" />
+
+    <TextView
+        android:id="@+id/tvUnitPrice"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Unit Price" />
+
+    <TextView
+        android:id="@+id/tvDate"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="DateOrder" />
+
 </LinearLayout>
