@@ -209,7 +209,7 @@ public class OrderAdapter extends BaseAdapter {
         Product product = productDAO.getProductById(orderDetail.getProduct_id());
         tvProductId.setText(product.getName());
         ProductSize productSize = productSizeDAO.getProductSizeById(orderDetail.getProduct_size_id());
-        tvProductSizeId.setText(productSize.getSize());
+        tvProductSizeId.setText(String.valueOf(productSize.getSize()));
         tvQuantity.setText(String.valueOf(orderDetail.getQuantity()));
         tvUnitPrice.setText(String.valueOf(orderDetail.getUnit_price()));
         Orders order = orderDAO.getOrderById(orderDetail.getOrder_id());
