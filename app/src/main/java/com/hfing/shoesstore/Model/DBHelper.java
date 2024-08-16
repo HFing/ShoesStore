@@ -423,16 +423,16 @@ public class DBHelper extends SQLiteOpenHelper {
                 db.execSQL("INSERT INTO Orders (user_id, order_date) VALUES (4, '2024-08-10');");
                 db.execSQL("INSERT INTO Orders (user_id, order_date) VALUES (4, '2024-08-11');");
 
-                db.execSQL("INSERT INTO OrderDetail (order_id, product_id, product_size_id, quantity, unit_price) VALUES (3, 1, 4, 1, 4500000.0);");
-                db.execSQL("INSERT INTO OrderDetail (order_id, product_id, product_size_id, quantity, unit_price) VALUES (4, 2, 8, 1, 3500000.0);");
-                db.execSQL("INSERT INTO OrderDetail (order_id, product_id, product_size_id, quantity, unit_price) VALUES (5, 3, 12, 1, 3800000.0);");
-                db.execSQL("INSERT INTO OrderDetail (order_id, product_id, product_size_id, quantity, unit_price) VALUES (6, 4, 16, 1, 2500000.0);");
-                db.execSQL("INSERT INTO OrderDetail (order_id, product_id, product_size_id, quantity, unit_price) VALUES (7, 5, 20, 1, 5000000.0);");
-                db.execSQL("INSERT INTO OrderDetail (order_id, product_id, product_size_id, quantity, unit_price) VALUES (8, 6, 5, 2, 4150000.0);");
-                db.execSQL("INSERT INTO OrderDetail (order_id, product_id, product_size_id, quantity, unit_price) VALUES (9, 7, 9, 2, 5250000.0);");
-                db.execSQL("INSERT INTO OrderDetail (order_id, product_id, product_size_id, quantity, unit_price) VALUES (10, 8, 13, 2, 5050000.0);");
-                db.execSQL("INSERT INTO OrderDetail (order_id, product_id, product_size_id, quantity, unit_price) VALUES (11, 9, 17, 2, 3150000.0);");
-                db.execSQL("INSERT INTO OrderDetail (order_id, product_id, product_size_id, quantity, unit_price) VALUES (12, 10, 21, 2, 4150000.0);");
+                db.execSQL("INSERT INTO OrderDetail (order_id, product_id, product_size_id, quantity, unit_price) VALUES (1, 1, 4, 1, 4500000.0);");
+                db.execSQL("INSERT INTO OrderDetail (order_id, product_id, product_size_id, quantity, unit_price) VALUES (2, 2, 8, 1, 3500000.0);");
+                db.execSQL("INSERT INTO OrderDetail (order_id, product_id, product_size_id, quantity, unit_price) VALUES (3, 3, 12, 1, 3800000.0);");
+                db.execSQL("INSERT INTO OrderDetail (order_id, product_id, product_size_id, quantity, unit_price) VALUES (4, 4, 16, 1, 2500000.0);");
+                db.execSQL("INSERT INTO OrderDetail (order_id, product_id, product_size_id, quantity, unit_price) VALUES (5, 5, 20, 1, 5000000.0);");
+                db.execSQL("INSERT INTO OrderDetail (order_id, product_id, product_size_id, quantity, unit_price) VALUES (6, 6, 5, 2, 4150000.0);");
+                db.execSQL("INSERT INTO OrderDetail (order_id, product_id, product_size_id, quantity, unit_price) VALUES (7, 7, 9, 2, 5250000.0);");
+                db.execSQL("INSERT INTO OrderDetail (order_id, product_id, product_size_id, quantity, unit_price) VALUES (8, 8, 13, 2, 5050000.0);");
+                db.execSQL("INSERT INTO OrderDetail (order_id, product_id, product_size_id, quantity, unit_price) VALUES (9, 9, 17, 2, 3150000.0);");
+                db.execSQL("INSERT INTO OrderDetail (order_id, product_id, product_size_id, quantity, unit_price) VALUES (10, 10, 21, 2, 4150000.0);");
 
                 db.execSQL("INSERT INTO Review (user_id, product_id, rating, comment, date) VALUES (3, 3, 4, 'Good quality.', '2024-08-07');");
                 db.execSQL("INSERT INTO Review (user_id, product_id, rating, comment, date) VALUES (3, 4, 5, 'Very comfortable.', '2024-08-08');");
