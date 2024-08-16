@@ -8,11 +8,14 @@ import android.database.sqlite.SQLiteDatabase;
 
 import com.hfing.shoesstore.Model.DBHelper;
 import com.hfing.shoesstore.Model.Review;
+import com.hfing.shoesstore.Model.User;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.Date;
 import java.util.List;
 
 public class ReviewDAO {
@@ -22,6 +25,8 @@ public class ReviewDAO {
     public ReviewDAO(Context context) {
         dbHelper = new DBHelper(context);
     }
+    public UsersDAO usersDAO;
+    public Context context;
 
     @SuppressLint("Range")
     public List<Review> getAllReviews() {
@@ -102,14 +107,58 @@ public class ReviewDAO {
         return result;
     }
 
+//    @SuppressLint("Range")
+//    public List<Review> getReviewsByProductId(int product_id) {
+//        ArrayList<Review> reviews = new ArrayList<>();
+//        SQLiteDatabase db = dbHelper.getReadableDatabase();
+//        Cursor cursor = null;
+//        try {
+//            String query = "SELECT * FROM review WHERE product_id = ?";
+//            cursor = db.rawQuery(query, new String[]{String.valueOf(product_id)});
+//            if (cursor.moveToFirst()) {
+//                do {
+//                    Review review = new Review();
+//                    review.setId(cursor.getInt(cursor.getColumnIndex(DBHelper.COLUMN_REVIEW_ID)));
+//                    review.setRating(cursor.getInt(cursor.getColumnIndex(DBHelper.COLUMN_REVIEW_RATING)));
+//                    review.setComment(cursor.getString(cursor.getColumnIndex(DBHelper.COLUMN_REVIEW_COMMENT)));
+//                    review.setUser_id(cursor.getInt(cursor.getColumnIndex(DBHelper.COLUMN_REVIEW_USER_ID)));
+//                    review.setProduct_id(cursor.getInt(cursor.getColumnIndex(DBHelper.COLUMN_REVIEW_PRODUCT_ID)));
+//                    reviews.add(review);
+//                } while (cursor.moveToNext());
+//            }
+//        } catch (Exception e) {
+//            throw new RuntimeException(e);
+//        } finally {
+//            if (cursor != null) {
+//                cursor.close();
+//            }
+//            db.close();
+//        }
+//
+//        Collections.sort(reviews, new Comparator<Review>() {
+//            @Override
+//            public int compare(Review review1, Review review2) {
+//                try {
+//                    return dateFormater.parse(review2.getDate()).compareTo(dateFormater.parse(review1.getDate()));
+//                } catch (Exception e) {
+//                    throw new RuntimeException(e);
+//                }
+//            }
+//        });
+//
+//        return reviews != null ? reviews : new ArrayList<>();
+//    }
+
     @SuppressLint("Range")
     public List<Review> getReviewsByProductId(int product_id) {
+        usersDAO = new UsersDAO(context);
         ArrayList<Review> reviews = new ArrayList<>();
         SQLiteDatabase db = dbHelper.getReadableDatabase();
         Cursor cursor = null;
         try {
             String query = "SELECT * FROM review WHERE product_id = ?";
-            cursor = db.rawQuery(query, new String[]{String.valueOf(product_id)});
+//            cursor = db.rawQuery(query, new String[]{String.valueOf(product_id)});
+            cursor = db.query(DBHelper.TABLE_REVIEW, null, DBHelper.COLUMN_REVIEW_PRODUCT_ID + "=?", new String[]{String.valueOf(product_id)}, null, null, null);
             if (cursor.moveToFirst()) {
                 do {
                     Review review = new Review();
@@ -134,7 +183,12 @@ public class ReviewDAO {
             @Override
             public int compare(Review review1, Review review2) {
                 try {
-                    return dateFormater.parse(review2.getDate()).compareTo(dateFormater.parse(review1.getDate()));
+                    String dateStr1 = review1.getDate();
+                    String dateStr2 = review2.getDate();
+                    if (dateStr1 == null || dateStr2 == null) {
+                        return 0; // Handle null dates
+                    }
+                    return dateFormater.parse(dateStr2).compareTo(dateFormater.parse(dateStr1));
                 } catch (Exception e) {
                     throw new RuntimeException(e);
                 }

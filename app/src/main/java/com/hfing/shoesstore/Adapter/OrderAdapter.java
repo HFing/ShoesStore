@@ -157,7 +157,9 @@ import com.hfing.shoesstore.Model.Product;
 import com.hfing.shoesstore.Model.ProductSize;
 import com.hfing.shoesstore.R;
 
+import java.text.NumberFormat;
 import java.util.List;
+import java.util.Locale;
 
 public class OrderAdapter extends BaseAdapter {
 
@@ -205,15 +207,24 @@ public class OrderAdapter extends BaseAdapter {
         TextView tvUnitPrice = convertView.findViewById(R.id.tvUnitPrice);
         TextView tvDate = convertView.findViewById(R.id.tvDate);
 
-        tvOrderId.setText(String.valueOf(orderDetail.getOrder_id()));
+        tvOrderId.setText("OrderID: " + String.valueOf(orderDetail.getOrder_id()));
         Product product = productDAO.getProductById(orderDetail.getProduct_id());
         tvProductId.setText(product.getName());
         ProductSize productSize = productSizeDAO.getProductSizeById(orderDetail.getProduct_size_id());
-        tvProductSizeId.setText(String.valueOf(productSize.getSize()));
-        tvQuantity.setText(String.valueOf(orderDetail.getQuantity()));
-        tvUnitPrice.setText(String.valueOf(orderDetail.getUnit_price()));
+        tvProductSizeId.setText("Size: " + String.valueOf(productSize.getSize()));
+        tvQuantity.setText(String.valueOf("Quantity:" + orderDetail.getQuantity()));
+        NumberFormat formatter = NumberFormat.getCurrencyInstance(new Locale("vi", "VN"));
+        tvUnitPrice.setText("Price: " + formatter.format(orderDetail.getUnit_price()));
         Orders order = orderDAO.getOrderById(orderDetail.getOrder_id());
-        tvDate.setText(order.getOrder_date());
+        tvDate.setText("OrderDate: " + order.getOrder_date());
+
+        tvOrderId.setText(tvOrderId.getText(), TextView.BufferType.SPANNABLE);
+        tvProductId.setText(tvProductId.getText(), TextView.BufferType.SPANNABLE);
+        tvProductSizeId.setText(tvProductSizeId.getText(), TextView.BufferType.SPANNABLE);
+        tvQuantity.setText(tvQuantity.getText(), TextView.BufferType.SPANNABLE);
+        tvUnitPrice.setText(tvUnitPrice.getText(), TextView.BufferType.SPANNABLE);
+        tvDate.setText(tvDate.getText(), TextView.BufferType.SPANNABLE);
+
 
         return convertView;
     }

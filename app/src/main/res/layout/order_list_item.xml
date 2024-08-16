@@ -15,13 +15,15 @@
         android:id="@+id/tvProductId"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Product ID" />
+        android:text="Product ID"
+        android:textStyle="bold" />
 
     <TextView
         android:id="@+id/tvProductSizeId"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Product Size ID" />
+        android:text="Product Size ID"
+        android:textStyle="bold"/>
 
     <TextView
         android:id="@+id/tvQuantity"
@@ -33,7 +35,9 @@
         android:id="@+id/tvUnitPrice"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Unit Price" />
+        android:text="Unit Price"
+        android:textColor="@android:color/holo_red_dark"
+        android:textStyle="bold"/>
 
     <TextView
         android:id="@+id/tvDate"

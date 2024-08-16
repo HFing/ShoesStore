@@ -40,6 +40,7 @@ public class BaseActivity extends AppCompatActivity implements RecycleViewOnItem
     private User user;
     private final ProductDAO productDAO = new ProductDAO(BaseActivity.this);
     private final CategoryDAO categoryDAO = new CategoryDAO(BaseActivity.this);
+
     ArrayList<Product> productListAfterFilter = new ArrayList<>();
     TextView nameOfUser;
     ViewPager2 viewpagerProductSlider;
@@ -47,7 +48,7 @@ public class BaseActivity extends AppCompatActivity implements RecycleViewOnItem
     RecyclerView viewCategory_baseview, viewPopular;
     ProgressBar progressBarPopular;
     EditText searchEditText;
-    ImageView searchBtn;
+    ImageView searchBtn, cartBtn;
     LinearLayout orderHistoryLayout;
 
     @SuppressLint("MissingInflatedId")
@@ -56,6 +57,15 @@ public class BaseActivity extends AppCompatActivity implements RecycleViewOnItem
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_base);
 
+        cartBtn = findViewById(R.id.cartBtn);
+        cartBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent cartIntent = new Intent(BaseActivity.this, CartActivity.class);
+                cartIntent.putExtra("user_id", user.getId());
+                startActivity(cartIntent);
+            }
+        });
         TextView noResultsTextView = findViewById(R.id.noResultsTextView);
         TextView headTextView = findViewById(R.id.textView8);
         //Xác định User đang thực hiện

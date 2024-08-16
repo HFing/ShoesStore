@@ -39,7 +39,11 @@ public class ReviewAdapter extends RecyclerView.Adapter<ReviewAdapter.ReviewView
         Review review = reviews.get(position);
         UsersDAO usersDAO = new UsersDAO(context);
         User user = usersDAO.getUserById(review.getUser_id());
-        holder.nameTxt.setText(user.getName());
+        if (user != null) {
+            holder.nameTxt.setText(user.getName());
+        } else {
+            holder.nameTxt.setText("Unknown User");
+        }
         holder.ratingTxt.setText(String.valueOf(review.getRating()));
         holder.commentTxt.setText(review.getComment());
     }
