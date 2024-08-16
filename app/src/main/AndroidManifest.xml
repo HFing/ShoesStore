@@ -16,7 +16,7 @@
             android:name=".Activity.OrderListActivity"
             android:exported="false" />
         <activity
-            android:name=".Activity.SearchResultsActivity"
+            android:name=".Activity.CartActivity"
             android:exported="false" />
         <activity
             android:name=".Activity.DetailActivity"

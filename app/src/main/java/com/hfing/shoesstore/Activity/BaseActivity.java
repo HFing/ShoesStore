@@ -182,7 +182,6 @@ public class BaseActivity extends AppCompatActivity implements RecycleViewOnItem
         } else {
             product = productListAfterFilter.get(position);
         }
-        Toast.makeText(this, "Item clicked at position: " + position, Toast.LENGTH_SHORT).show();
         Intent detailIntent = new Intent(this, DetailActivity.class);
         detailIntent.putExtra("product_id", product.getId());
         detailIntent.putExtra("user_id", user.getId());

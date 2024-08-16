@@ -16,9 +16,15 @@ import java.util.List;
 public class ProductSizeAdapter extends RecyclerView.Adapter<ProductSizeAdapter.ViewHolder> {
 
     private List<ProductSize> productSizes;
+    private int selectedPosition = -1;
+    private OnSizeClickListener onSizeClickListener;
 
     public ProductSizeAdapter(List<ProductSize> productSizes) {
         this.productSizes = productSizes;
+    }
+
+    public void setOnSizeClickListener(OnSizeClickListener onSizeClickListener) {
+        this.onSizeClickListener = onSizeClickListener;
     }
 
     @NonNull
@@ -32,11 +38,30 @@ public class ProductSizeAdapter extends RecyclerView.Adapter<ProductSizeAdapter.
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         ProductSize productSize = productSizes.get(position);
         holder.sizeTextView.setText(String.valueOf(productSize.getSize()));
+        if (selectedPosition == position){
+            holder.itemView.setBackgroundResource(R.drawable.purple_bg);
+        }else{
+            holder.itemView.setBackgroundResource(R.drawable.white_bg);
+        }
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                selectedPosition = holder.getAdapterPosition();
+                notifyDataSetChanged();
+                if (onSizeClickListener != null){
+                    onSizeClickListener.onSizeSelected(productSize);
+                }
+            }
+        });
     }
 
     @Override
     public int getItemCount() {
         return productSizes.size();
+    }
+
+    public interface OnSizeClickListener {
+        void onSizeSelected(ProductSize productSize);
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {

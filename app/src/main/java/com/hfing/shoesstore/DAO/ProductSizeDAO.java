@@ -128,7 +128,7 @@ public class ProductSizeDAO {
         SQLiteDatabase db = dbHelper.getReadableDatabase();
         Cursor cursor = null;
         try {
-            String query = "SELECT * FROM " + DBHelper.TABLE_PRODUCTSIZE + " WHERE " + DBHelper.COLUMN_PRODUCT_ID + " = ?";
+            String query = "SELECT * FROM " + DBHelper.TABLE_PRODUCTSIZE + " WHERE " + DBHelper.COLUMN_PRODUCTSIZE_PRODUCT_ID + " = ?";
             cursor = db.rawQuery(query, new String[]{String.valueOf(product.getId())});
             if (cursor.moveToFirst()) {
                 do {
