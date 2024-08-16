@@ -2,6 +2,7 @@ package com.hfing.shoesstore.Activity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.widget.ImageView;
 import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -38,6 +39,9 @@ public class OrderListActivity extends AppCompatActivity {
         if (user == null) {
             return;
         }
+
+        ImageView backBtn = findViewById(R.id.backBtn);
+        backBtn.setOnClickListener(v -> finish());
 
         List<OrderDetail> orderDetailList = orderDetailDAO.getOrderDetailsByUserId(user.getId());
         orderHistoryAdapter = new OrderHistoryAdapter(orderDetailList, this);
