@@ -92,6 +92,7 @@ import com.hfing.shoesstore.Model.Orders;
 import com.hfing.shoesstore.Model.Product;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class OrderDetailDAO {
     private SQLiteOpenHelper dbHelper;
@@ -140,62 +141,41 @@ public class OrderDetailDAO {
         return orderDetails;
     }
 
+
     @SuppressLint("Range")
-    public int getUserIdByName(String username) {
-        int userId = -1;
+    public List<OrderDetail> getOrderDetailsByUserId(int userId) {
+        List<OrderDetail> orderDetails = new ArrayList<>();
+        SQLiteDatabase db = dbHelper.getReadableDatabase();
         Cursor cursor = null;
-        try {
-            cursor = database.rawQuery("SELECT id FROM User WHERE username = ?", new String[]{username});
-            if (cursor.moveToFirst()) {
-                userId = cursor.getInt(cursor.getColumnIndex("id"));
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        } finally {
-            if (cursor != null) {
-                cursor.close();
-            }
-        }
-        return userId;
-    }
 
-    public ArrayList<String> getUsers() {
-        ArrayList<String> users = new ArrayList<>();
-        Cursor cursor = null;
         try {
-            cursor = database.rawQuery("SELECT username FROM User", null);
+            String query = "SELECT * FROM " + DBHelper.TABLE_ORDERDETAIL + " WHERE " + DBHelper.COLUMN_ORDERDETAIL_ORDER_ID + " IN (SELECT " + DBHelper.COLUMN_ORDERS_ID + " FROM " + DBHelper.TABLE_ORDERS + " WHERE " + DBHelper.COLUMN_ORDERS_USER_ID + " = ?)";
+            cursor = db.rawQuery(query, new String[]{String.valueOf(userId)});
+
             if (cursor.moveToFirst()) {
                 do {
-                    users.add(cursor.getString(0));
+                    OrderDetail orderDetail = new OrderDetail();
+                    orderDetail.setId(cursor.getInt(cursor.getColumnIndex(DBHelper.COLUMN_ORDERDETAIL_ID)));
+                    orderDetail.setOrder_id(cursor.getInt(cursor.getColumnIndex(DBHelper.COLUMN_ORDERDETAIL_ORDER_ID)));
+                    orderDetail.setProduct_id(cursor.getInt(cursor.getColumnIndex(DBHelper.COLUMN_ORDERDETAIL_PRODUCT_ID)));
+                    orderDetail.setProduct_size_id(cursor.getInt(cursor.getColumnIndex(DBHelper.COLUMN_ORDERDETAIL_PRODUCT_SIZE_ID)));
+                    orderDetail.setQuantity(cursor.getInt(cursor.getColumnIndex(DBHelper.COLUMN_ORDERDETAIL_QUANTITY)));
+                    orderDetail.setUnit_price(cursor.getDouble(cursor.getColumnIndex(DBHelper.COLUMN_ORDERDETAIL_UNIT_PRICE)));
+                    orderDetails.add(orderDetail);
                 } while (cursor.moveToNext());
             }
         } catch (Exception e) {
-            e.printStackTrace();
+            throw new RuntimeException(e);
         } finally {
             if (cursor != null) {
                 cursor.close();
             }
+            db.close();
         }
-        return users;
+
+        return orderDetails;
     }
 
-    public ArrayList<String> getCategories() {
-        ArrayList<String> categories = new ArrayList<>();
-        Cursor cursor = null;
-        try {
-            cursor = database.rawQuery("SELECT name FROM Category", null);
-            if (cursor.moveToFirst()) {
-                do {
-                    categories.add(cursor.getString(0));
-                } while (cursor.moveToNext());
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        } finally {
-            if (cursor != null) {
-                cursor.close();
-            }
-        }
-        return categories;
-    }
+
+
 }

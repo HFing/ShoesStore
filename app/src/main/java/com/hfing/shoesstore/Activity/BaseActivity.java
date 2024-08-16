@@ -8,6 +8,7 @@ import android.text.TextWatcher;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -47,6 +48,7 @@ public class BaseActivity extends AppCompatActivity implements RecycleViewOnItem
     ProgressBar progressBarPopular;
     EditText searchEditText;
     ImageView searchBtn;
+    LinearLayout orderHistoryLayout;
 
     @SuppressLint("MissingInflatedId")
     @Override
@@ -161,8 +163,8 @@ public class BaseActivity extends AppCompatActivity implements RecycleViewOnItem
             }
         });
 
-        ImageView orderIMV = findViewById(R.id.imageView44);
-        orderIMV.setOnClickListener(new View.OnClickListener() {
+        orderHistoryLayout = findViewById(R.id.orderhistory);
+        orderHistoryLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(BaseActivity.this, OrderListActivity.class);
