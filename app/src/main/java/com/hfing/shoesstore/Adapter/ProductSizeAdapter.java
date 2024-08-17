@@ -40,8 +40,10 @@ public class ProductSizeAdapter extends RecyclerView.Adapter<ProductSizeAdapter.
         holder.sizeTextView.setText(String.valueOf(productSize.getSize()));
         if (selectedPosition == position){
             holder.itemView.setBackgroundResource(R.drawable.purple_bg);
+            holder.sizeTextView.setTextColor(holder.itemView.getResources().getColor(R.color.white));
         }else{
             holder.itemView.setBackgroundResource(R.drawable.white_bg);
+            holder.sizeTextView.setTextColor(holder.itemView.getResources().getColor(R.color.black));
         }
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override

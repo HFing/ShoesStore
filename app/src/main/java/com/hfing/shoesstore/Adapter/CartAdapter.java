@@ -82,10 +82,17 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.CartViewHolder
                 notifyItemChanged(position);
                 onQuantityChangeListener.onQuantityChanged();
             } else {
-                cartItemDAO.deleteCartItem(cartItem.getId());
-                cartItems.remove(position);
-                notifyItemRemoved(position);
-                onQuantityChangeListener.onQuantityChanged();
+//                cartItemDAO.deleteCartItem(cartItem.getId());
+//                cartItems.remove(position);
+//                notifyItemRemoved(position);
+//                onQuantityChangeListener.onQuantityChanged();
+                int pos = holder.getAdapterPosition();
+                if (pos != RecyclerView.NO_POSITION && pos < cartItems.size()) {
+                    cartItemDAO.deleteCartItem(cartItem.getId());
+                    cartItems.remove(pos);
+                    notifyItemRemoved(pos);
+                    onQuantityChangeListener.onQuantityChanged();
+                }
             }
         });
     }

@@ -112,115 +112,12 @@ public class DetailActivity extends AppCompatActivity {
         reviewList.setLayoutManager(new LinearLayoutManager(this));
         reviewList.setAdapter(reviewAdapter);
 
-
-//        btnAddToCart.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                if (selectedProductSize == null) {
-//                    Toast.makeText(DetailActivity.this, "Please select a size", Toast.LENGTH_SHORT).show();
-//                    return;
-//                }
-//                int quantity = 1;
-//                CartDAO cartDAO = new CartDAO(DetailActivity.this);
-//                CartItemDAO cartItemDAO = new CartItemDAO(DetailActivity.this);
-//                Cart cart = cartDAO.getCartByUserId(user_id);
-//                if (cart == null) {
-//                    cart = new Cart();
-//                    cart.setUser_id(user_id);
-//                    cartDAO.insertCart(cart);
-//                    cart = cartDAO.getCartByUserId(user_id);
-//                }
-//                CartItem cartItem = new CartItem();
-//                cartItem.setCart_id(cart.getId());
-//                cartItem.setProduct_id(product_id);
-//                cartItem.setProduct_size_id(selectedProductSize.getId());
-//                cartItem.setQuantity(quantity);
-//                if(cartItemDAO.addCartItem(cartItem) > 0) {
-//                    Intent cartIntent = new Intent(DetailActivity.this, CartActivity.class);
-//                    cartIntent.putExtra("user_id", user_id);
-//                    cartIntent.putExtra("product_id", product_id);
-//                    cartIntent.putExtra("product_size_id", selectedProductSize.getId());
-//                    startActivity(cartIntent);
-//                } else {
-//                    Toast.makeText(DetailActivity.this, "Add to cart failed", Toast.LENGTH_SHORT).show();
-//                }
-//            }
-//        });
-
-//        btnAddToCart.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                if (selectedProductSize == null) {
-//                    Toast.makeText(DetailActivity.this, "Please select a size", Toast.LENGTH_SHORT).show();
-//                    return;
-//                }
-//                int quantity = 1;
-//                CartDAO cartDAO = new CartDAO(DetailActivity.this);
-//                CartItemDAO cartItemDAO = new CartItemDAO(DetailActivity.this);
-//                Cart cart = cartDAO.getCartByUserId(user_id);
-//                if (cart == null) {
-//                    cart = new Cart();
-//                    cart.setUser_id(user_id);
-//                    cartDAO.insertCart(cart);
-//                    cart = cartDAO.getCartByUserId(user_id);
-//                }
-//                CartItem cartItem = new CartItem();
-//                cartItem.setCart_id(cart.getId());
-//                cartItem.setProduct_id(product_id);
-//                cartItem.setProduct_size_id(selectedProductSize.getId());
-//                cartItem.setQuantity(quantity);
-//                if(cartItemDAO.addCartItem(cartItem) > 0) {
-//                    Intent cartIntent = new Intent(DetailActivity.this, CartActivity.class);
-//                    cartIntent.putExtra("cart_id", cart.getId());
-//                    startActivity(cartIntent);
-//                } else {
-//                    Toast.makeText(DetailActivity.this, "Add to cart failed", Toast.LENGTH_SHORT).show();
-//                }
-//            }
-//        });
-//
-//        cartBtn.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                if (selectedProductSize == null) {
-//                    Toast.makeText(DetailActivity.this, "Please select a size", Toast.LENGTH_SHORT).show();
-//                    return;
-//                }
-//                int quantity = 1;
-//                CartDAO cartDAO = new CartDAO(DetailActivity.this);
-//                CartItemDAO cartItemDAO = new CartItemDAO(DetailActivity.this);
-//                Cart cart = cartDAO.getCartByUserId(user_id);
-//                if (cart == null) {
-//                    cart = new Cart();
-//                    cart.setUser_id(user_id);
-//                    cartDAO.insertCart(cart);
-//                    cart = cartDAO.getCartByUserId(user_id);
-//                }
-//                CartItem cartItem = new CartItem();
-//                cartItem.setCart_id(cart.getId());
-//                cartItem.setProduct_id(product_id);
-//                cartItem.setProduct_size_id(selectedProductSize.getId());
-//                cartItem.setQuantity(quantity);
-//                if (cartItemDAO.addCartItem(cartItem) > 0) {
-//                    Intent cartIntent = new Intent(DetailActivity.this, CartActivity.class);
-//                    cartIntent.putExtra("user_id", user_id);
-//                    cartIntent.putExtra("product_id", product_id);
-//                    cartIntent.putExtra("product_size_id", selectedProductSize.getId());
-//                    startActivity(cartIntent);
-//                } else {
-//                    Toast.makeText(DetailActivity.this, "Add to cart failed", Toast.LENGTH_SHORT).show();
-//                }
-//            }
-//        });
-//
-//
-//
-//        backBtn.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                finish();
-//            }
-//        });
+        backBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                finish();
+            }
+        });
 
 
         btnAddToCart.setOnClickListener(new View.OnClickListener() {

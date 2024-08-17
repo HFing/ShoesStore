@@ -247,6 +247,7 @@
 package com.hfing.shoesstore.DAO;
 
 import android.annotation.SuppressLint;
+import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
@@ -267,6 +268,54 @@ public class OrderDAO {
         dbHelper = new DBHelper(context);
         database = dbHelper.getWritableDatabase();
     }
+
+    @SuppressLint("Range")
+    public ArrayList<Orders> getAllOrders() {
+        ArrayList<Orders> orders = new ArrayList<>();
+        Cursor cursor = null;
+        try {
+            cursor = database.rawQuery("SELECT * FROM Orders", null);
+            if (cursor.moveToFirst()) {
+                do {
+                    Orders order = new Orders();
+                    order.setId(cursor.getInt(cursor.getColumnIndex("id")));
+                    order.setUser_id(cursor.getInt(cursor.getColumnIndex("user_id")));
+                    order.setOrder_date(cursor.getString(cursor.getColumnIndex("order_date")));
+                    orders.add(order);
+                } while (cursor.moveToNext());
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            if (cursor != null) {
+                cursor.close();
+            }
+        }
+        return orders;
+    }
+
+    public void insertOrder(Orders order) {
+        SQLiteDatabase db = dbHelper.getWritableDatabase();
+        ContentValues values = new ContentValues();
+        values.put("user_id", order.getUser_id());
+        values.put("order_date", order.getOrder_date());
+        db.insert("Orders", null, values);
+    }
+
+    @SuppressLint("Range")
+    public Orders getOrderByUserIdAndDate(int userId, String date) {
+        Cursor cursor = database.query("Orders", null, "user_id = ? AND order_date = ?", new String[]{String.valueOf(userId), date}, null, null, null);
+        if (cursor != null && cursor.moveToFirst()) {
+            Orders order = new Orders();
+            order.setId(cursor.getInt(cursor.getColumnIndex("id")));
+            order.setUser_id(cursor.getInt(cursor.getColumnIndex("user_id")));
+            order.setOrder_date(cursor.getString(cursor.getColumnIndex("order_date")));
+            cursor.close();
+            return order;
+        }
+        return null;
+    }
+
 
     @SuppressLint("Range")
     public ArrayList<OrderDetail> getOrderDetailsByUserAndCategory(int userId, String category) {

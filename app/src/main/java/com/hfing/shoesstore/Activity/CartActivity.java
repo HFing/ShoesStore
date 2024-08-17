@@ -129,16 +129,24 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.hfing.shoesstore.Adapter.CartAdapter;
 import com.hfing.shoesstore.DAO.CartDAO;
 import com.hfing.shoesstore.DAO.CartItemDAO;
+import com.hfing.shoesstore.DAO.OrderDAO;
 import com.hfing.shoesstore.DAO.OrderDetailDAO;
 import com.hfing.shoesstore.DAO.ProductDAO;
 import com.hfing.shoesstore.DAO.ProductSizeDAO;
+import com.hfing.shoesstore.DAO.UsersDAO;
 import com.hfing.shoesstore.Model.Cart;
 import com.hfing.shoesstore.Model.CartItem;
 import com.hfing.shoesstore.Model.OrderDetail;
+import com.hfing.shoesstore.Model.Orders;
 import com.hfing.shoesstore.Model.Product;
+import com.hfing.shoesstore.Model.User;
 import com.hfing.shoesstore.R;
 
+import java.text.DateFormat;
 import java.text.NumberFormat;
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
@@ -153,11 +161,23 @@ public class CartActivity extends AppCompatActivity implements CartAdapter.OnQua
     private OrderDetailDAO orderDetailDAO;
     private ImageView backBtn;
     private Button checkoutBtn;
+    private int user_id;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_cart);
+
+        Intent intent = getIntent();
+        user_id = intent.getIntExtra("user_id", -1);
+        UsersDAO usersDAO = new UsersDAO(this);
+        User user = usersDAO.getUserById(user_id);
+        if (user == null) {
+            Toast.makeText(this, "User not found", Toast.LENGTH_SHORT).show();
+            finish();
+            return;
+        }
+
 
         checkoutBtn = findViewById(R.id.checkoutBtn);
         backBtn = findViewById(R.id.backBtn);
@@ -181,9 +201,15 @@ public class CartActivity extends AppCompatActivity implements CartAdapter.OnQua
         checkoutBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                transferCartItemsToOrderHistory();
-                clearCart();
-                Toast.makeText(CartActivity.this, "Checkout thành công", Toast.LENGTH_SHORT).show();
+                if (cartItems.size() == 0) {
+                    Toast.makeText(CartActivity.this, "Cart is empty", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                else {
+                    transferCartItemsToOrderHistory();
+                    clearCart();
+                    Toast.makeText(CartActivity.this, "Checkout successfully", Toast.LENGTH_SHORT).show();
+                }
             }
         });
     }
@@ -231,9 +257,16 @@ public class CartActivity extends AppCompatActivity implements CartAdapter.OnQua
     }
 
     private void transferCartItemsToOrderHistory() {
+        OrderDAO ordersDAO = new OrderDAO(this);
+        Orders order = new Orders();
+        order.setUser_id(user_id);
+        String currentDateTime = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault()).format(new Date());
+        order.setOrder_date(currentDateTime);
+        ordersDAO.insertOrder(order);
+        Orders lastOrder = ordersDAO.getOrderByUserIdAndDate(user_id, currentDateTime);
         for (CartItem item : cartItems) {
             OrderDetail orderDetail = new OrderDetail();
-            orderDetail.setOrder_id(item.getCart_id());
+            orderDetail.setOrder_id(lastOrder.getId());
             orderDetail.setProduct_id(item.getProduct_id()); // Ensure product_id is set
             orderDetail.setProduct_size_id(item.getProduct_size_id());
             orderDetail.setQuantity(item.getQuantity());
