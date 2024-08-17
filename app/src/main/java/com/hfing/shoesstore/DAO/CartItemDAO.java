@@ -125,5 +125,17 @@ public class CartItemDAO {
             db.close();
         }
         return cartItems != null ? cartItems : new ArrayList<>();
+
+    }
+
+    public void deleteAllCartItemsByCartId(int cartId) {
+        SQLiteDatabase db = dbHelper.getWritableDatabase();
+        try {
+            db.delete(dbHelper.TABLE_CARTITEM, dbHelper.COLUMN_CARTITEM_CART_ID + " = ?", new String[]{String.valueOf(cartId)});
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        } finally {
+            db.close();
+        }
     }
 }

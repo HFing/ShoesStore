@@ -81,6 +81,7 @@
 package com.hfing.shoesstore.DAO;
 
 import android.annotation.SuppressLint;
+import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
@@ -103,6 +104,16 @@ public class OrderDetailDAO {
         dbHelper = new DBHelper(context);
         database = dbHelper.getWritableDatabase();
         productDAO = new ProductDAO(context);
+    }
+
+    public long insertOrderDetail(OrderDetail orderDetail) {
+        ContentValues values = new ContentValues();
+        values.put("order_id", orderDetail.getOrder_id());
+        values.put("product_id", orderDetail.getProduct_id());
+        values.put("product_size_id", orderDetail.getProduct_size_id());
+        values.put("quantity", orderDetail.getQuantity());
+        values.put("unit_price", orderDetail.getUnit_price());
+        return database.insert("OrderDetail", null, values);
     }
 
     @SuppressLint("Range")
