@@ -48,8 +48,8 @@ public class BaseActivity extends AppCompatActivity implements RecycleViewOnItem
     RecyclerView viewCategory_baseview, viewPopular;
     ProgressBar progressBarPopular;
     EditText searchEditText;
-    ImageView searchBtn, cartBtn;
-    LinearLayout orderHistoryLayout;
+    ImageView searchBtn;
+    LinearLayout orderHistoryLayout, cartLayout;
 
     @SuppressLint("MissingInflatedId")
     @Override
@@ -57,8 +57,8 @@ public class BaseActivity extends AppCompatActivity implements RecycleViewOnItem
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_base);
 
-        cartBtn = findViewById(R.id.cartBtn);
-        cartBtn.setOnClickListener(new View.OnClickListener() {
+        cartLayout = findViewById(R.id.cart);
+        cartLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent cartIntent = new Intent(BaseActivity.this, CartActivity.class);
