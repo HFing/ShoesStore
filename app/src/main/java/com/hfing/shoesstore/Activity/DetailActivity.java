@@ -120,21 +120,21 @@ public class DetailActivity extends AppCompatActivity {
         });
 
 
-        btnAddToCart.setOnClickListener(new View.OnClickListener() {
+        cartBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 addToCartAndNavigate(user.getId(), product.getId());
             }
         });
 
-        cartBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent cartIntent = new Intent(DetailActivity.this, CartActivity.class);
-                cartIntent.putExtra("user_id", user.getId());
-                startActivity(cartIntent);
-            }
-        });
+//        cartBtn.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                Intent cartIntent = new Intent(DetailActivity.this, CartActivity.class);
+//                cartIntent.putExtra("user_id", user.getId());
+//                startActivity(cartIntent);
+//            }
+//        });
     }
 
     private void addToCartAndNavigate(int user_id, int product_id) {

@@ -1,5 +1,6 @@
 package com.hfing.shoesstore.Adapter;
 
+import android.annotation.SuppressLint;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.view.LayoutInflater;
@@ -58,7 +59,7 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.CartViewHolder
         NumberFormat formatter = NumberFormat.getCurrencyInstance(new Locale("vi", "VN"));
         holder.tvProductPrice.setText("Price: " + formatter.format(product.getPrice()));
         holder.tvProductSize.setText("Size: " + productSize.getSize());
-        holder.tvProductQuantity.setText("Quantity: " + cartItem.getQuantity());
+        holder.tvProductQuantity.setText(String.valueOf(cartItem.getQuantity()));
 
         byte[] productImage = product.getImage();
         if (productImage != null) {
@@ -120,9 +121,10 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.CartViewHolder
 
     public static class CartViewHolder extends RecyclerView.ViewHolder {
         ImageView imgProduct;
-        TextView tvProductName, tvProductPrice, tvProductSize, tvProductQuantity;
-        Button btnIncrease, btnDecrease;
+        TextView tvProductName, tvProductPrice, tvProductSize, tvProductQuantity,btnIncrease, btnDecrease;
+//        Button btnIncrease, btnDecrease;
 
+        @SuppressLint("WrongViewCast")
         public CartViewHolder(@NonNull View itemView) {
             super(itemView);
             imgProduct = itemView.findViewById(R.id.imgProduct);
