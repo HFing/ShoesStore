@@ -1,0 +1,89 @@
+package com.hfing.shoesstore.Activity;
+
+import android.content.Intent;
+import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
+import android.widget.ImageView;
+import android.widget.TextView;
+import androidx.appcompat.app.AppCompatActivity;
+import com.hfing.shoesstore.DAO.UsersDAO;
+import com.hfing.shoesstore.Model.User;
+import com.hfing.shoesstore.R;
+
+public class ProfileActivity extends AppCompatActivity {
+    User user;
+    private ImageView backBtn;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_profile);
+
+        Intent intent = getIntent();
+        int user_id = intent.getIntExtra("user_id", -1);
+
+        UsersDAO usersDAO = new UsersDAO(this);
+        User currentUser = usersDAO.getUserById(user_id);
+
+        if (currentUser == null) {
+            // Handle user not found
+            finish();
+            return;
+        }
+
+        user = currentUser;
+
+        TextView tvUserName = findViewById(R.id.tvUserName);
+        TextView tvUserEmail = findViewById(R.id.tvUserEmail);
+        TextView tvUserAddress = findViewById(R.id.tvUserAddress);
+        TextView tvUserPhone = findViewById(R.id.tvUserPhone);
+        TextView tvUserGender = findViewById(R.id.tvUserGender);
+
+        backBtn = findViewById(R.id.backBtn);
+        backBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
+
+        tvUserName.setText(currentUser.getName());
+        tvUserEmail.setText(currentUser.getEmail());
+        tvUserAddress.setText(currentUser.getAddress());
+        tvUserPhone.setText(currentUser.getPhone());
+        tvUserGender.setText(currentUser.getGender() == 1 ? "Male" : "Female");
+
+        Button btnEditProfile = findViewById(R.id.btnEditProfile);
+        btnEditProfile.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent editIntent = new Intent(ProfileActivity.this, EditProfileActivity.class);
+                editIntent.putExtra("user_id", user.getId());
+                startActivityForResult(editIntent, 1);
+            }
+        });
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == 1 && resultCode == RESULT_OK) {
+            User updatedUser = (User) data.getSerializableExtra("updatedUser");
+            if (updatedUser != null) {
+                user = updatedUser;
+                TextView tvUserName = findViewById(R.id.tvUserName);
+                TextView tvUserEmail = findViewById(R.id.tvUserEmail);
+                TextView tvUserAddress = findViewById(R.id.tvUserAddress);
+                TextView tvUserPhone = findViewById(R.id.tvUserPhone);
+                TextView tvUserGender = findViewById(R.id.tvUserGender);
+
+                tvUserName.setText(user.getName());
+                tvUserEmail.setText(user.getEmail());
+                tvUserAddress.setText(user.getAddress());
+                tvUserPhone.setText(user.getPhone());
+                tvUserGender.setText(user.getGender() == 1 ? "Male" : "Female");
+            }
+        }
+    }
+}

@@ -113,6 +113,7 @@ public class UsersDAO {
         }
     }
 
+    @SuppressLint("Range")
     public User getUserById(int id) {
         SQLiteDatabase db = this.dbHelper.getReadableDatabase();
         User user = new User();
@@ -125,6 +126,7 @@ public class UsersDAO {
                         dbHelper.COLUMN_USER_ADDRESS,
                         dbHelper.COLUMN_USER_PHONE,
                         dbHelper.COLUMN_USER_GENDER,
+                        dbHelper.COLUMN_USER_PASSWORD,
                         dbHelper.COLUMN_USER_ROLE_ID
                 },
                 dbHelper.COLUMN_USER_ID + "=?",
@@ -139,6 +141,7 @@ public class UsersDAO {
             user.setPhone(cursor.getString(cursor.getColumnIndex(dbHelper.COLUMN_USER_PHONE)));
             user.setGender(cursor.getInt(cursor.getColumnIndex(dbHelper.COLUMN_USER_GENDER)));
             user.setRole_id(cursor.getInt(cursor.getColumnIndex(dbHelper.COLUMN_USER_ROLE_ID)));
+            user.setPassword(cursor.getString(cursor.getColumnIndex(dbHelper.COLUMN_USER_PASSWORD)));
             cursor.close();
             db.close();
             return user;
@@ -199,5 +202,14 @@ public class UsersDAO {
         cursor.close();
         db.close();
         return count > 0 ? true : false;
+    }
+
+    public User getCurrentUser() {
+        int currentUserId = getCurrentUserIdFromPreferences();
+        return getUserById(currentUserId);
+    }
+
+    private int getCurrentUserIdFromPreferences() {
+        return 1;
     }
 }

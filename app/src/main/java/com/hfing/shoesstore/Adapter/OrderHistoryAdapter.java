@@ -1,6 +1,7 @@
 package com.hfing.shoesstore.Adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,6 +13,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.hfing.shoesstore.Activity.ReviewActivity;
 import com.hfing.shoesstore.DAO.OrderDAO;
 import com.hfing.shoesstore.DAO.ProductDAO;
 import com.hfing.shoesstore.DAO.ProductSizeDAO;
@@ -52,6 +54,7 @@ public class OrderHistoryAdapter extends RecyclerView.Adapter<OrderHistoryAdapte
         ProductSize productSize = productSizeDAO.getProductSizeById(orderDetail.getProduct_size_id());
         Orders order = orderDAO.getOrderById(orderDetail.getOrder_id());
 
+
         holder.productNameTextView.setText(product.getName());
         holder.productSizeTextView.setText("Size: " + productSize.getSize());
 
@@ -66,6 +69,15 @@ public class OrderHistoryAdapter extends RecyclerView.Adapter<OrderHistoryAdapte
         Glide.with(holder.productImageView.getContext())
                 .load(product.getImage())
                 .into(holder.productImageView);
+
+        holder.rateProductButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(context, ReviewActivity.class);
+                intent.putExtra("product_id", orderDetail.getProduct_id());
+                context.startActivity(intent);
+            }
+        });
     }
 
     @Override

@@ -53,7 +53,7 @@ public class BaseActivity extends AppCompatActivity implements RecycleViewOnItem
     ProgressBar progressBarPopular;
     EditText searchEditText;
     ImageView searchBtn;
-    LinearLayout orderHistoryLayout, cartLayout, favoriteLayout;
+    LinearLayout orderHistoryLayout, cartLayout, profileLayout, favoriteLayout;
     private BottomNavigationView bottomNavigationView;
 
     @SuppressLint("MissingInflatedId")
@@ -61,6 +61,16 @@ public class BaseActivity extends AppCompatActivity implements RecycleViewOnItem
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_base);
+
+        profileLayout = findViewById(R.id.profile);
+        profileLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent profileIntent = new Intent(BaseActivity.this, ProfileActivity.class);
+                profileIntent.putExtra("user_id", user.getId());
+                startActivity(profileIntent);
+            }
+        });
 
         cartLayout = findViewById(R.id.cart);
         cartLayout.setOnClickListener(new View.OnClickListener() {
