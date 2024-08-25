@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.RatingBar;
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -17,6 +18,7 @@ public class ReviewActivity extends AppCompatActivity {
     private RatingBar ratingBar;
     private EditText editTextComment;
     private Button buttonSubmit;
+    private ImageView backBtn;
 
     @SuppressLint("MissingInflatedId")
     @Override
@@ -29,6 +31,14 @@ public class ReviewActivity extends AppCompatActivity {
         ratingBar = findViewById(R.id.ratingBar);
         editTextComment = findViewById(R.id.editTextComment);
         buttonSubmit = findViewById(R.id.buttonSubmit);
+        backBtn = findViewById(R.id.backBtn);
+
+        backBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
 
         buttonSubmit.setOnClickListener(new View.OnClickListener() {
             @Override
