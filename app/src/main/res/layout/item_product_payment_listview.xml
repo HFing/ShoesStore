@@ -12,52 +12,107 @@
 
         <ImageView
             android:id="@+id/productImage"
-            android:layout_width="30dp"
-            android:layout_height="30dp"
-            android:layout_weight="1"
-            android:src="@drawable/ic_launcher_background"
-            android:scaleType="centerCrop"
+            android:layout_width="70dp"
+            android:layout_height="70dp"
             android:layout_margin="5dp"
-            />
+            android:scaleType="centerCrop"
+            android:src="@drawable/ic_launcher_background" />
 
-        <TextView
-            android:id="@+id/productName"
+        <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="7"
-            android:layout_gravity="center"
-            android:text="Product Name"
-            android:textSize="15sp"
-            android:textColor="@color/black"
-            />
-        <TextView
-            android:id="@+id/unitPrice"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Unit Price"
-            android:layout_gravity="center"
-            android:layout_weight="1"
-            android:textSize="15sp"
-            android:textColor="@color/black"
-            />
-        <TextView
-            android:id="@+id/quantity"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Quantity"
-            android:layout_gravity="center"
-            android:layout_weight="1"
-            android:textSize="15sp"
-            android:textColor="@color/black"
-            />
-        <TextView
-            android:id="@+id/subTotal"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Sub Total"
-            android:layout_gravity="center"
-            android:layout_weight="1"
-            android:textSize="15sp"
-            android:textColor="@color/black"/>
+            android:layout_weight="5"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/productName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="5dp"
+                android:layout_weight="1"
+                android:text="Product Name"
+                android:textColor="@color/black"
+                android:textStyle="bold"
+                android:textSize="15sp" />
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="5dp"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Size: "
+                    android:textColor="@color/black"
+                    android:textStyle="bold"
+                    android:textSize="15sp" />
+
+                <TextView
+                    android:id="@+id/productSize"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="5dp"
+                    android:layout_weight="1"
+                    android:text="Size"
+                    android:textColor="@color/black"
+                    android:textSize="15sp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="5dp"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Unit Price: "
+                    android:textColor="@color/black"
+                    android:textStyle="bold"
+                    android:textSize="15sp" />
+
+                <TextView
+                    android:id="@+id/unitPrice"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_weight="1"
+                    android:layout_marginStart="5dp"
+                    android:text="Unit Price"
+                    android:textColor="@color/black"
+                    android:textSize="15sp" />
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="5dp"
+                android:orientation="horizontal">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Quantity: "
+                    android:layout_gravity="center"
+                    android:layout_weight="1"
+                    android:textSize="15sp"
+                    android:textStyle="bold"
+                    android:textColor="@color/black"
+                    />
+                <TextView
+                    android:id="@+id/quantity"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Quantity"
+                    android:layout_gravity="center"
+                    android:layout_weight="1"
+                    android:textSize="15sp"
+                    android:textColor="@color/black"
+                    />
+            </LinearLayout>
+        </LinearLayout>
     </LinearLayout>
 </LinearLayout>
