@@ -5,17 +5,8 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
-    android:padding="8dp">
-
-    <TextView
-        android:id="@+id/nameTxt"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Name"
-        android:textStyle="bold"
-        android:textColor="@color/black"
-        android:textSize="25sp"
-        />
+    android:padding="8dp"
+    android:layout_margin="8dp">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -23,20 +14,22 @@
         android:orientation="horizontal">
 
         <TextView
-            android:id="@+id/textView12"
+            android:id="@+id/nameTxt"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="Rating:"
+            android:text="Name"
+            android:textStyle="bold"
             android:textColor="@color/black"
-            android:textSize="14sp"
-            android:textStyle="bold" />
+            android:textSize="18sp"
+            android:layout_weight="2" />
 
         <ImageView
             android:id="@+id/imageView9"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:layout_marginEnd="8dp"
+            android:layout_marginStart="8dp"
+            android:layout_gravity="center"
             app:srcCompat="@drawable/star" />
 
         <TextView
@@ -44,6 +37,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="5"
+            android:textSize="18sp"
+            android:textStyle="bold"
             android:textColor="@color/black" />
     </LinearLayout>
 
@@ -54,6 +49,6 @@
         android:layout_height="wrap_content"
         android:text="Comment"
         android:textStyle="bold"
-        android:textSize="22sp"/>
+        android:textSize="16sp"/>
 
 </LinearLayout>

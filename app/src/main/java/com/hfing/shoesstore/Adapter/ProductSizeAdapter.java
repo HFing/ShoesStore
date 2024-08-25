@@ -42,7 +42,7 @@ public class ProductSizeAdapter extends RecyclerView.Adapter<ProductSizeAdapter.
             holder.itemView.setBackgroundResource(R.drawable.purple_bg);
             holder.sizeTextView.setTextColor(holder.itemView.getResources().getColor(R.color.white));
         }else{
-            holder.itemView.setBackgroundResource(R.drawable.white_bg);
+            holder.itemView.setBackgroundResource(R.drawable.grey_bg);
             holder.sizeTextView.setTextColor(holder.itemView.getResources().getColor(R.color.black));
         }
         holder.itemView.setOnClickListener(new View.OnClickListener() {
