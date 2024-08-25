@@ -179,4 +179,36 @@ public class ProductDAO {
         }
         return products;
     }
+
+    @SuppressLint("Range")
+    public ArrayList<Product> getProductsByCategoryId(int categoryId) {
+        ArrayList<Product> products = new ArrayList<>();
+        SQLiteDatabase db = dbHelper.getReadableDatabase();
+        Cursor cursor = null;
+        try {
+            String query = "SELECT * FROM product WHERE " + DBHelper.COLUMN_PRODUCT_CATEGORY_ID + " = " + categoryId;
+            cursor = db.rawQuery(query, null);
+            if (cursor.moveToFirst()) {
+                do {
+                    Product product = new Product();
+                    product.setId(cursor.getInt(cursor.getColumnIndex(DBHelper.COLUMN_PRODUCT_ID)));
+                    product.setName(cursor.getString(cursor.getColumnIndex(DBHelper.COLUMN_PRODUCT_NAME)));
+                    product.setDescription(cursor.getString(cursor.getColumnIndex(DBHelper.COLUMN_PRODUCT_DESCRIPTION)));
+                    product.setPrice(cursor.getDouble(cursor.getColumnIndex(DBHelper.COLUMN_PRODUCT_PRICE)));
+                    product.setCreate_at(cursor.getString(cursor.getColumnIndex(DBHelper.COLUMN_PRODUCT_CREATE_AT)));
+                    product.setImage(cursor.getBlob(cursor.getColumnIndex(DBHelper.COLUMN_PRODUCT_IMAGE)));
+                    product.setCategory_id(cursor.getInt(cursor.getColumnIndex(DBHelper.COLUMN_PRODUCT_CATEGORY_ID)));
+                    products.add(product);
+                } while (cursor.moveToNext());
+            }
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        } finally {
+            if (cursor != null) {
+                cursor.close();
+            }
+            db.close();
+        }
+        return products;
+    }
 }

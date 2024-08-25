@@ -22,9 +22,9 @@ import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager2.widget.ViewPager2;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.hfing.shoesstore.Adapter.BannerSliderAdapter;
 import com.hfing.shoesstore.Adapter.CategoryBaseViewAdapter;
 import com.hfing.shoesstore.Adapter.ProductAdapterRCM;
-import com.hfing.shoesstore.Adapter.BannerSliderAdapter;
 import com.hfing.shoesstore.Adapter.RecycleViewOnItemClickListener;
 import com.hfing.shoesstore.DAO.CategoryDAO;
 import com.hfing.shoesstore.DAO.ProductDAO;
@@ -38,7 +38,8 @@ import com.tbuonomo.viewpagerdotsindicator.DotsIndicator;
 import java.util.ArrayList;
 import java.util.List;
 
-public class BaseActivity extends AppCompatActivity implements RecycleViewOnItemClickListener {
+public class BaseActivity extends AppCompatActivity implements RecycleViewOnItemClickListener, CategoryBaseViewAdapter.OnCategoryClickListener {
+
 
     private final UsersDAO usersDAO = new UsersDAO(BaseActivity.this);
     private User user;
@@ -54,6 +55,8 @@ public class BaseActivity extends AppCompatActivity implements RecycleViewOnItem
     EditText searchEditText;
     ImageView searchBtn;
     LinearLayout orderHistoryLayout, cartLayout, profileLayout, favoriteLayout;
+    TextView headTextView;
+    TextView noResultsTextView;
     private BottomNavigationView bottomNavigationView;
 
     @SuppressLint("MissingInflatedId")
@@ -81,8 +84,8 @@ public class BaseActivity extends AppCompatActivity implements RecycleViewOnItem
                 startActivity(cartIntent);
             }
         });
-        TextView noResultsTextView = findViewById(R.id.noResultsTextView);
-        TextView headTextView = findViewById(R.id.textView8);
+        noResultsTextView = findViewById(R.id.noResultsTextView);
+        headTextView = findViewById(R.id.textView8);
         //Xác định User đang thực hiện
         Intent intent = getIntent();
         int id = intent.getIntExtra("id", -1);
@@ -128,7 +131,7 @@ public class BaseActivity extends AppCompatActivity implements RecycleViewOnItem
         //Hiển thị danh sách danh mục
         viewCategory_baseview = findViewById(R.id.viewCategory_baseview);
         ArrayList<Category> categories = categoryDAO.getAllCategories();
-        CategoryBaseViewAdapter categoryBaseViewAdapter = new CategoryBaseViewAdapter(this, categories);
+        CategoryBaseViewAdapter categoryBaseViewAdapter = new CategoryBaseViewAdapter(this, categories, this);
         viewCategory_baseview.setAdapter(categoryBaseViewAdapter);
         viewCategory_baseview.setLayoutManager(new androidx.recyclerview.widget.LinearLayoutManager(this, RecyclerView.HORIZONTAL, false));
         ProgressBar progressBarCategory = findViewById(R.id.progressBarCategory);
@@ -263,6 +266,35 @@ public class BaseActivity extends AppCompatActivity implements RecycleViewOnItem
             startActivity(detailIntent);
         } else {
             Toast.makeText(this, "Invalid product selection", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    private int lastClickedCategoryPosition = -1;
+
+    @Override
+    public void onCategoryClick(int position) {
+        if (lastClickedCategoryPosition == position) {
+            headTextView.setText("Recommendation");
+            // Reset viewPopular to its initial state
+            ArrayList<Product> products = productDAO.getAllProducts();
+            ProductAdapterRCM productAdapter = new ProductAdapterRCM(this, products, this, productDAO, user.getId());
+            viewPopular.setAdapter(productAdapter);
+            viewPopular.setLayoutManager(new GridLayoutManager(this, 2));
+            lastClickedCategoryPosition = -1; // Reset the last clicked position
+        } else {
+            // Show products by category
+            Category category = categoryDAO.getCategoryById(position + 1);
+            if (category != null) {
+                headTextView.setText("Sản phẩm thuộc danh mục: " + category.getName());
+                ArrayList<Product> products = productDAO.getProductsByCategoryId(category.getId());
+                ProductAdapterRCM productAdapter = new ProductAdapterRCM(this, products, this, productDAO, user.getId());
+                viewPopular.setAdapter(productAdapter);
+                viewPopular.setLayoutManager(new GridLayoutManager(this, 2));
+                lastClickedCategoryPosition = position; // Update the last clicked position
+            } else {
+                Log.e("BaseActivity", "Category not found at position: " + position);
+                Toast.makeText(this, "Category not found", Toast.LENGTH_SHORT).show();
+            }
         }
     }
 }
