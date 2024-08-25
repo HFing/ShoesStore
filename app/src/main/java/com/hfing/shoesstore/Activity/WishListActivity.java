@@ -42,8 +42,7 @@ public class WishListActivity extends AppCompatActivity {
         backBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(WishListActivity.this, BaseActivity.class);
-                startActivity(intent);
+                onBackPressed();
             }
         });
     }
@@ -59,5 +58,13 @@ public class WishListActivity extends AppCompatActivity {
             wishListAdapter = new WishListAdapter(favoriteProducts, this, userId);
             recyclerView.setAdapter(wishListAdapter);
         }
+    }
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        Intent intent = new Intent(WishListActivity.this, BaseActivity.class);
+        intent.putExtra("id", userId); // Truyền userId khi quay lại BaseActivity
+        startActivity(intent);
+        finish();
     }
 }

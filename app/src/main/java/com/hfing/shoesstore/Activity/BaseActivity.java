@@ -40,7 +40,7 @@ import java.util.List;
 
 public class BaseActivity extends AppCompatActivity implements RecycleViewOnItemClickListener {
 
-    private final UsersDAO  usersDAO = new UsersDAO(BaseActivity.this);
+    private final UsersDAO usersDAO = new UsersDAO(BaseActivity.this);
     private User user;
     private final ProductDAO productDAO = new ProductDAO(BaseActivity.this);
     private final CategoryDAO categoryDAO = new CategoryDAO(BaseActivity.this);
@@ -80,7 +80,7 @@ public class BaseActivity extends AppCompatActivity implements RecycleViewOnItem
 
         user = usersDAO.getUserById(id);
 
-        if (user == null){
+        if (user == null) {
             Toast.makeText(this, "User not found", Toast.LENGTH_SHORT).show();
             finish();
         }
@@ -150,9 +150,8 @@ public class BaseActivity extends AppCompatActivity implements RecycleViewOnItem
         viewNew.setAdapter(newProductAdapter);
         viewNew.setLayoutManager(new LinearLayoutManager(this, RecyclerView.HORIZONTAL, false)); // Hướng ngang
 
-// Hide progress bar after setting up the adapter
+        // Hide progress bar after setting up the adapter
         progressBarNew.setVisibility(View.GONE);
-
 
         searchEditText = findViewById(R.id.searchEditText);
         searchBtn = findViewById(R.id.searchBtn);
@@ -227,6 +226,15 @@ public class BaseActivity extends AppCompatActivity implements RecycleViewOnItem
                 bottomNavigationView.setVisibility(View.GONE);
             } else {
                 bottomNavigationView.setVisibility(View.VISIBLE);
+            }
+        });
+        TextView seeAllTextView = findViewById(R.id.textView9);
+        seeAllTextView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(BaseActivity.this, ProductListActivity.class);
+                intent.putExtra("id", user.getId());
+                startActivity(intent);
             }
         });
     }
