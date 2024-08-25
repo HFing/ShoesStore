@@ -1,7 +1,6 @@
 package com.hfing.shoesstore.Activity;
 
 import android.content.Intent;
-import android.graphics.PorterDuff;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -40,7 +39,7 @@ import java.util.Locale;
 
 public class DetailActivity extends AppCompatActivity {
 
-    Button btnAddToCart;
+    Button btnBuyNow;
     TextView titleTxt, priceTxt, descriptionTxt, ratingTxt;
     User user;
     UsersDAO userDAO = new UsersDAO(DetailActivity.this);
@@ -82,7 +81,7 @@ public class DetailActivity extends AppCompatActivity {
         priceTxt = findViewById(R.id.priceTxt);
         descriptionTxt = findViewById(R.id.descriptionTxt);
         ratingTxt = findViewById(R.id.ratingTxt);
-        btnAddToCart = findViewById(R.id.addToCartBtn);
+        btnBuyNow = findViewById(R.id.buyBtn);
         backBtn = findViewById(R.id.backBtn);
         cartBtn = findViewById(R.id.cartBtn);
         slider = findViewById(R.id.slider);
@@ -132,15 +131,23 @@ public class DetailActivity extends AppCompatActivity {
             }
         });
 
-//        cartBtn.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                Intent cartIntent = new Intent(DetailActivity.this, CartActivity.class);
-//                cartIntent.putExtra("user_id", user.getId());
-//                startActivity(cartIntent);
-//            }
-//        });
-
+        btnBuyNow.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (selectedProductSize == null) {
+                    Toast.makeText(DetailActivity.this, "Please select a size", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                int quantity = 1;
+                Intent cartIntent = new Intent(DetailActivity.this, PaymentActivity.class);
+                cartIntent.putExtra("user_id", user_id);
+                cartIntent.putExtra("product_id", product_id);
+                cartIntent.putExtra("product_size_id", selectedProductSize.getId());
+                cartIntent.putExtra("quantity", quantity);
+                cartIntent.putExtra("cartItemSize", 1);
+                startActivity(cartIntent);
+            }
+        });
 
         favBtn = findViewById(R.id.favBtn);
         updateFavoriteIcon();
@@ -153,6 +160,7 @@ public class DetailActivity extends AppCompatActivity {
         });
 
     }
+
     private void toggleFavorite(int userId, int productId) {
         if (favoriteDAO.isFavorite(userId, productId)) {
             favoriteDAO.removeFavorite(userId, productId);
@@ -171,6 +179,7 @@ public class DetailActivity extends AppCompatActivity {
             favBtn.setImageDrawable(getResources().getDrawable(R.drawable.ic_favorite_border, getTheme()));
         }
     }
+
     private void addToCartAndNavigate(int user_id, int product_id) {
         if (selectedProductSize == null) {
             Toast.makeText(DetailActivity.this, "Please select a size", Toast.LENGTH_SHORT).show();

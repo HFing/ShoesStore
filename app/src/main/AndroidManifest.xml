@@ -27,6 +27,8 @@
         <activity
             android:name=".Activity.DetailActivity"
             android:exported="false" />
+        <activity android:name=".Activity.PaymentActivity"
+            android:exported="false" />
         <activity
             android:name=".Activity.UsersActivity"
             android:exported="false" />

@@ -206,9 +206,16 @@ public class CartActivity extends AppCompatActivity implements CartAdapter.OnQua
                     return;
                 }
                 else {
-                    transferCartItemsToOrderHistory();
-                    clearCart();
-                    Toast.makeText(CartActivity.this, "Checkout successfully", Toast.LENGTH_SHORT).show();
+                    Intent intent = new Intent(CartActivity.this, PaymentActivity.class);
+                    intent.putExtra("user_id", user_id);
+                    int quantity = 0;
+                    for (CartItem cartItem : cartItems) {
+                        quantity += cartItem.getQuantity();
+                    }
+                    intent.putExtra("quantity", quantity);
+                    intent.putExtra("cartItemSize", cartItems.size());
+                    intent.putExtra("cart_id", cartItems.get(0).getCart_id());
+                    startActivity(intent);
                 }
             }
         });
@@ -281,7 +288,6 @@ public class CartActivity extends AppCompatActivity implements CartAdapter.OnQua
         cartItems.clear();
         cartAdapter.notifyDataSetChanged();
         updateCartSummary();
-        cartItems.clear();
     }
 
     @Override
