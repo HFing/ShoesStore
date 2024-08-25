@@ -5,19 +5,23 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
+import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager2.widget.ViewPager2;
 
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.hfing.shoesstore.Adapter.CategoryBaseViewAdapter;
 import com.hfing.shoesstore.Adapter.ProductAdapterRCM;
 import com.hfing.shoesstore.Adapter.BannerSliderAdapter;
@@ -49,7 +53,8 @@ public class BaseActivity extends AppCompatActivity implements RecycleViewOnItem
     ProgressBar progressBarPopular;
     EditText searchEditText;
     ImageView searchBtn;
-    LinearLayout orderHistoryLayout, cartLayout;
+    LinearLayout orderHistoryLayout, cartLayout, favoriteLayout;
+    private BottomNavigationView bottomNavigationView;
 
     @SuppressLint("MissingInflatedId")
     @Override
@@ -124,12 +129,29 @@ public class BaseActivity extends AppCompatActivity implements RecycleViewOnItem
         progressBarPopular = findViewById(R.id.progressBarPopular);
         progressBarPopular.setVisibility(View.VISIBLE);
 
-        ProductAdapterRCM productAdapter = new ProductAdapterRCM(this, products, this, productDAO);
+        ProductAdapterRCM productAdapter = new ProductAdapterRCM(this, products, this, productDAO, user.getId());
         viewPopular.setAdapter(productAdapter);
         viewPopular.setLayoutManager(new GridLayoutManager(this, 2));
 
         // Hide progress bar after setting up the adapter
         progressBarPopular.setVisibility(View.GONE);
+
+        // Hiển thị sản phẩm mới nhất
+        RecyclerView viewNew = findViewById(R.id.viewNew);
+        ProgressBar progressBarNew = findViewById(R.id.progressBarNew);
+        progressBarNew.setVisibility(View.VISIBLE);
+
+        List<Product> newestProducts = productDAO.getNewestProducts();
+        for (Product product : newestProducts) {
+            Log.d("NewestProducts", "Product ID: " + product.getId() + ", Name: " + product.getName());
+        }
+
+        ProductAdapterRCM newProductAdapter = new ProductAdapterRCM(this, newestProducts, this, productDAO, user.getId());
+        viewNew.setAdapter(newProductAdapter);
+        viewNew.setLayoutManager(new LinearLayoutManager(this, RecyclerView.HORIZONTAL, false)); // Hướng ngang
+
+// Hide progress bar after setting up the adapter
+        progressBarNew.setVisibility(View.GONE);
 
 
         searchEditText = findViewById(R.id.searchEditText);
@@ -183,18 +205,46 @@ public class BaseActivity extends AppCompatActivity implements RecycleViewOnItem
             }
         });
 
+        favoriteLayout = findViewById(R.id.wishlist);
+        favoriteLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(BaseActivity.this, WishListActivity.class);
+                intent.putExtra("id", user.getId());
+                startActivity(intent);
+            }
+        });
+
+        bottomNavigationView = findViewById(R.id.bottomNavigationView);
+
+        ScrollView scrollView = findViewById(R.id.ScrollView);
+        scrollView.getViewTreeObserver().addOnScrollChangedListener(() -> {
+            View view = scrollView.getChildAt(scrollView.getChildCount() - 1);
+            int diff = (view.getBottom() - (scrollView.getHeight() + scrollView.getScrollY()));
+
+            if (diff == 0) {
+                // Reached the bottom
+                bottomNavigationView.setVisibility(View.GONE);
+            } else {
+                bottomNavigationView.setVisibility(View.VISIBLE);
+            }
+        });
     }
+
     @Override
     public void onItemRecycleViewClick(int position) {
         Product product;
-        if (productListAfterFilter.isEmpty()) {
-            product = productDAO.getAllProducts().get(position);
+        List<Product> products = productListAfterFilter.isEmpty() ? productDAO.getNewestProducts() : productListAfterFilter;
+
+        if (position >= 0 && position < products.size()) {
+            product = products.get(position);
+            Log.d("ProductClick", "Clicked Product ID: " + product.getId() + ", Name: " + product.getName());
+            Intent detailIntent = new Intent(this, DetailActivity.class);
+            detailIntent.putExtra("product_id", product.getId());
+            detailIntent.putExtra("user_id", user.getId());
+            startActivity(detailIntent);
         } else {
-            product = productListAfterFilter.get(position);
+            Toast.makeText(this, "Invalid product selection", Toast.LENGTH_SHORT).show();
         }
-        Intent detailIntent = new Intent(this, DetailActivity.class);
-        detailIntent.putExtra("product_id", product.getId());
-        detailIntent.putExtra("user_id", user.getId());
-        startActivity(detailIntent);
     }
 }

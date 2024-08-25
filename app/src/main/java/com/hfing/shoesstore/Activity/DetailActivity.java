@@ -1,6 +1,7 @@
 package com.hfing.shoesstore.Activity;
 
 import android.content.Intent;
+import android.graphics.PorterDuff;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -19,6 +20,7 @@ import com.hfing.shoesstore.Adapter.ProductSizeAdapter;
 import com.hfing.shoesstore.Adapter.ReviewAdapter;
 import com.hfing.shoesstore.DAO.CartDAO;
 import com.hfing.shoesstore.DAO.CartItemDAO;
+import com.hfing.shoesstore.DAO.FavoriteDAO;
 import com.hfing.shoesstore.DAO.ProductDAO;
 import com.hfing.shoesstore.DAO.ProductSizeDAO;
 import com.hfing.shoesstore.DAO.ReviewDAO;
@@ -52,6 +54,9 @@ public class DetailActivity extends AppCompatActivity {
     RecyclerView reviewList;
     ProductSize selectedProductSize;
     ImageButton cartBtn;
+
+    ImageView favBtn;
+    FavoriteDAO favoriteDAO = new FavoriteDAO(DetailActivity.this);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -135,8 +140,37 @@ public class DetailActivity extends AppCompatActivity {
 //                startActivity(cartIntent);
 //            }
 //        });
+
+
+        favBtn = findViewById(R.id.favBtn);
+        updateFavoriteIcon();
+
+        favBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                toggleFavorite(user.getId(), product.getId());
+            }
+        });
+
+    }
+    private void toggleFavorite(int userId, int productId) {
+        if (favoriteDAO.isFavorite(userId, productId)) {
+            favoriteDAO.removeFavorite(userId, productId);
+            Toast.makeText(this, "Removed from favorites", Toast.LENGTH_SHORT).show();
+        } else {
+            favoriteDAO.addFavorite(userId, productId);
+            Toast.makeText(this, "Added to favorites", Toast.LENGTH_SHORT).show();
+        }
+        updateFavoriteIcon();
     }
 
+    private void updateFavoriteIcon() {
+        if (favoriteDAO.isFavorite(user.getId(), product.getId())) {
+            favBtn.setImageDrawable(getResources().getDrawable(R.drawable.ic_favorite_filled, getTheme()));
+        } else {
+            favBtn.setImageDrawable(getResources().getDrawable(R.drawable.ic_favorite_border, getTheme()));
+        }
+    }
     private void addToCartAndNavigate(int user_id, int product_id) {
         if (selectedProductSize == null) {
             Toast.makeText(DetailActivity.this, "Please select a size", Toast.LENGTH_SHORT).show();

@@ -206,7 +206,7 @@ public class DBHelper extends SQLiteOpenHelper {
                         + TABLE_PRODUCT + "(" + COLUMN_PRODUCT_ID + ")"
                         + ")";
 
-        // Bảng Favorite
+        // Bảng FavoriteDAO
         public static final String TABLE_FAVORITE = "Favorite";
         public static final String COLUMN_FAVORITE_ID = "id";
         public static final String COLUMN_FAVORITE_USER_ID = "user_id";
