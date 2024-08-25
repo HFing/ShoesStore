@@ -1,5 +1,7 @@
 package com.hfing.shoesstore.Activity;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -20,8 +22,8 @@ public class EditProfileActivity extends AppCompatActivity {
     private EditText etUserName, etUserEmail, etUserAddress, etUserPhone, etPassword, etUsername;
     private Spinner spUserGender;
     private Button btnSave;
+    private ImageView btnBack;
     private int userId;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,6 +38,16 @@ public class EditProfileActivity extends AppCompatActivity {
         spUserGender = findViewById(R.id.spUserGender);
         etPassword = findViewById(R.id.etPassword);
         btnSave = findViewById(R.id.btnSave);
+        btnBack = findViewById(R.id.backBtn);
+
+        btnBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
+
+
 
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
                 R.array.gender_array, android.R.layout.simple_spinner_item);
@@ -62,22 +74,7 @@ public class EditProfileActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 if (validateInputs()) {
-                    User updatedUser = new User();
-                    updatedUser.setId(userId);
-                    updatedUser.setName(etUserName.getText().toString());
-                    updatedUser.setEmail(etUserEmail.getText().toString());
-                    updatedUser.setAddress(etUserAddress.getText().toString());
-                    updatedUser.setPhone(etUserPhone.getText().toString());
-                    updatedUser.setUsername(etUsername.getText().toString());
-                    updatedUser.setGender(spUserGender.getSelectedItem().toString().equals("Male") ? 1 : 0);
-                    updatedUser.setPassword(etPassword.getText().toString());
-
-                    usersDAO.updateUser(updatedUser);
-
-                    Intent resultIntent = new Intent();
-                    resultIntent.putExtra("updatedUser", (Serializable) updatedUser);
-                    setResult(RESULT_OK, resultIntent);
-                    finish();
+                    showSaveConfirmationDialog();
                 }
             }
         });
@@ -109,5 +106,43 @@ public class EditProfileActivity extends AppCompatActivity {
             return false;
         }
         return true;
+    }
+
+    private void showSaveConfirmationDialog() {
+        new AlertDialog.Builder(this)
+                .setTitle("Save Changes")
+                .setMessage("Do you want to save the changes?")
+                .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        saveUserProfile();
+                    }
+                })
+                .setNegativeButton("No", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+                })
+                .setIcon(android.R.drawable.ic_dialog_alert)
+                .show();
+    }
+
+    private void saveUserProfile() {
+        UsersDAO usersDAO = new UsersDAO(this);
+        User updatedUser = new User();
+        updatedUser.setId(userId);
+        updatedUser.setName(etUserName.getText().toString());
+        updatedUser.setEmail(etUserEmail.getText().toString());
+        updatedUser.setAddress(etUserAddress.getText().toString());
+        updatedUser.setPhone(etUserPhone.getText().toString());
+        updatedUser.setUsername(etUsername.getText().toString());
+        updatedUser.setGender(spUserGender.getSelectedItem().toString().equals("Male") ? 1 : 0);
+        updatedUser.setPassword(etPassword.getText().toString());
+
+        usersDAO.updateUser(updatedUser);
+
+        Intent resultIntent = new Intent();
+        resultIntent.putExtra("updatedUser", (Serializable) updatedUser);
+        setResult(RESULT_OK, resultIntent);
+        finish();
     }
 }

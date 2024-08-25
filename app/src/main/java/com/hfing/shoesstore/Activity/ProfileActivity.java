@@ -1,5 +1,8 @@
 package com.hfing.shoesstore.Activity;
 
+import android.annotation.SuppressLint;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -14,6 +17,7 @@ import com.hfing.shoesstore.R;
 public class ProfileActivity extends AppCompatActivity {
     User user;
     private ImageView backBtn;
+    private Button btnLogOut;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,6 +44,7 @@ public class ProfileActivity extends AppCompatActivity {
         TextView tvUserPhone = findViewById(R.id.tvUserPhone);
         TextView tvUserGender = findViewById(R.id.tvUserGender);
 
+
         backBtn = findViewById(R.id.backBtn);
         backBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -63,6 +68,15 @@ public class ProfileActivity extends AppCompatActivity {
                 startActivityForResult(editIntent, 1);
             }
         });
+
+        btnLogOut = findViewById(R.id.btnLogOut);
+        btnLogOut.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showLogOutConfirmationDialog();
+            }
+        });
+
     }
 
     @Override
@@ -85,5 +99,27 @@ public class ProfileActivity extends AppCompatActivity {
                 tvUserGender.setText(user.getGender() == 1 ? "Male" : "Female");
             }
         }
+    }
+
+    private void showLogOutConfirmationDialog() {
+        new AlertDialog.Builder(this)
+                .setTitle("Log Out")
+                .setMessage("Do you want to log out?")
+                .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        // Navigate to IntroActivity
+                        Intent intent = new Intent(ProfileActivity.this, IntroActivity.class);
+                        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                        startActivity(intent);
+                        finish();
+                    }
+                })
+                .setNegativeButton("No", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+                })
+                .setIcon(android.R.drawable.ic_dialog_alert)
+                .show();
     }
 }
