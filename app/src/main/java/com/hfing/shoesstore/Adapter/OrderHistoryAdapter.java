@@ -23,7 +23,9 @@ import com.hfing.shoesstore.Model.Product;
 import com.hfing.shoesstore.Model.ProductSize;
 import com.hfing.shoesstore.R;
 
+import java.text.NumberFormat;
 import java.util.List;
+import java.util.Locale;
 
 public class OrderHistoryAdapter extends RecyclerView.Adapter<OrderHistoryAdapter.OrderViewHolder> {
     private List<OrderDetail> orderDetailList;
@@ -59,8 +61,8 @@ public class OrderHistoryAdapter extends RecyclerView.Adapter<OrderHistoryAdapte
         holder.productSizeTextView.setText("Size: " + productSize.getSize());
 
         // Format the product price to remove trailing .0
-        String formattedPrice = String.format("%.0f", orderDetail.getUnit_price());
-        holder.productPriceTextView.setText("Total Amount: " + formattedPrice + " VND");
+        NumberFormat formatter = NumberFormat.getCurrencyInstance(new Locale("vi", "VN"));
+        holder.productPriceTextView.setText("Total Amount: " + formatter.format(product.getPrice()));
 
         holder.orderDateTextView.setText("Order Date: " + order.getOrder_date());
         holder.productQuantityTextView.setText("Quantity: " + String.valueOf(orderDetail.getQuantity()));
