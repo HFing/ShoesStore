@@ -120,6 +120,10 @@ public class PaymentActivity extends AppCompatActivity {
             placeOrderBtn.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
+                    if(nameTxt.getText().toString().isEmpty() || phoneTxt.getText().toString().isEmpty() || txtAddress.getText().toString().isEmpty()) {
+                        Toast.makeText(PaymentActivity.this, "Please fill all your information in all fields", Toast.LENGTH_SHORT).show();
+                        return;
+                    }
                     transferCartItemsToOrderHistory();
                     cartItems.clear();
                     Intent intent = new Intent(PaymentActivity.this, BaseActivity.class);
@@ -187,15 +191,25 @@ public class PaymentActivity extends AppCompatActivity {
         order.setOrder_date(currentDateTime);
         ordersDAO.insertOrder(order);
         Orders lastOrder = ordersDAO.getOrderByUserIdAndDate(user_id, currentDateTime);
-        for (CartItem item : cartItems) {
-            OrderDetail orderDetail = new OrderDetail();
-            orderDetail.setOrder_id(lastOrder.getId());
-            orderDetail.setProduct_id(item.getProduct_id()); // Ensure product_id is set
-            orderDetail.setProduct_size_id(item.getProduct_size_id());
-            orderDetail.setQuantity(item.getQuantity());
-            orderDetail.setUnit_price(productDAO.getProductById(item.getProduct_id()).getPrice());
-            orderDetailDAO.insertOrderDetail(orderDetail);
+        if(lastOrder != null){
+            for (CartItem item : cartItems) {
+                OrderDetail orderDetail = new OrderDetail();
+                orderDetail.setOrder_id(lastOrder.getId());
+                orderDetail.setProduct_id(item.getProduct_id()); // Ensure product_id is set
+                orderDetail.setProduct_size_id(item.getProduct_size_id());
+                orderDetail.setQuantity(item.getQuantity());
+                orderDetail.setUnit_price(productDAO.getProductById(item.getProduct_id()).getPrice());
+                if(orderDetailDAO.insertOrderDetail(orderDetail)>0){
+                    Log.d("OrderDetail", "OrderDetail inserted");
+                }
+                else{
+                    Log.e("OrderDetail", "OrderDetail not inserted");
+                }
+            }
         }
+        else
+            Log.e("Order", "Order not found");
+
     }
 
     private void clearCart(int cartId) {

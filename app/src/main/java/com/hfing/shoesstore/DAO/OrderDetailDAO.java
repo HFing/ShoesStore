@@ -108,11 +108,11 @@ public class OrderDetailDAO {
 
     public long insertOrderDetail(OrderDetail orderDetail) {
         ContentValues values = new ContentValues();
-        values.put("order_id", orderDetail.getOrder_id());
-        values.put("product_id", orderDetail.getProduct_id());
-        values.put("product_size_id", orderDetail.getProduct_size_id());
-        values.put("quantity", orderDetail.getQuantity());
-        values.put("unit_price", orderDetail.getUnit_price());
+        values.put(DBHelper.COLUMN_ORDERDETAIL_ORDER_ID, orderDetail.getOrder_id());
+        values.put(DBHelper.COLUMN_ORDERDETAIL_PRODUCT_ID, orderDetail.getProduct_id());
+        values.put(DBHelper.COLUMN_ORDERDETAIL_PRODUCT_SIZE_ID, orderDetail.getProduct_size_id());
+        values.put(DBHelper.COLUMN_ORDERDETAIL_QUANTITY, orderDetail.getQuantity());
+        values.put(DBHelper.COLUMN_ORDERDETAIL_UNIT_PRICE, orderDetail.getUnit_price());
         return database.insert("OrderDetail", null, values);
     }
 

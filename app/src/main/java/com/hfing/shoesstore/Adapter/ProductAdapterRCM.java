@@ -75,7 +75,7 @@ public class ProductAdapterRCM extends RecyclerView.Adapter<ProductAdapterRCM.Pr
 
         holder.itemView.setOnClickListener(v -> {
             Log.d("ProductAdapter", "Clicked position: " + position);
-            listener.onItemRecycleViewClick(position);
+            listener.onItemRecycleViewClick(position, products);
         });
 
         holder.imageView6.setOnClickListener(v -> {

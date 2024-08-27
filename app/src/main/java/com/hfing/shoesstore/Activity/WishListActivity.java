@@ -43,7 +43,16 @@ public class WishListActivity extends AppCompatActivity {
         loadFavorites();
 
         ImageView backBtn = findViewById(R.id.backBtn);
-        backBtn.setOnClickListener(v -> finish());
+        backBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(WishListActivity.this, BaseActivity.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+                intent.putExtra("id", userId);
+                startActivity(intent);
+                finish();
+            }
+        });
     }
 
     private void loadFavorites() {

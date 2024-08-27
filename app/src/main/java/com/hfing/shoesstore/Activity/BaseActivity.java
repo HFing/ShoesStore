@@ -46,6 +46,7 @@ public class BaseActivity extends AppCompatActivity implements RecycleViewOnItem
     private final CategoryDAO categoryDAO = new CategoryDAO(BaseActivity.this);
 
     ArrayList<Product> productListAfterFilter = new ArrayList<>();
+    ArrayList<Product> products;
     TextView nameOfUser;
     ViewPager2 viewpagerProductSlider;
     DotsIndicator dotsIndicator_ProductSlider_baseView;
@@ -64,6 +65,7 @@ public class BaseActivity extends AppCompatActivity implements RecycleViewOnItem
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_base);
 
+        //Hiển thị thông tin người dùng
         profileLayout = findViewById(R.id.profile);
         profileLayout.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -74,6 +76,7 @@ public class BaseActivity extends AppCompatActivity implements RecycleViewOnItem
             }
         });
 
+        //Hiển thị giỏ hàng
         cartLayout = findViewById(R.id.cart);
         cartLayout.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -85,30 +88,26 @@ public class BaseActivity extends AppCompatActivity implements RecycleViewOnItem
         });
         noResultsTextView = findViewById(R.id.noResultsTextView);
         headTextView = findViewById(R.id.textView8);
+
         //Xác định User đang thực hiện
-
-
         Intent intent = getIntent();
         int id = intent.getIntExtra("id", -1);
-        //int id = 3;
+
         user = usersDAO.getUserById(id);
-
-
-        user = usersDAO.getUserById((int) id);
 
         if (user == null) {
             Toast.makeText(this, "User not found", Toast.LENGTH_SHORT).show();
             finish();
             return;
         }
+
         //Hiển thị tên người dùng
         nameOfUser = findViewById(R.id.textNameOfUser);
         nameOfUser.setText(user.getName());
 
-        ArrayList<Product> products = productDAO.getAllProducts();
+        products = productDAO.getAllProducts();
 
-        //Hiển thị banner danh sách sản phẩm
-
+        //Hiển thị banner quảng cáo
         // Khởi tạo danh sách các ID của drawable
         List<Integer> imageResIds = new ArrayList<>();
         imageResIds.add(R.drawable.banner1);
@@ -118,7 +117,6 @@ public class BaseActivity extends AppCompatActivity implements RecycleViewOnItem
         // Hiển thị banner danh sách sản phẩm
         viewpagerProductSlider = findViewById(R.id.viewpagerProductSlider);
         dotsIndicator_ProductSlider_baseView = findViewById(R.id.dotsIndicator_ProductSlider_baseView);
-
         BannerSliderAdapter bannerSliderAdapter = new BannerSliderAdapter(this, imageResIds);
         viewpagerProductSlider.setAdapter(bannerSliderAdapter);
         dotsIndicator_ProductSlider_baseView.setViewPager2(viewpagerProductSlider);
@@ -132,6 +130,7 @@ public class BaseActivity extends AppCompatActivity implements RecycleViewOnItem
                 dotsIndicator_ProductSlider_baseView.setVisibility(View.VISIBLE);
             }
         });
+
         //Hiển thị danh sách danh mục
         viewCategory_baseview = findViewById(R.id.viewCategory_baseview);
         ArrayList<Category> categories = categoryDAO.getAllCategories();
@@ -196,9 +195,11 @@ public class BaseActivity extends AppCompatActivity implements RecycleViewOnItem
                 if (s.toString().isEmpty()) {
                     headTextView.setText("Recommendation");
                     noResultsTextView.setVisibility(View.GONE);
-                } else if (filteredProducts.isEmpty()) {
-                    headTextView.setText("Tìm kiếm sản phẩm");
-                    noResultsTextView.setVisibility(View.VISIBLE);
+                    productListAfterFilter.clear();
+                    productAdapter.updateProducts(products);
+//                } else if (filteredProducts.isEmpty()) {
+//                    headTextView.setText("Tìm kiếm sản phẩm");
+//                    noResultsTextView.setVisibility(View.VISIBLE);
                 } else {
                     headTextView.setText("Tìm kiếm sản phẩm");
                     noResultsTextView.setVisibility(View.GONE);
@@ -257,12 +258,12 @@ public class BaseActivity extends AppCompatActivity implements RecycleViewOnItem
     }
 
     @Override
-    public void onItemRecycleViewClick(int position) {
+    public void onItemRecycleViewClick(int position, List<Product> productList) {
         Product product;
-        List<Product> products = productListAfterFilter.isEmpty() ? productDAO.getNewestProducts() : productListAfterFilter;
 
-        if (position >= 0 && position < products.size()) {
-            product = products.get(position);
+
+        if (position >= 0 && position < productList.size()) {
+            product = productList.get(position);
             Log.d("ProductClick", "Clicked Product ID: " + product.getId() + ", Name: " + product.getName());
             Intent detailIntent = new Intent(this, DetailActivity.class);
             detailIntent.putExtra("product_id", product.getId());
@@ -280,7 +281,7 @@ public class BaseActivity extends AppCompatActivity implements RecycleViewOnItem
         if (lastClickedCategoryPosition == position) {
             headTextView.setText("Recommendation");
             // Reset viewPopular to its initial state
-            ArrayList<Product> products = productDAO.getAllProducts();
+            products = productDAO.getAllProducts();
             ProductAdapterRCM productAdapter = new ProductAdapterRCM(this, products, this, productDAO, user.getId());
             viewPopular.setAdapter(productAdapter);
             viewPopular.setLayoutManager(new GridLayoutManager(this, 2));
@@ -290,7 +291,7 @@ public class BaseActivity extends AppCompatActivity implements RecycleViewOnItem
             Category category = categoryDAO.getCategoryById(position + 1);
             if (category != null) {
                 headTextView.setText("Sản phẩm thuộc danh mục: " + category.getName());
-                ArrayList<Product> products = productDAO.getProductsByCategoryId(category.getId());
+                products = productDAO.getProductsByCategoryId(category.getId());
                 ProductAdapterRCM productAdapter = new ProductAdapterRCM(this, products, this, productDAO, user.getId());
                 viewPopular.setAdapter(productAdapter);
                 viewPopular.setLayoutManager(new GridLayoutManager(this, 2));
@@ -301,4 +302,5 @@ public class BaseActivity extends AppCompatActivity implements RecycleViewOnItem
             }
         }
     }
+
 }
