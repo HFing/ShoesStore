@@ -27,6 +27,7 @@ public class ReviewActivity extends AppCompatActivity {
         setContentView(R.layout.activity_review);
 
         int productId = getIntent().getIntExtra("product_id", -1);
+        int userId = getIntent().getIntExtra("user_id", -1);
 
         ratingBar = findViewById(R.id.ratingBar);
         editTextComment = findViewById(R.id.editTextComment);
@@ -49,6 +50,7 @@ public class ReviewActivity extends AppCompatActivity {
 
                 // Save the review to the database
                 Review review = new Review();
+                review.setUser_id(userId);
                 review.setRating((int) rating);
                 review.setComment(comment);
                 review.setProduct_id(productId);

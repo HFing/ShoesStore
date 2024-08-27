@@ -14,6 +14,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.hfing.shoesstore.Activity.ReviewActivity;
+import com.hfing.shoesstore.DAO.OrderDAO;
 import com.hfing.shoesstore.DAO.ProductDAO;
 import com.hfing.shoesstore.DAO.ProductSizeDAO;
 import com.hfing.shoesstore.Model.OrderDetail;
@@ -30,12 +31,14 @@ public class OrderDetailAdapter extends RecyclerView.Adapter<OrderDetailAdapter.
     private Context context;
     private ProductDAO productDAO;
     private ProductSizeDAO productSizeDAO;
+    private OrderDAO orderDAO;
 
     public OrderDetailAdapter(List<OrderDetail> orderDetailList, Context context) {
         this.orderDetailList = orderDetailList;
         this.context = context;
         this.productDAO = new ProductDAO(context);
         this.productSizeDAO = new ProductSizeDAO(context);
+        this.orderDAO = new OrderDAO(context);
     }
 
     @NonNull
@@ -69,6 +72,8 @@ public class OrderDetailAdapter extends RecyclerView.Adapter<OrderDetailAdapter.
                 @Override
                 public void onClick(View v) {
                     Intent intent = new Intent(context, ReviewActivity.class);
+                    int user_id = orderDAO.getOrderById(orderDetail.getOrder_id()).getUser_id();
+                    intent.putExtra("user_id", user_id);
                     intent.putExtra("product_id", orderDetail.getProduct_id());
                     context.startActivity(intent);
                 }
