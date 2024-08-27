@@ -1,3 +1,4 @@
+// OrderListActivity.java
 package com.hfing.shoesstore.Activity;
 
 import android.content.Intent;
@@ -9,11 +10,10 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.hfing.shoesstore.Adapter.OrderAdapter;
 import com.hfing.shoesstore.Adapter.OrderHistoryAdapter;
 import com.hfing.shoesstore.DAO.OrderDetailDAO;
 import com.hfing.shoesstore.DAO.UsersDAO;
-import com.hfing.shoesstore.Model.OrderDetail;
+import com.hfing.shoesstore.Model.Orders;
 import com.hfing.shoesstore.Model.User;
 import com.hfing.shoesstore.R;
 
@@ -46,6 +46,10 @@ public class OrderListActivity extends AppCompatActivity {
             return;
         }
 
+        List<Orders> ordersList = orderDetailDAO.getOrdersByUserId(id);
+        Collections.reverse(ordersList);
+        orderHistoryAdapter = new OrderHistoryAdapter(ordersList, this);
+        recyclerViewOrders.setAdapter(orderHistoryAdapter);
 
         ImageView backBtn = findViewById(R.id.backBtn);
         backBtn.setOnClickListener(new View.OnClickListener() {
@@ -58,12 +62,5 @@ public class OrderListActivity extends AppCompatActivity {
                 finish();
             }
         });
-
-        List<OrderDetail> orderDetailList = orderDetailDAO.getOrderDetailsByUserId(user.getId());
-        Collections.reverse(orderDetailList);
-        orderHistoryAdapter = new OrderHistoryAdapter(orderDetailList, this);
-        recyclerViewOrders.setAdapter(orderHistoryAdapter);
     }
-
-
 }

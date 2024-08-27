@@ -187,6 +187,71 @@ public class OrderDetailDAO {
         return orderDetails;
     }
 
+    @SuppressLint("Range")
+    public List<Orders> getOrdersByUserId(int userId) {
+        List<Orders> ordersList = new ArrayList<>();
+        SQLiteDatabase db = dbHelper.getReadableDatabase();
+        Cursor cursor = null;
+
+        try {
+            String query = "SELECT * FROM " + DBHelper.TABLE_ORDERS + " WHERE " + DBHelper.COLUMN_ORDERS_USER_ID + " = ?";
+            cursor = db.rawQuery(query, new String[]{String.valueOf(userId)});
+
+            if (cursor.moveToFirst()) {
+                do {
+                    Orders order = new Orders();
+                    order.setId(cursor.getInt(cursor.getColumnIndex(DBHelper.COLUMN_ORDERS_ID)));
+                    order.setUser_id(cursor.getInt(cursor.getColumnIndex(DBHelper.COLUMN_ORDERS_USER_ID)));
+                    order.setOrder_date(cursor.getString(cursor.getColumnIndex(DBHelper.COLUMN_ORDERS_DATE)));
+                    ordersList.add(order);
+                } while (cursor.moveToNext());
+            }
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        } finally {
+            if (cursor != null) {
+                cursor.close();
+            }
+            db.close();
+        }
+
+        return ordersList;
+    }
+
+    @SuppressLint("Range")
+    public List<OrderDetail> getOrderDetailsByOrderId(int orderId) {
+        List<OrderDetail> orderDetails = new ArrayList<>();
+        SQLiteDatabase db = dbHelper.getReadableDatabase();
+        Cursor cursor = null;
+
+        try {
+            String query = "SELECT * FROM " + DBHelper.TABLE_ORDERDETAIL + " WHERE " + DBHelper.COLUMN_ORDERDETAIL_ORDER_ID + " = ?";
+            cursor = db.rawQuery(query, new String[]{String.valueOf(orderId)});
+
+            if (cursor.moveToFirst()) {
+                do {
+                    OrderDetail orderDetail = new OrderDetail();
+                    orderDetail.setId(cursor.getInt(cursor.getColumnIndex(DBHelper.COLUMN_ORDERDETAIL_ID)));
+                    orderDetail.setOrder_id(cursor.getInt(cursor.getColumnIndex(DBHelper.COLUMN_ORDERDETAIL_ORDER_ID)));
+                    orderDetail.setProduct_id(cursor.getInt(cursor.getColumnIndex(DBHelper.COLUMN_ORDERDETAIL_PRODUCT_ID)));
+                    orderDetail.setProduct_size_id(cursor.getInt(cursor.getColumnIndex(DBHelper.COLUMN_ORDERDETAIL_PRODUCT_SIZE_ID)));
+                    orderDetail.setQuantity(cursor.getInt(cursor.getColumnIndex(DBHelper.COLUMN_ORDERDETAIL_QUANTITY)));
+                    orderDetail.setUnit_price(cursor.getDouble(cursor.getColumnIndex(DBHelper.COLUMN_ORDERDETAIL_UNIT_PRICE)));
+                    orderDetails.add(orderDetail);
+                } while (cursor.moveToNext());
+            }
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        } finally {
+            if (cursor != null) {
+                cursor.close();
+            }
+            db.close();
+        }
+
+        return orderDetails;
+    }
+
 
 
 }

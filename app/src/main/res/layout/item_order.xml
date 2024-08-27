@@ -1,107 +1,40 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_margin="8dp"
-    app:cardCornerRadius="8dp"
-    app:cardElevation="4dp">
+    android:padding="8dp">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:layout_width="match_parent"
+    <View
+        android:id="@+id/view2"
+        android:layout_width="200dp"
+        android:layout_height="1dp"
+        android:background="@color/darkGrey"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/tvOrderDate"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:padding="16dp">
+        android:layout_marginTop="5dp"
+        android:layout_marginEnd="50dp"
+        android:text="Order Date"
+        android:textColor="@color/black"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/view2" />
 
-        <ImageView
-            android:id="@+id/imgProduct"
-            android:layout_width="100dp"
-            android:layout_height="100dp"
-            android:layout_marginEnd="8dp"
-            android:contentDescription="Product Image"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintVertical_bias="0.0" />
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerViewOrderDetails"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/tvOrderDate"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent" />
 
-        <TextView
-            android:id="@+id/tvProductName"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:text="Product Name"
-            android:textSize="18sp"
-            android:textStyle="bold"
-            android:textColor="@android:color/black"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintStart_toEndOf="@id/imgProduct"
-            app:layout_constraintEnd_toEndOf="parent"
-            android:layout_marginStart="10dp"
-            android:layout_marginBottom="4dp" />
-
-        <TextView
-            android:id="@+id/tvProductSize"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="10dp"
-            android:text="Size: Product Description"
-            android:textSize="14sp"
-            android:textColor="@android:color/darker_gray"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@id/imgProduct"
-            app:layout_constraintTop_toBottomOf="@id/tvProductName"
-            android:layout_marginBottom="4dp" />
-
-        <TextView
-            android:id="@+id/tvProductPrice"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:text="Product Price"
-            android:textSize="16sp"
-            android:textColor="@android:color/holo_red_dark"
-            app:layout_constraintTop_toBottomOf="@id/tvProductSize"
-            app:layout_constraintStart_toEndOf="@id/imgProduct"
-            app:layout_constraintEnd_toEndOf="parent"
-            android:layout_marginStart="10dp"
-            android:layout_marginBottom="8dp" />
-
-        <TextView
-            android:id="@+id/tvOrderDate"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:text="Order Date"
-            android:textSize="14sp"
-            android:textColor="@android:color/darker_gray"
-            app:layout_constraintTop_toBottomOf="@id/tvProductPrice"
-            app:layout_constraintStart_toEndOf="@id/imgProduct"
-            app:layout_constraintEnd_toEndOf="parent"
-            android:layout_marginStart="10dp"
-            android:layout_marginBottom="8dp" />
-
-        <TextView
-            android:id="@+id/tvProductQuantity"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:text="Quantity"
-            android:textSize="14sp"
-            android:textColor="@android:color/darker_gray"
-            app:layout_constraintTop_toBottomOf="@id/tvOrderDate"
-            app:layout_constraintStart_toEndOf="@id/imgProduct"
-            app:layout_constraintEnd_toEndOf="parent"
-            android:layout_marginStart="10dp"
-            android:layout_marginBottom="8dp" />
-
-        <Button
-            android:id="@+id/btnRateProduct"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="10dp"
-            android:layout_marginTop="8dp"
-            android:text="Rate Product"
-            android:textColor="@android:color/white"
-            android:backgroundTint="@android:color/holo_red_dark"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@id/imgProduct"
-            app:layout_constraintTop_toBottomOf="@id/tvProductQuantity" />
-
-    </androidx.constraintlayout.widget.ConstraintLayout>
-</androidx.cardview.widget.CardView>
+</androidx.constraintlayout.widget.ConstraintLayout>
