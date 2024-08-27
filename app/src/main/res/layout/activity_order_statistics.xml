@@ -49,18 +49,20 @@
                 android:id="@+id/edtStartDate"
                 android:layout_width="0dp"
                 android:layout_height="48dp"
+                android:layout_marginEnd="8dp"
                 android:layout_weight="1"
-                android:hint="Start Date"
-                android:inputType="date"
-                android:layout_marginEnd="8dp" />
+                android:clickable="true"
+                android:focusable="false"
+                android:hint="Start Date" />
 
             <EditText
                 android:id="@+id/edtEndDate"
                 android:layout_width="0dp"
                 android:layout_height="48dp"
                 android:layout_weight="1"
-                android:hint="End Date"
-                android:inputType="date" />
+                android:clickable="true"
+                android:focusable="false"
+                android:hint="End Date" />
         </LinearLayout>
 
         <TextView
