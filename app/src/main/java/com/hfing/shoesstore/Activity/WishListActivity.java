@@ -6,13 +6,16 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import com.hfing.shoesstore.Adapter.WishListAdapter;
 import com.hfing.shoesstore.DAO.FavoriteDAO;
+import com.hfing.shoesstore.DAO.UsersDAO;
 import com.hfing.shoesstore.Model.Product;
+import com.hfing.shoesstore.Model.User;
 import com.hfing.shoesstore.R;
 import java.util.List;
 
@@ -22,6 +25,7 @@ public class WishListActivity extends AppCompatActivity {
     private FavoriteDAO favoriteDAO;
     private int userId;
     private TextView emptyTextView;
+    private UsersDAO usersDAO = new UsersDAO(this);
 
     @SuppressLint("MissingInflatedId")
     @Override
@@ -39,12 +43,7 @@ public class WishListActivity extends AppCompatActivity {
         loadFavorites();
 
         ImageView backBtn = findViewById(R.id.backBtn);
-        backBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                onBackPressed();
-            }
-        });
+        backBtn.setOnClickListener(v -> finish());
     }
 
     private void loadFavorites() {
@@ -59,12 +58,16 @@ public class WishListActivity extends AppCompatActivity {
             recyclerView.setAdapter(wishListAdapter);
         }
     }
-    @Override
-    public void onBackPressed() {
-        super.onBackPressed();
-        Intent intent = new Intent(WishListActivity.this, BaseActivity.class);
-        intent.putExtra("id", userId); // Truyền userId khi quay lại BaseActivity
-        startActivity(intent);
-        finish();
+    private User getUserFromIntent() {
+        Intent intent = getIntent();
+        int id = intent.getIntExtra("id", 0);
+        User user = usersDAO.getUserById(id);
+
+        if (user == null) {
+            Toast.makeText(this, "User not found", Toast.LENGTH_SHORT).show();
+            finish();
+            return null;
+        }
+        return user;
     }
 }

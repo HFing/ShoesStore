@@ -40,7 +40,6 @@ import java.util.List;
 
 public class BaseActivity extends AppCompatActivity implements RecycleViewOnItemClickListener, CategoryBaseViewAdapter.OnCategoryClickListener {
 
-
     private final UsersDAO usersDAO = new UsersDAO(BaseActivity.this);
     private User user;
     private final ProductDAO productDAO = new ProductDAO(BaseActivity.this);
@@ -87,15 +86,20 @@ public class BaseActivity extends AppCompatActivity implements RecycleViewOnItem
         noResultsTextView = findViewById(R.id.noResultsTextView);
         headTextView = findViewById(R.id.textView8);
         //Xác định User đang thực hiện
+
+
         Intent intent = getIntent();
         int id = intent.getIntExtra("id", -1);
         //int id = 3;
-
         user = usersDAO.getUserById(id);
+
+
+        user = usersDAO.getUserById((int) id);
 
         if (user == null) {
             Toast.makeText(this, "User not found", Toast.LENGTH_SHORT).show();
             finish();
+            return;
         }
         //Hiển thị tên người dùng
         nameOfUser = findViewById(R.id.textNameOfUser);
