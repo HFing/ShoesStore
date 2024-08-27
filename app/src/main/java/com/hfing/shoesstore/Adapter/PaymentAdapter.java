@@ -15,8 +15,10 @@ import com.hfing.shoesstore.DAO.ProductSizeDAO;
 import com.hfing.shoesstore.Model.CartItem;
 import com.hfing.shoesstore.R;
 
+import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 import java.util.zip.Inflater;
 
 public class PaymentAdapter extends BaseAdapter {
@@ -72,7 +74,8 @@ public class PaymentAdapter extends BaseAdapter {
             holder.productImage.setImageResource(R.drawable.ic_launcher_background);
         }
         holder.productName.setText(productDAO.getProductById(cartItem.getProduct_id()).getName());
-        holder.productPrice.setText(String.valueOf(productDAO.getProductById(cartItem.getProduct_id()).getPrice()));
+        NumberFormat format = NumberFormat.getCurrencyInstance(new Locale("vi", "VN"));
+        holder.productPrice.setText(format.format(productDAO.getProductById(cartItem.getProduct_id()).getPrice()));
         holder.productSize.setText(String.valueOf(productSizeDAO.getProductSizeById(cartItem.getProduct_size_id()).getSize()));
         holder.productQuantity.setText(String.valueOf(cartItem.getQuantity()));
         return convertView;

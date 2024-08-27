@@ -52,17 +52,7 @@ public class CartActivity extends AppCompatActivity implements CartAdapter.OnQua
         cartItemDAO = new CartItemDAO(this);
         productDAO = new ProductDAO(this);
 
-        loadCartItems();
 
-        backBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                finish();
-            }
-        });
-    }
-
-    private void loadCartItems() {
         Intent intent = getIntent();
         int user_id = intent.getIntExtra("user_id", -1);
         CartDAO cartDAO = new CartDAO(this);
@@ -83,6 +73,34 @@ public class CartActivity extends AppCompatActivity implements CartAdapter.OnQua
         viewCart.setAdapter(cartAdapter);
 
         updateCartSummary();
+
+        checkoutBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (cartItems.size() == 0) {
+                    Toast.makeText(CartActivity.this, "Cart is empty", Toast.LENGTH_SHORT).show();
+                    return;
+                } else {
+                    Intent intent = new Intent(CartActivity.this, PaymentActivity.class);
+                    intent.putExtra("user_id", user_id);
+                    int quantity = 0;
+                    for (CartItem cartItem : cartItems) {
+                        quantity += cartItem.getQuantity();
+                    }
+                    intent.putExtra("quantity", quantity);
+                    intent.putExtra("cartItemSize", cartItems.size());
+                    intent.putExtra("cart_id", cartItems.get(0).getCart_id());
+                    startActivity(intent);
+                }
+            }
+        });
+
+        backBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
     }
 
     private void updateCartSummary() {
