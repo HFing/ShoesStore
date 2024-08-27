@@ -16,8 +16,8 @@ import com.hfing.shoesstore.R;
 
 public class ProfileActivity extends AppCompatActivity {
     User user;
-    private ImageView backBtn;
-    private Button btnLogOut;
+    private Button backBtn;
+    private TextView btnLogOut;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,7 +48,11 @@ public class ProfileActivity extends AppCompatActivity {
         backBtn = findViewById(R.id.backBtn);
         backBtn.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
+            public void onClick(View view) {
+                Intent intent = new Intent(ProfileActivity.this, BaseActivity.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+                intent.putExtra("id", user.getId());
+                startActivity(intent);
                 finish();
             }
         });

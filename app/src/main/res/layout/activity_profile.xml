@@ -201,27 +201,40 @@
 
     <Button
         android:id="@+id/btnEditProfile"
-        android:layout_width="wrap_content"
+        android:layout_width="150dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="32dp"
         android:text="Edit Profile"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/cardView" />
+        app:layout_constraintTop_toBottomOf="@+id/cardView"
+        app:layout_constraintWidth_percent="0.8" />
 
     <Button
-        android:id="@+id/btnLogOut"
-        android:layout_width="wrap_content"
+        android:id="@+id/backBtn"
+        android:layout_width="150dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
+        android:text="Back Home"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/btnEditProfile"
+        app:layout_constraintWidth_percent="0.8" />
+
+    <TextView
+        android:id="@+id/btnLogOut"
+        android:layout_width="150dp"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="30dp"
         android:text="Log Out"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btnEditProfile" />
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:textColor="#ff5733"
+        android:textAlignment="center"
+        android:textStyle="bold"
+        android:textSize="30dp"
+        />
 
-    <ImageView
-        android:id="@+id/backBtn"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:srcCompat="@drawable/back" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

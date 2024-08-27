@@ -2,6 +2,7 @@ package com.hfing.shoesstore.Activity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
@@ -16,6 +17,7 @@ import com.hfing.shoesstore.Model.OrderDetail;
 import com.hfing.shoesstore.Model.User;
 import com.hfing.shoesstore.R;
 
+import java.util.Collections;
 import java.util.List;
 
 public class OrderListActivity extends AppCompatActivity {
@@ -34,21 +36,6 @@ public class OrderListActivity extends AppCompatActivity {
         recyclerViewOrders.setLayoutManager(new LinearLayoutManager(this));
 
         orderDetailDAO = new OrderDetailDAO(this);
-        user = getUserFromIntent();
-
-        if (user == null) {
-            return;
-        }
-
-        ImageView backBtn = findViewById(R.id.backBtn);
-        backBtn.setOnClickListener(v -> finish());
-
-        List<OrderDetail> orderDetailList = orderDetailDAO.getOrderDetailsByUserId(user.getId());
-        orderHistoryAdapter = new OrderHistoryAdapter(orderDetailList, this);
-        recyclerViewOrders.setAdapter(orderHistoryAdapter);
-    }
-
-    private User getUserFromIntent() {
         Intent intent = getIntent();
         int id = intent.getIntExtra("id", 0);
         User user = usersDAO.getUserById(id);
@@ -56,8 +43,27 @@ public class OrderListActivity extends AppCompatActivity {
         if (user == null) {
             Toast.makeText(this, "User not found", Toast.LENGTH_SHORT).show();
             finish();
-            return null;
+            return;
         }
-        return user;
+
+
+        ImageView backBtn = findViewById(R.id.backBtn);
+        backBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(OrderListActivity.this, BaseActivity.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+                intent.putExtra("id", id);
+                startActivity(intent);
+                finish();
+            }
+        });
+
+        List<OrderDetail> orderDetailList = orderDetailDAO.getOrderDetailsByUserId(user.getId());
+        Collections.reverse(orderDetailList);
+        orderHistoryAdapter = new OrderHistoryAdapter(orderDetailList, this);
+        recyclerViewOrders.setAdapter(orderHistoryAdapter);
     }
+
+
 }

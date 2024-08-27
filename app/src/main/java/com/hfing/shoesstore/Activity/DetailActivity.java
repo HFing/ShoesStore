@@ -116,9 +116,15 @@ public class DetailActivity extends AppCompatActivity {
         reviewList.setLayoutManager(new LinearLayoutManager(this));
         reviewList.setAdapter(reviewAdapter);
 
+
+        // Back to Home
         backBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                Intent intent = new Intent(DetailActivity.this, BaseActivity.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+                intent.putExtra("id", user_id);
+                startActivity(intent);
                 finish();
             }
         });
