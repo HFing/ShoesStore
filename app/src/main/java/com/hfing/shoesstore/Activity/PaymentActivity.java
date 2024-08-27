@@ -26,9 +26,11 @@ import com.hfing.shoesstore.DAO.UsersDAO;
 import com.hfing.shoesstore.Model.CartItem;
 import com.hfing.shoesstore.Model.OrderDetail;
 import com.hfing.shoesstore.Model.Orders;
+import com.hfing.shoesstore.Model.Product;
 import com.hfing.shoesstore.Model.User;
 import com.hfing.shoesstore.R;
 
+import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -73,7 +75,7 @@ public class PaymentActivity extends AppCompatActivity {
         totalFeeTxt = findViewById(R.id.totalFeeTxt);
         deliveryFeeTxt = findViewById(R.id.deliveryTxt);
         taxTxt = findViewById(R.id.taxTxt);
-        totalPaymentTxt = findViewById(R.id.totalFeeTxt);
+        totalPaymentTxt = findViewById(R.id.TotalTxt);
         placeOrderBtn = findViewById(R.id.placeOrderBtn);
         backBtn = findViewById(R.id.backBtn);
 
@@ -117,6 +119,7 @@ public class PaymentActivity extends AppCompatActivity {
             cartItems.add(cartItem);
             PaymentAdapter paymentAdapter = new PaymentAdapter(this, cartItems, productSizeDAO, productDAO);
             listProductPayment.setAdapter(paymentAdapter);
+
             placeOrderBtn.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
@@ -165,6 +168,8 @@ public class PaymentActivity extends AppCompatActivity {
             });
         }
 
+        updateCartSummary();
+
         editAddressBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -182,6 +187,26 @@ public class PaymentActivity extends AppCompatActivity {
                 finish();
             }
         });
+    }
+
+    private void updateCartSummary() {
+        double subtotal = 0;
+        for (CartItem item : cartItems) {
+            Product product = productDAO.getProductById(item.getProduct_id());
+            subtotal += product.getPrice() * item.getQuantity();
+        }
+
+        double deliveryFee = 0;
+        double totalTax = 0;
+        double total = subtotal + deliveryFee + totalTax;
+
+
+
+        NumberFormat formatter = NumberFormat.getCurrencyInstance(new Locale("vi", "VN"));
+        totalFeeTxt.setText(formatter.format(subtotal));
+        deliveryFeeTxt.setText(formatter.format(deliveryFee));
+        taxTxt.setText(formatter.format(totalTax));
+        totalPaymentTxt.setText(formatter.format(total));
     }
 
     private void transferCartItemsToOrderHistory() {
