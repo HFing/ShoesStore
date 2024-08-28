@@ -138,7 +138,7 @@ public class PaymentActivity extends AppCompatActivity {
             });
         }
 
-        if (cartItemSize > 1 && quantity > 1) {
+        if (cartItemSize >= 1 && quantity > 1) {
             int cartId = intent.getIntExtra("cart_id", -1);
             if (cartId == -1) {
                 Log.e("PaymentActivity", "Invalid cart ID: " + cartId);
