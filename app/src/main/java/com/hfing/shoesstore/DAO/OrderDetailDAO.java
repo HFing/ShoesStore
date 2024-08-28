@@ -15,6 +15,8 @@ import com.hfing.shoesstore.Model.Product;
 import com.hfing.shoesstore.Model.User;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -215,12 +217,33 @@ public class OrderDetailDAO {
     @SuppressLint("Range")
     public List<OrderDetail> getOrderDetailsByUserCategoryAndDate(User user, Category category, String startDate, String endDate) {
         List<OrderDetail> orderDetails = getOrderDetailsByUserAndCategory(user, category);
-        LocalDate start = LocalDate.parse(startDate);
-        LocalDate end = LocalDate.parse(endDate);
+        DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+        LocalDateTime start;
+        LocalDateTime end;
+
+        if (startDate.length() == 10) {
+            start = LocalDate.parse(startDate, dateFormatter).atStartOfDay();
+        } else {
+            start = LocalDateTime.parse(startDate, dateTimeFormatter);
+        }
+
+        if (endDate.length() == 10) {
+            end = LocalDate.parse(endDate, dateFormatter).atTime(23, 59, 59);
+        } else {
+            end = LocalDateTime.parse(endDate, dateTimeFormatter);
+        }
+
         List<OrderDetail> result = new ArrayList<>();
         for (OrderDetail orderDetail : orderDetails) {
             Orders order = orderDAO.getOrderById(orderDetail.getOrder_id());
-            LocalDate orderDate = LocalDate.parse(order.getOrder_date());
+            LocalDateTime orderDate;
+            if (order.getOrder_date().length() == 10) {
+                orderDate = LocalDate.parse(order.getOrder_date(), dateFormatter).atStartOfDay();
+            } else {
+                orderDate = LocalDateTime.parse(order.getOrder_date(), dateTimeFormatter);
+            }
+
             if ((orderDate.isEqual(start) || orderDate.isAfter(start)) && (orderDate.isEqual(end) || orderDate.isBefore(end))) {
                 result.add(orderDetail);
             }
