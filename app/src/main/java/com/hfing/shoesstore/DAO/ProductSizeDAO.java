@@ -150,4 +150,36 @@ public class ProductSizeDAO {
         }
         return productSizes != null ? productSizes : new ArrayList<>();
     }
+
+
+    @SuppressLint("Range")
+    public List<ProductSize> getProductSizesByProductId(int productId) {
+        List<ProductSize> productSizes = new ArrayList<>();
+        SQLiteDatabase db = dbHelper.getReadableDatabase();
+        Cursor cursor = null;
+        try {
+            String query = "SELECT * FROM " + DBHelper.TABLE_PRODUCTSIZE + " WHERE " + DBHelper.COLUMN_PRODUCTSIZE_PRODUCT_ID + " = ?";
+            cursor = db.rawQuery(query, new String[]{String.valueOf(productId)});
+            if (cursor.moveToFirst()) {
+                do {
+                    ProductSize productSize = new ProductSize();
+                    productSize.setId(cursor.getInt(cursor.getColumnIndex(DBHelper.COLUMN_PRODUCTSIZE_ID)));
+                    productSize.setSize(cursor.getInt(cursor.getColumnIndex(DBHelper.COLUMN_PRODUCTSIZE_SIZE)));
+                    productSize.setQuantity(cursor.getInt(cursor.getColumnIndex(DBHelper.COLUMN_PRODUCTSIZE_QUANTITY)));
+                    productSize.setProduct_id(cursor.getInt(cursor.getColumnIndex(DBHelper.COLUMN_PRODUCTSIZE_PRODUCT_ID)));
+                    productSizes.add(productSize);
+                } while (cursor.moveToNext());
+            }
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        } finally {
+            if (cursor != null) {
+                cursor.close();
+            }
+            db.close();
+        }
+        return productSizes != null ? productSizes : new ArrayList<>();
+    }
+
+
 }

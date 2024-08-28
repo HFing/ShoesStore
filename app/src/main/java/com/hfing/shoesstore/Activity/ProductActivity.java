@@ -1,12 +1,14 @@
 package com.hfing.shoesstore.Activity;
 
 import android.annotation.SuppressLint;
+import android.app.Dialog;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
@@ -15,23 +17,22 @@ import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.Toast;
 
-import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.graphics.Insets;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
 
 import com.hfing.shoesstore.Adapter.ProductAdapter;
 import com.hfing.shoesstore.DAO.CategoryDAO;
 import com.hfing.shoesstore.DAO.ProductDAO;
+import com.hfing.shoesstore.DAO.ProductSizeDAO;
 import com.hfing.shoesstore.Model.Category;
 import com.hfing.shoesstore.Model.Product;
+import com.hfing.shoesstore.Model.ProductSize;
 import com.hfing.shoesstore.R;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
+import java.util.List;
 
 public class ProductActivity extends AppCompatActivity {
     EditText edtNameProduct, edtPriceProduct, edtDescriptionProduct;
@@ -40,6 +41,7 @@ public class ProductActivity extends AppCompatActivity {
     ListView lvProduct;
     ImageView imgProduct;
     ProductDAO productDAO;
+    ProductSizeDAO productSizeDAO;
     ArrayList<Product> products;
     ProductAdapter productAdapter;
     Integer id = -1;
@@ -64,33 +66,19 @@ public class ProductActivity extends AppCompatActivity {
 
         // hien list view
         productDAO = new ProductDAO(this);
+        productSizeDAO = new ProductSizeDAO(this);
         products = productDAO.getAllProducts();
         productAdapter = new ProductAdapter(this, products);
         lvProduct.setAdapter(productAdapter);
 
-        btnAddProduct=findViewById(R.id.bntAddProduct);
-        btnAddProduct.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                addProduct();
-            }
-        });
+        btnAddProduct = findViewById(R.id.bntAddProduct);
+        btnAddProduct.setOnClickListener(view -> addProduct());
 
-        btnUpdateProduct=findViewById(R.id.bntUpdateProduct);
-        btnUpdateProduct.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                updateProduct();
-            }
-        });
+        btnUpdateProduct = findViewById(R.id.bntUpdateProduct);
+        btnUpdateProduct.setOnClickListener(view -> updateProduct());
 
-        btnDeleteProduct=findViewById(R.id.bntDeleteProduct);
-        btnDeleteProduct.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                deleteProduct();
-            }
-        });
+        btnDeleteProduct = findViewById(R.id.bntDeleteProduct);
+        btnDeleteProduct.setOnClickListener(view -> deleteProduct());
 
         lvProduct.setOnItemClickListener((adapterView, view, i, l) -> {
             Product product = products.get(i);
@@ -120,6 +108,12 @@ public class ProductActivity extends AppCompatActivity {
             }
         });
 
+        lvProduct.setOnItemLongClickListener((adapterView, view, i, l) -> {
+            Product product = products.get(i);
+            showAddSizeDialog(product);
+            return true;
+        });
+
         //lay danh sách danh muc va hien thi vao trong spinner
         CategoryDAO categoryDAO = new CategoryDAO(this);
         ArrayList<Category> categories = categoryDAO.getAllCategories();
@@ -128,7 +122,7 @@ public class ProductActivity extends AppCompatActivity {
         spnCategoryProduct.setAdapter(categoryAdapter);
     }
 
-    private void addProduct(){
+    private void addProduct() {
         if (edtNameProduct.getText().toString().isEmpty() || edtPriceProduct.getText().toString().isEmpty()) {
             Toast.makeText(this, "Vui lòng nhập đầy đủ thông tin sản phẩm", Toast.LENGTH_SHORT).show();
             return;
@@ -207,6 +201,52 @@ public class ProductActivity extends AppCompatActivity {
         imgProduct.setImageResource(R.drawable.ic_launcher_background);
         selectedImageBitmap = null;
     }
+
+    public void showAddSizeDialog(Product product) {
+        Dialog dialog = new Dialog(this);
+        dialog.setContentView(R.layout.dialog_add_size);
+
+        ListView lvSizes = dialog.findViewById(R.id.lvSizes);
+        EditText edtSize = dialog.findViewById(R.id.edtSize);
+        EditText edtQuantity = dialog.findViewById(R.id.edtQuantity);
+        Button btnAddSize = dialog.findViewById(R.id.btnAddSize);
+
+        // Lấy danh sách kích thước và số lượng hiện có từ database
+        List<ProductSize> productSizes = productSizeDAO.getProductSizesByProductId(product.getId());
+        ArrayAdapter<ProductSize> adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, productSizes);
+        lvSizes.setAdapter(adapter);
+
+        btnAddSize.setOnClickListener(v -> {
+            int size = Integer.parseInt(edtSize.getText().toString());
+            int quantity = Integer.parseInt(edtQuantity.getText().toString());
+
+            // Thêm kích thước vào sản phẩm
+            ProductSize productSize = new ProductSize();
+            productSize.setSize(size);
+            productSize.setQuantity(quantity);
+            productSize.setProduct_id(product.getId());
+
+            // Lưu productSize vào database
+            productSizeDAO.addProductSize(productSize);
+
+            // Cập nhật danh sách kích thước và số lượng hiện có
+            productSizes.add(productSize);
+            adapter.notifyDataSetChanged();
+
+            // Clear input fields
+            edtSize.setText("");
+            edtQuantity.setText("");
+        });
+
+        // Set the dialog window size
+        dialog.getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+
+        // Dismiss the dialog when the user clicks outside
+        dialog.setCanceledOnTouchOutside(true);
+
+        dialog.show();
+    }
+
     private void openImageChooser() {
         Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
         startActivityForResult(intent, PICK_IMAGE_REQUEST);

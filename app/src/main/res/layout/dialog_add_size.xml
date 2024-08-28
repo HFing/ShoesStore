@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="16dp"
+    android:minWidth="300dp"
+    android:minHeight="400dp">
+
+    <ListView
+        android:id="@+id/lvSizes"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:divider="@android:color/darker_gray"
+        android:dividerHeight="1dp" />
+
+    <EditText
+        android:id="@+id/edtSize"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Nhập kích thước"
+        android:inputType="number" />
+
+    <EditText
+        android:id="@+id/edtQuantity"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Nhập số lượng"
+        android:inputType="number" />
+
+    <Button
+        android:id="@+id/btnAddSize"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Thêm kích thước"
+        android:layout_gravity="center"
+        android:layout_marginTop="16dp" />
+</LinearLayout>

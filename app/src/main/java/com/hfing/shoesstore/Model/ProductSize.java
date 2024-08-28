@@ -37,4 +37,9 @@ public class ProductSize {
     public void setQuantity(int quantity) {
         this.quantity = quantity;
     }
+
+    @Override
+    public String toString() {
+        return "Size: " + size + ", Quantity: " + quantity;
+    }
 }

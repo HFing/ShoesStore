@@ -46,17 +46,21 @@ public class CartDAO {
         return carts!=null?carts:new ArrayList<>();
     }
 
-    public long insertCart(Cart cart){
+    public long insertCart(Cart cart) {
         SQLiteDatabase db = dbHelper.getWritableDatabase();
         long result = 0;
+        db.beginTransaction();
         try {
             ContentValues values = new ContentValues();
             values.put(DBHelper.COLUMN_CART_USER_ID, cart.getUser_id());
             result = db.insert(DBHelper.TABLE_CART, null, values);
+            db.setTransactionSuccessful();
         } catch (Exception e) {
             throw new RuntimeException(e);
         } finally {
-            db.endTransaction();
+            if (db.inTransaction()) {
+                db.endTransaction();
+            }
             db.close();
         }
         return result;
