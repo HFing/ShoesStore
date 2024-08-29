@@ -4,12 +4,36 @@ ShoeStore App is an e-commerce application specializing in selling shoes. The ap
 
 ## Member Information
 
-- **Mã số sinh viên:** [2151010115]
-- **Họ và tên:** [Nguyễn Thái Hoàng]
+1. **Student ID:** 2151010115
+   - **Name:** Nguyễn Thái Hoàng
+   - **Role:** Team Lead
+   - **Mail:** thaihoangon.on@gmail.com
+
+2. **Student ID:** 2151013080
+   - **Name:** Nguyễn Trường Sinh
+
+
+3. **Student ID:** 2151010348
+   - **Name:** Lê  Chiến Thắng
 
 
 
-## Cài đặt
 
-Hướng dẫn cách cài đặt và chạy dự án trên máy local.
+## Installation
+
+To install and run the application, please follow these steps:
+
+1. **Download the installation file:**
+   - Visit [this link](https://drive.google.com/drive/folders/1VlCdSLEgI9VVpsJe8Mt29ZjfvWReyW8X?usp=sharing) to download the installation file for the application.
+
+2. **Extract the file:**
+   - After downloading, extract the file (if necessary).
+
+3. **Run the installer:**
+   - Run the downloaded installer file and follow the on-screen instructions to complete the installation process.
+
+4. **Launch the application:**
+   - Once installed, you can launch the application from the desktop icon or the installation directory.
+
+If you encounter any issues during the installation process, please contact the support team for assistance.
 
