@@ -37,3 +37,18 @@ To install and run the application, please follow these steps:
 
 If you encounter any issues during the installation process, please contact the support team for assistance.
 
+
+## JDK and SDK Information
+
+### JDK Information
+- **Java Version:** `JavaVersion.VERSION_1_8`
+
+  This indicates that the project is using Java 8 as the JDK version.
+
+### SDK Information
+- **Compile SDK Version:** `34`
+- **Minimum SDK Version:** `28`
+- **Target SDK Version:** `34`
+
+The project is compiled using Android API Level 34, with a minimum SDK version of 28 and a target SDK version of 34.
+
