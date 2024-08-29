@@ -13,6 +13,7 @@
         android:layout_height="wrap_content"
         android:padding="16dp">
 
+        <!-- Product Image -->
         <ImageView
             android:id="@+id/imgProduct"
             android:layout_width="100dp"
@@ -24,6 +25,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintVertical_bias="0.0" />
 
+        <!-- Product Name -->
         <TextView
             android:id="@+id/tvProductName"
             android:layout_width="0dp"
@@ -38,32 +40,20 @@
             android:layout_marginStart="10dp"
             android:layout_marginBottom="4dp" />
 
-        <TextView
-            android:id="@+id/tvProductSize"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="10dp"
-            android:text="Size: Product Description"
-            android:textSize="14sp"
-            android:textColor="@android:color/darker_gray"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@id/imgProduct"
-            app:layout_constraintTop_toBottomOf="@id/tvProductName"
-            android:layout_marginBottom="4dp" />
-
+        <!-- Product Price -->
         <TextView
             android:id="@+id/tvProductPrice"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:text="Product Price"
-            android:textSize="16sp"
-            android:textColor="@android:color/holo_red_dark"
-            app:layout_constraintTop_toBottomOf="@id/tvProductSize"
-            app:layout_constraintStart_toEndOf="@id/imgProduct"
-            app:layout_constraintEnd_toEndOf="parent"
             android:layout_marginStart="10dp"
-            android:layout_marginBottom="8dp" />
+            android:text="Product Price"
+            android:textColor="@android:color/holo_red_dark"
+            android:textSize="16sp"
+            app:layout_constraintTop_toBottomOf="@id/tvProductName"
+            app:layout_constraintStart_toEndOf="@id/imgProduct"
+            app:layout_constraintEnd_toEndOf="parent" />
 
+        <!-- Product Quantity -->
         <TextView
             android:id="@+id/tvProductQuantity"
             android:layout_width="0dp"
@@ -77,6 +67,7 @@
             android:layout_marginStart="10dp"
             android:layout_marginBottom="8dp" />
 
+        <!-- Delete Button -->
         <Button
             android:id="@+id/btnDeleteWishList"
             android:layout_width="wrap_content"

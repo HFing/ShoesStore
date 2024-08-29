@@ -110,7 +110,7 @@ public class CartActivity extends AppCompatActivity implements CartAdapter.OnQua
             subtotal += product.getPrice() * item.getQuantity();
         }
 
-        double deliveryFee = 30000;
+        double deliveryFee = 0;
         double totalTax = 0;
         double total = subtotal + deliveryFee + totalTax;
 

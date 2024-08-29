@@ -66,6 +66,7 @@ public class UsersActivity extends AppCompatActivity {
         ArrayAdapter<Role> roleArrayAdapter= new ArrayAdapter<>(context, android.R.layout.simple_spinner_item, roles);
         roleArrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spnRoles.setAdapter(roleArrayAdapter);
+        spnRoles.setSelection(0);
         reloadListView();
 
        btnAddUser.setOnClickListener(new View.OnClickListener() {
@@ -80,7 +81,7 @@ public class UsersActivity extends AppCompatActivity {
                 user.setEmail(edtEmailUser.getText().toString());
                 user.setPassword(edtPasswordUser.getText().toString());
                 user.setUsername(edtUserName.getText().toString());
-                user.setRole_id(spnRoles.getSelectedItemPosition());
+                user.setRole_id(spnRoles.getSelectedItemPosition() + 1);
                 user.setAddress(edtAddress.getText().toString());
                 user.setPhone(edtPhone.getText().toString());
                 if (rdbMale.isChecked()) {
@@ -89,13 +90,13 @@ public class UsersActivity extends AppCompatActivity {
                     user.setGender(0);
                 }
                if(usersDAO.addUser(user) > 0){
-                   Toast.makeText(context, "Add category successfully", Toast.LENGTH_SHORT).show();
+                   Toast.makeText(context, "Add user successfully", Toast.LENGTH_SHORT).show();
 //                categoryDAO.addCategory(category);
                    users.clear();
                    users.addAll(usersDAO.getAllUsers());
                    usersAdapter.notifyDataSetChanged();}
                else {
-                   Toast.makeText(context, "Add category failed", Toast.LENGTH_SHORT).show();
+                   Toast.makeText(context, "Add user failed", Toast.LENGTH_SHORT).show();
                }
                reloadListView();
                clearFields();

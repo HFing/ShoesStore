@@ -66,7 +66,7 @@ public class IntroActivity extends AppCompatActivity {
                     user.setAddress("");
                     user.setPhone("");
                     user.setGender(0);
-
+                    user.setRole_id(2);
                     int userId = (int) usersDAO.addUser(user);
                     navigateToActivity(userId);
                 }

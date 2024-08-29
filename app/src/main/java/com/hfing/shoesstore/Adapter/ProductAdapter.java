@@ -16,6 +16,7 @@ import com.hfing.shoesstore.Model.Product;
 import com.hfing.shoesstore.R;
 
 import java.text.NumberFormat;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Locale;
 
@@ -62,7 +63,12 @@ public class ProductAdapter extends BaseAdapter {
 
         Product product = products.get(position);
         holder.tvName.setText(product.getName());
-        holder.tvDescription.setText(product.getDescription());
+        String description = product.getDescription();
+        String[] words = description.split("\\s+");
+        if (words.length > 15) {
+            description = String.join(" ", Arrays.copyOfRange(words, 0, 15)) + " ...";
+        }
+        holder.tvDescription.setText(description);
         NumberFormat formatter = NumberFormat.getCurrencyInstance(new Locale("vi", "VN"));
         holder.tvPrice.setText(formatter.format(product.getPrice()));
 

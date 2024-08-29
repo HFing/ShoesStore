@@ -13,7 +13,10 @@ import com.bumptech.glide.Glide;
 import com.hfing.shoesstore.DAO.FavoriteDAO;
 import com.hfing.shoesstore.Model.Product;
 import com.hfing.shoesstore.R;
+
+import java.text.NumberFormat;
 import java.util.List;
+import java.util.Locale;
 
 public class WishListAdapter extends RecyclerView.Adapter<WishListAdapter.WishListViewHolder> {
     private List<Product> productList;
@@ -39,8 +42,9 @@ public class WishListAdapter extends RecyclerView.Adapter<WishListAdapter.WishLi
     public void onBindViewHolder(@NonNull WishListViewHolder holder, int position) {
         Product product = productList.get(position);
         holder.tvProductName.setText(product.getName());
-        holder.tvProductPrice.setText("Price: " + product.getPrice() + " VND");
-        holder.tvProductSize.setText("Description: " + product.getDescription());
+        NumberFormat format = NumberFormat.getCurrencyInstance(new Locale("vi", "VN"));
+        holder.tvProductPrice.setText("Price: " + format.format(product.getPrice()));
+
 
         Glide.with(context).load(product.getImage()).into(holder.imgProduct);
 
