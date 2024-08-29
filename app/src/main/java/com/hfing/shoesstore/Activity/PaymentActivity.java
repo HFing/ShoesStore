@@ -108,9 +108,10 @@ public class PaymentActivity extends AppCompatActivity {
 
         cartItems = new ArrayList<>();
 
-        if (cartItemSize == 1 && quantity == 1) {
-            int product_id = intent.getIntExtra("product_id", -1);
-            int product_size_id = intent.getIntExtra("product_size_id", -1);
+        int product_id = intent.getIntExtra("product_id", -1);
+        int product_size_id = intent.getIntExtra("product_size_id", -1);
+
+        if (product_id > -1) {
             CartItem cartItem = new CartItem();
             cartItem.setCart_id(-1);
             cartItem.setProduct_id(product_id);
@@ -138,7 +139,7 @@ public class PaymentActivity extends AppCompatActivity {
             });
         }
 
-        if (cartItemSize >= 1 && quantity > 1) {
+        if (cartItemSize >= 1 && quantity >= 1) {
             int cartId = intent.getIntExtra("cart_id", -1);
             if (cartId == -1) {
                 Log.e("PaymentActivity", "Invalid cart ID: " + cartId);
@@ -157,6 +158,10 @@ public class PaymentActivity extends AppCompatActivity {
             placeOrderBtn.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
+                    if(nameTxt.getText().toString().isEmpty() || phoneTxt.getText().toString().isEmpty() || txtAddress.getText().toString().isEmpty()) {
+                        Toast.makeText(PaymentActivity.this, "Please fill all your information in all fields", Toast.LENGTH_SHORT).show();
+                        return;
+                    }
                     transferCartItemsToOrderHistory();
                     clearCart(cartId);
                     Intent intent = new Intent(PaymentActivity.this, BaseActivity.class);
