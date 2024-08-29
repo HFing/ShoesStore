@@ -111,7 +111,7 @@ public class PaymentActivity extends AppCompatActivity {
         int product_id = intent.getIntExtra("product_id", -1);
         int product_size_id = intent.getIntExtra("product_size_id", -1);
 
-        if (product_id > -1) {
+        if (cartItemSize == 1 && quantity == 1 && product_id != -1) {
             CartItem cartItem = new CartItem();
             cartItem.setCart_id(-1);
             cartItem.setProduct_id(product_id);
@@ -139,7 +139,7 @@ public class PaymentActivity extends AppCompatActivity {
             });
         }
 
-        if (cartItemSize >= 1 && quantity >= 1) {
+        if (cartItemSize >= 1 && quantity >= 1 && product_id == -1) {
             int cartId = intent.getIntExtra("cart_id", -1);
             if (cartId == -1) {
                 Log.e("PaymentActivity", "Invalid cart ID: " + cartId);
