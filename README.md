@@ -43,7 +43,6 @@ If you encounter any issues during the installation process, please contact the 
 ### JDK Information
 - **Java Version:** `JavaVersion.VERSION_1_8`
 
-  This indicates that the project is using Java 8 as the JDK version.
 
 ### SDK Information
 - **Compile SDK Version:** `34`
