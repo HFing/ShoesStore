@@ -3,6 +3,7 @@ package com.hfing.shoesstore.Model;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.database.sqlite.SQLiteStatement;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.util.Log;
@@ -297,27 +298,27 @@ public class DBHelper extends SQLiteOpenHelper {
                 db.execSQL("INSERT INTO Category (name) VALUES ('ADIDAS');");
                 db.execSQL("INSERT INTO Category (name) VALUES ('BITIS');");
 
-                insertProductWithImage(db, "Nike AIR JORDAN ELEVATELOW", "Running shoe", 4500000.0, "2024-04-03", 1,
+                insertProductWithImage(db, "Nike AIR JORDAN ELEVATELOW", "The Nike AIR JORDAN ELEVATELOW is designed for ultimate comfort and style on the court. Its lightweight construction allows for quick movements, while the cushioning provides excellent support during jumps and landings. The shoe’s breathable mesh ensures your feet stay cool, even during intense games. Durable materials guarantee long-lasting performance. With a sleek design, it’s perfect for both sports and casual wear.", 4500000.0, "2024-04-03", 1,
                                 R.drawable.img_product_air_jordan_elevatelow, "png");
-                insertProductWithImage(db, "Bitis Hunter Core 3D Airmesh", "Running shoe", 3500000.0, "2023-12-31", 3,
+                insertProductWithImage(db, "Bitis Hunter Core 3D Airmesh", "The Bitis Hunter Core 3D Airmesh offers a perfect blend of comfort and durability for daily wear. Its 3D Airmesh technology ensures maximum breathability, keeping your feet fresh all day long. The cushioned sole provides excellent support, making it ideal for walking and running. The stylish design adds a modern touch to your outfit. Built with high-quality materials, this shoe is designed to last.", 3500000.0, "2023-12-31", 3,
                                 R.drawable.img_product_bitis_hunter_core_3d_airmesh, "jpg");
-                insertProductWithImage(db, "Bitis Hunter Street", "Basketball shoe", 3800000.0, "2024-07-02", 3,
+                insertProductWithImage(db, "Bitis Hunter Street", "Bitis Hunter Street is a versatile shoe designed for urban living. Its comfortable fit and cushioned insole make it perfect for long walks in the city. The street-inspired design adds a fashionable edge to your look, while the durable materials ensure it can withstand the demands of city life. With excellent traction, it provides stability on various surfaces. This shoe is both stylish and functional.", 3800000.0, "2024-07-02", 3,
                                 R.drawable.img_product_bitis_hunter_street, "jpg");
-                insertProductWithImage(db, "Bitis Hunter X", "Basketball shoe", 2500000.0, "2024-07-02", 3,
+                insertProductWithImage(db, "Bitis Hunter X", "The Bitis Hunter X combines cutting-edge technology with a sleek design, making it ideal for sports enthusiasts. Its advanced cushioning system provides exceptional comfort, reducing impact during high-intensity activities. The lightweight construction allows for easy movement, while the durable outer material ensures long-term use. Perfect for both indoor and outdoor activities, this shoe delivers top-notch performance.", 2500000.0, "2024-07-02", 3,
                                 R.drawable.img_product_bitis_hunter_x, "jpg");
-                insertProductWithImage(db, "Nike Pegasus", "Basketball shoe", 5000000.0, "2024-07-02", 1,
+                insertProductWithImage(db, "Nike Pegasus", "The Nike Pegasus is engineered for superior performance and comfort. Its responsive cushioning system enhances energy return, making it perfect for long-distance running. The shoe’s breathable upper keeps your feet cool, while the durable outsole provides excellent traction on various surfaces. With its modern design, the Nike Pegasus is not only a great running shoe but also a stylish addition to your sportswear collection.", 5000000.0, "2024-07-02", 1,
                                 R.drawable.img_product_nike_pegasus, "png");
-                insertProductWithImage(db, "NIKE ZOOM VOMERO", "Basketball shoe", 4150000.0, "2024-07-02", 1,
+                insertProductWithImage(db, "NIKE ZOOM VOMERO", "The NIKE ZOOM VOMERO offers a plush, cushioned ride for runners seeking comfort over long distances. Its Zoom Air units provide responsive cushioning, absorbing impact and returning energy with every step. The breathable mesh upper keeps your feet ventilated, while the durable outsole ensures grip and stability on different terrains. Ideal for runners who prioritize comfort, this shoe delivers a smooth and supportive experience.", 4150000.0, "2024-07-02", 1,
                                 R.drawable.img_product_nike_zoom_vomero, "png");
-                insertProductWithImage(db, "NIKE PEGASUS EASYON OLY", "Basketball shoe", 5250000.0, "2024-03-02", 1,
+                insertProductWithImage(db, "NIKE PEGASUS EASYON OLY", "The NIKE PEGASUS EASYON OLY is designed for athletes who demand both performance and convenience. The innovative easy-on design allows you to slip them on quickly without sacrificing a secure fit. The shoe features responsive cushioning for a smooth ride, and the breathable upper ensures your feet stay cool during intense workouts. With its sleek look and reliable performance, this shoe is perfect for both training and casual wear.", 5250000.0, "2024-03-02", 1,
                                 R.drawable.img_product_pegasus_easyon_oly, "png");
-                insertProductWithImage(db, "Nike Pegasus Trail", "Basketball shoe", 5050000.0, "2024-05-02", 1,
+                insertProductWithImage(db, "Nike Pegasus Trail", "The Nike Pegasus Trail is your go-to shoe for off-road adventures. Its rugged outsole provides excellent grip on uneven terrain, while the cushioned midsole ensures a comfortable ride even on long trails. The reinforced upper offers protection against the elements, making it ideal for outdoor activities. Lightweight and durable, the Nike Pegasus Trail combines functionality with a stylish design, perfect for trail runners.'The Nike Pegasus Trail is your go-to shoe for off-road adventures. Its rugged outsole provides excellent grip on uneven terrain, while the cushioned midsole ensures a comfortable ride even on long trails. The reinforced upper offers protection against the elements, making it ideal for outdoor activities. Lightweight and durable, the Nike Pegasus Trail combines functionality with a stylish design, perfect for trail runners.", 5050000.0, "2024-05-02", 1,
                                 R.drawable.img_product_pegasus_trail, "png");
-                insertProductWithImage(db, "Adidas Response CL", "Basketball shoe", 3150000.0, "2024-08-02", 2,
+                insertProductWithImage(db, "Adidas Response CL", "The Adidas Response CL is crafted for those who seek comfort and performance in their footwear. Featuring a cushioned midsole, it provides excellent support during running or walking. The breathable upper ensures your feet stay cool, while the durable outsole offers traction on various surfaces. Its classic design is complemented by modern technology, making it a reliable choice for everyday wear.", 3150000.0, "2024-08-02", 2,
                                 R.drawable.img_product_response_cl, "jpg");
-                insertProductWithImage(db, "Adidas Rivalry Low Be", "Basketball shoe", 4150000.0, "2024-07-02", 2,
+                insertProductWithImage(db, "Adidas Rivalry Low Be", "The Adidas Rivalry Low Be is a stylish sneaker that blends retro design with modern comfort. The leather upper provides a premium look, while the cushioned insole ensures comfort for all-day wear. Its durable rubber outsole offers great traction, making it suitable for various activities. This shoe is perfect for those who appreciate classic style with a contemporary twist, ideal for both casual and athletic settings.", 4150000.0, "2024-07-02", 2,
                                 R.drawable.img_product_rivalry_low_be, "jpg");
-                insertProductWithImage(db, "Adidas Superstar", "Basketball shoe", 10050000.0, "2024-08-02", 2,
+                insertProductWithImage(db, "Adidas Superstar", "The Adidas Superstar is an iconic sneaker known for its timeless design and superior comfort. The leather upper and signature rubber shell toe offer durability and style. Its cushioned footbed provides comfort for extended wear, making it a favorite for both athletes and casual wearers. The versatile design pairs well with any outfit, making the Adidas Superstar a must-have in any sneaker collection.", 10050000.0, "2024-08-02", 2,
                                 R.drawable.img_product_superstar, "jpg");
 
                 db.execSQL("INSERT INTO ProductSize (product_id, size, quantity) VALUES (1, 39, 75);");
@@ -459,11 +460,20 @@ public class DBHelper extends SQLiteOpenHelper {
                 return stream.toByteArray();
         }
 
-        public void insertProductWithImage(SQLiteDatabase db, String name, String description, double price,
-                        String create_at, int category_id, int drawableId, String typeImage) {
-                byte[] image = getBytesFromDrawable(drawableId, typeImage);
-                db.execSQL("INSERT INTO Product (name, description, price, create_at, category_id, image) VALUES ('"
-                                + name + "', '" + description + "', " + price + ", '" + create_at + "', " + category_id
-                                + ", ?);", new Object[] { image });
+        private void insertProductWithImage(SQLiteDatabase db, String name, String description, double price, String createAt, int categoryId, int imageResourceId, String imageType) {
+                try {
+                        byte[] image = getBytesFromDrawable(imageResourceId, imageType);
+                        String query = "INSERT INTO Product (name, description, price, create_at, category_id, image) VALUES (?, ?, ?, ?, ?, ?)";
+                        SQLiteStatement statement = db.compileStatement(query);
+                        statement.bindString(1, name);
+                        statement.bindString(2, description);
+                        statement.bindDouble(3, price);
+                        statement.bindString(4, createAt);
+                        statement.bindLong(5, categoryId);
+                        statement.bindBlob(6, image);
+                        statement.executeInsert();
+                } catch (Exception e) {
+                        e.printStackTrace();
+                }
         }
 }
