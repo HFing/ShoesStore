@@ -11,10 +11,12 @@ ShoeStore App is an e-commerce application specializing in selling shoes. The ap
 
 2. **Student ID:** 2151013080
    - **Name:** Nguyễn Trường Sinh
+   - **Mail:** truongsinh8603@gmail.com
 
 
 3. **Student ID:** 2151010348
    - **Name:** Lê  Chiến Thắng
+   - **Mail:** rexace8320@gmail.com
 
 
 
